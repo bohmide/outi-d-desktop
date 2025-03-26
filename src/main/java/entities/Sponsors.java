@@ -1,6 +1,9 @@
 package entities;
 
+import com.mysql.cj.x.protobuf.MysqlxCrud;
+
 import java.time.LocalDate;
+import java.util.List;
 
 public class Sponsors {
     int id;
@@ -8,22 +11,26 @@ public class Sponsors {
     String description;
     String imagePath;
     LocalDate dateCreation;
+    List<Event_sponsors> evenement;
+
 
     public Sponsors() {}
 
-    public Sponsors(String nomSponsor, String description, String imagePath, LocalDate dateCreation) {
+    public Sponsors(String nomSponsor, String description, String imagePath, LocalDate dateCreation, List<Event_sponsors> evenement) {
         this.nomSponsor = nomSponsor;
         this.description = description;
         this.imagePath = imagePath;
         this.dateCreation = dateCreation;
+        this.evenement = evenement;
     }
 
-    public Sponsors(int id, String nomSponsor, String description, String imagePath, LocalDate dateCreation) {
+    public Sponsors(int id, String nomSponsor, String description, String imagePath, LocalDate dateCreation, List<Event_sponsors> evenement) {
         this.id = id;
         this.nomSponsor = nomSponsor;
         this.description = description;
         this.imagePath = imagePath;
         this.dateCreation = dateCreation;
+        this.evenement = evenement;
     }
 
     public int getId() {
@@ -66,6 +73,14 @@ public class Sponsors {
         this.dateCreation = dateCreation;
     }
 
+    public List<Event_sponsors> getEvenement() {
+        return evenement;
+    }
+
+    public void setEvenement(List<Event_sponsors> evenement) {
+        this.evenement = evenement;
+    }
+
     @Override
     public String toString() {
         return "Sponsors{" +
@@ -74,6 +89,7 @@ public class Sponsors {
                 ", description='" + description + '\'' +
                 ", imagePath='" + imagePath + '\'' +
                 ", dateCreation=" + dateCreation +
+                ", evenement=" + evenement +
                 '}';
     }
 }
