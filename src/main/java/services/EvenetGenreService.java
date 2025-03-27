@@ -80,13 +80,30 @@ public class EvenetGenreService implements Iservice<EventGenre> {
     }
 
     @Override
-    public void updateEntity(EventGenre entity) {
-        /*try {
-            String querry ="update event_genre set";
+    public void updateEntityById(EventGenre entity) {
+        EventGenre eventGenre = findGenreById(entity);
+        if (eventGenre == null) {
+            System.out.println("Evenet genre not found");
+        }else{
+            try {
+                String querry ="update event_genre set nom_genre = ? and nbr = ? and image_path = ? and date_creation = ? where id = ?";
 
-        } catch (SQLException e) {
-            System.out.println("error: "+e.getMessage());
-        }*/
+                PreparedStatement prestate = MyConnection.getInstance().getCnx().prepareStatement(querry);
+
+                prestate.setString(1, entity.getNomGenre());
+                prestate.setInt(2, entity.getNbr());
+                prestate.setString(3, entity.getImagePath());
+                prestate.setDate(4, Date.valueOf(entity.getDateCreation()));
+                prestate.setInt(5, eventGenre.getId());
+
+                prestate.executeUpdate();
+
+                System.out.println("Evenet genre updated");
+
+            } catch (SQLException e) {
+                System.out.println("error: "+e.getMessage());
+            }
+        }
 
     }
 
