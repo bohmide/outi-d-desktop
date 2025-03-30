@@ -16,21 +16,19 @@ public class Sponsors {
 
     public Sponsors() {}
 
-    public Sponsors(String nomSponsor, String description, String imagePath, LocalDate dateCreation, List<Event_sponsors> evenement) {
+    public Sponsors(String nomSponsor, String description, String imagePath, LocalDate dateCreation) {
         this.nomSponsor = nomSponsor;
         this.description = description;
         this.imagePath = imagePath;
         this.dateCreation = dateCreation;
-        this.evenement = evenement;
     }
 
-    public Sponsors(int id, String nomSponsor, String description, String imagePath, LocalDate dateCreation, List<Event_sponsors> evenement) {
+    public Sponsors(int id, String nomSponsor, String description, String imagePath, LocalDate dateCreation) {
         this.id = id;
         this.nomSponsor = nomSponsor;
         this.description = description;
         this.imagePath = imagePath;
         this.dateCreation = dateCreation;
-        this.evenement = evenement;
     }
 
     public int getId() {
