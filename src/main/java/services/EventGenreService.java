@@ -10,12 +10,34 @@ import java.util.*;
 public class EventGenreService {
 
 
-    public EventGenre findGenreById(EventGenre genre) {
+    public EventGenre findGenre(EventGenre genre) {
         try{
             String querry = "SELECT * FROM event_genre WHERE id = ?";
 
             PreparedStatement prestate = MyConnection.getInstance().getCnx().prepareStatement(querry);
             prestate.setInt(1, genre.getId());
+            ResultSet result = prestate.executeQuery();
+            if (result.next()) {
+                return new EventGenre(
+                        result.getInt(1),
+                        result.getNString(2),
+                        result.getInt(3),
+                        result.getNString(4),
+                        result.getDate(5).toLocalDate()
+                );
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public EventGenre findGenreById(int genreId) {
+        try{
+            String querry = "SELECT * FROM event_genre WHERE id = ?";
+
+            PreparedStatement prestate = MyConnection.getInstance().getCnx().prepareStatement(querry);
+            prestate.setInt(1, genreId);
             ResultSet result = prestate.executeQuery();
             if (result.next()) {
                 return new EventGenre(
@@ -101,8 +123,8 @@ public class EventGenreService {
         }
     }
 
-    public void updateEventGenreById(EventGenre genre) {
-        EventGenre eventGenre = findGenreById(genre);
+    public void updateEventGenre(EventGenre genre) {
+        EventGenre eventGenre = findGenre(genre);
         if (eventGenre == null) {
             System.out.println("Evenet genre not found");
         }else{
@@ -128,9 +150,9 @@ public class EventGenreService {
 
     }
 
-    public void deleteEventGenreById(EventGenre genre) {
+    public void deleteEventGenre(EventGenre genre) {
 
-        EventGenre eventGenre = findGenreById(genre);
+        EventGenre eventGenre = findGenre(genre);
         if(eventGenre == null){
             System.out.println("Genre not found");
         }else{
@@ -140,6 +162,28 @@ public class EventGenreService {
                 PreparedStatement prestate = MyConnection.getInstance().getCnx().prepareStatement(querry);
 
                 prestate.setInt(1, eventGenre.getId());
+                prestate.executeUpdate();
+
+                System.out.println("Evenet genre deleted");
+
+            } catch (SQLException e) {
+                System.out.println("error: "+e.getMessage());
+            }
+        }
+    }
+
+    public void deleteEventGenreById(int genreId) {
+
+        EventGenre eventGenre = findGenreById(genreId);
+        if(eventGenre == null){
+            System.out.println("Genre not found");
+        }else{
+            try {
+                String querry = "delete from event_genre where id = ?";
+
+                PreparedStatement prestate = MyConnection.getInstance().getCnx().prepareStatement(querry);
+
+                prestate.setInt(1, genreId);
                 prestate.executeUpdate();
 
                 System.out.println("Evenet genre deleted");

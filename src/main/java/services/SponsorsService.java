@@ -9,12 +9,35 @@ import java.util.*;
 
 public class SponsorsService {
 
-    Sponsors findSponsorById(Sponsors sponsor) {
+    Sponsors findSponsor(Sponsors sponsor) {
         try{
             String querry = "SELECT * FROM SPONSORS WHERE id = ?";
 
             PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(querry);
             preparedStatement.setInt(1, sponsor.getId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                return new Sponsors(
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(4),
+                        resultSet.getDate(5).toLocalDate()
+                );
+            }
+
+        }catch (SQLException e){
+            System.out.printf("Error in findSponsorById"+ e.getMessage());
+        }
+        return null;
+    }
+
+    Sponsors findSponsorById(int sponsorId) {
+        try{
+            String querry = "SELECT * FROM SPONSORS WHERE id = ?";
+
+            PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(querry);
+            preparedStatement.setInt(1, sponsorId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 return new Sponsors(
@@ -103,42 +126,93 @@ public class SponsorsService {
 
     public void updateSponsor(Sponsors sponsor){
 
-        try{
-            String querry = "UPDATE sponsors SET nom_sponsor = ?, description = ?, image_path = ?, date_creation = ? WHERE id = ?";
+        if(findSponsor(sponsor) == null){
+            System.out.println("Sponsor not found");
+        }else {
+            try {
+                String querry = "UPDATE sponsors SET nom_sponsor = ? , description = ? , image_path = ? , date_creation = ? WHERE id = ?";
 
-            PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(querry);
+                PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(querry);
 
-            preparedStatement.setInt(5, sponsor.getId());
-            preparedStatement.setString(1, sponsor.getNomSponsor());
-            preparedStatement.setString(2, sponsor.getDescription());
-            preparedStatement.setString(3, sponsor.getImagePath());
-            preparedStatement.setDate(4, Date.valueOf(sponsor.getDateCreation()));
+                preparedStatement.setInt(5, sponsor.getId());
+                preparedStatement.setString(1, sponsor.getNomSponsor());
+                preparedStatement.setString(2, sponsor.getDescription());
+                preparedStatement.setString(3, sponsor.getImagePath());
+                preparedStatement.setDate(4, Date.valueOf(sponsor.getDateCreation()));
 
-            preparedStatement.executeUpdate();
-            System.out.println("Sponsor UPDATED");
+                int rowsUpdated = preparedStatement.executeUpdate();
+                if (rowsUpdated > 0) {
+                    System.out.println("Sponsor UPDATED");
+                } else {
+                    System.out.println("Sponsor not UPDATED");
+                }
 
-        }catch (SQLException e){
-            System.out.printf("Error in findSponsorById"+ e.getMessage());
+            } catch (SQLException e) {
+                System.out.printf("Error in findSponsorById" + e.getMessage());
+            }
         }
     }
 
     public void deleteSponsor(Sponsors sponsor){
 
-        try{
-            String querry = "DELETE FROM SPONSORS WHERE id = ?";
+        if(findSponsor(sponsor) == null){
+            System.out.println("Sponsor not found");
+        }else{
+            try{
+                String querry = "DELETE FROM SPONSORS WHERE id = ?";
 
-            PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(querry);
+                PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(querry);
 
-            preparedStatement.setInt(1, sponsor.getId());
+                preparedStatement.setInt(1, sponsor.getId());
 
-            preparedStatement.executeUpdate();
-            System.out.println("Sponsor Deleted");
+                preparedStatement.executeUpdate();
+                System.out.println("Sponsor Deleted");
 
-        }catch (SQLException e){
-            System.out.printf("Error"+ e.getMessage());
+            }catch (SQLException e){
+                System.out.printf("Error"+ e.getMessage());
+            }
         }
     }
 
+    public void deleteSponsorById(int sponsorId){
 
+        if(findSponsorById(sponsorId) == null){
+            System.out.println("Sponsor not found");
+        }else{
+            try{
+                String querry = "DELETE FROM SPONSORS WHERE id = ?";
 
+                PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(querry);
+
+                preparedStatement.setInt(1, sponsorId);
+
+                preparedStatement.executeUpdate();
+                System.out.println("Sponsor Deleted");
+
+            }catch (SQLException e){
+                System.out.printf("Error"+ e.getMessage());
+            }
+        }
+    }
+
+    public void deleteSponsorByName(String nom_sponsor){
+
+        if(findSponsorByName(nom_sponsor) == null){
+            System.out.println("Sponsor not found");
+        }else{
+            try{
+                String querry = "DELETE FROM SPONSORS WHERE nom_sponsor = ?";
+
+                PreparedStatement preparedStatement = MyConnection.getInstance().getCnx().prepareStatement(querry);
+
+                preparedStatement.setString(1, nom_sponsor);
+
+                preparedStatement.executeUpdate();
+                System.out.println("Sponsor Deleted");
+
+            }catch (SQLException e){
+                System.out.printf("Error"+ e.getMessage());
+            }
+        }
+    }
 }
