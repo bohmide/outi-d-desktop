@@ -11,6 +11,7 @@ public class MyConnection {
     public static MyConnection instance ;
 
     public Connection getCnx() {
+
         return cnx;
     }
 
