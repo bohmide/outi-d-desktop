@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.scene.control.DatePicker?>
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.CoursControllerProf">
+
+    <VBox spacing="10" AnchorPane.topAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+          AnchorPane.bottomAnchor="0">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+
+        <!-- Formulaire d'ajout/modification -->
+        <VBox spacing="10" style="-fx-background-color: #f0f0f0;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Gestion des cours" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+
+            <TextField fx:id="txtNom" promptText="Nom du cours" />
+            <ComboBox fx:id="comboEtat" promptText="État du cours">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Facile" />
+                        <String fx:value="Moyen" />
+                        <String fx:value="Avancé" />
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <DatePicker fx:id="datePicker" editable="false" promptText="Date de Création" />
+
+            <HBox spacing="10">
+                <Button text="Ajouter" onAction="#ajouterCours" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                <Button text="Modifier" onAction="#modifierCours" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                <Button text="Supprimer" onAction="#supprimerCours" style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+            </HBox>
+        </VBox>
+
+        <!-- TableView (prend tout l'espace restant) -->
+        <TableView fx:id="tableCours">
+            <columns>
+                 <TableColumn text="ID" fx:id="colId" prefWidth="50"/>
+                 <TableColumn text="Nom" fx:id="colNom" prefWidth="200"/>
+                 <TableColumn text="Date de Création" fx:id="colDate" prefWidth="150"/>
+                 <TableColumn text="État" fx:id="colEtat" prefWidth="100"/>
+             </columns>
+             <VBox.vgrow>ALWAYS</VBox.vgrow>
+         </TableView>
+
+     </VBox>
+
+ </AnchorPane>
