@@ -1,4 +1,4 @@
-package org.example.App;
+package org.example.Tests;
 
 import java.sql.Connection;
 
@@ -8,16 +8,16 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.Utils.MyConnection;
 
 import java.io.IOException;
-import java.sql.Connection;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
         // Test the database connection BEFORE launching the GUI
-        Connection connection = DatabaseConnection.getInstance().getCnx();
+        Connection connection = MyConnection.getInstance().getCnx();
 
         if (connection != null) {
             System.out.println("✅ Database connection successful!");
@@ -27,7 +27,7 @@ public class Main extends Application {
 
         // Load the login UI
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
             Scene scene = new Scene(loader.load());
             primaryStage.setTitle("Login");
             primaryStage.setScene(scene);

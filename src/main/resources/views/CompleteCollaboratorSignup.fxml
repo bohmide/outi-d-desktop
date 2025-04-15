@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.Controllers.CompleteCollaboratorController">
+    <children>
+        <VBox alignment="CENTER" spacing="12" layoutX="150" layoutY="40" prefWidth="500" prefHeight="300">
+
+            <Label text="Add Collaborator" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+            <TextField fx:id="nomColField" promptText="Collaborator Name" />
+
+            <Label fx:id="messageLabel" textFill="red" />
+
+            <Button text="Finish Signup" onAction="#handleFinishSignup" />
+        </VBox>
+    </children>
+</AnchorPane>
+

@@ -1,4 +1,4 @@
-package org.example.Model;
+package org.example.Models;
 
 import java.util.List;
 
@@ -9,27 +9,31 @@ public class User {
     private List<String> roles;
     private String firstName;
     private String lastName;
-    private String type; // can be "student", "prof", "parent"
-
+    private String type;
+    private String numtel; // ✅ NEW FIELD
     // Relations (assuming these based on provided schema)
     private Student student;
     private Prof prof;
     private Parents parent;
+    private Collaborator collaborator;
 
     // ✅ Constructors
     public User() {}
 
     public User(String email, String password, List<String> roles,
-                String firstName, String lastName, String type) {
+                String firstName, String lastName, String type, String numtel) {
         this.email = email;
         this.password = password;
         this.roles = roles;
         this.firstName = firstName;
         this.lastName = lastName;
         this.type = type;
+        this.numtel = numtel;
     }
 
     // ✅ Getters & Setters
+
+
     public Long getId() {
         return id;
     }
@@ -85,6 +89,11 @@ public class User {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getNumtel() { return numtel; }
+
+    public void setNumtel(String numtel) { this.numtel = numtel; }
+
     // ✅ Relationship Getters & Setters
     public Student getStudent() {
         return student;
@@ -110,6 +119,14 @@ public class User {
         this.parent = parent;
     }
 
+    public Collaborator getCollaborator() {
+        return collaborator;
+    }
+
+    public void setCollaborator(Collaborator collaborator) {
+        this.collaborator = collaborator;
+    }
+
     // ✅ Helper method to check user type
     public boolean isStudent() {
         return "student".equalsIgnoreCase(this.type);
@@ -123,6 +140,10 @@ public class User {
         return "parent".equalsIgnoreCase(this.type);
     }
 
+    public boolean isCollaborator() {
+        return "collaborator".equalsIgnoreCase(this.type);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -132,6 +153,7 @@ public class User {
                 ", firstName='" + firstName + ' ' +
                 ", lastName='" + lastName + ' ' +
                 ", type='" + type + ' ' +
+                ", numtel='" + numtel + ' ' +
                 '}';
     }
 }

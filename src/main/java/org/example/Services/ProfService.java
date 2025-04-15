@@ -1,7 +1,7 @@
-package org.example.Service;
+package org.example.Services;
 
-import org.example.Model.Prof;
-import org.example.App.DatabaseConnection;
+import org.example.Models.Prof;
+import org.example.Utils.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,17 +11,19 @@ public class ProfService {
     private final Connection cnx;
 
     public ProfService() {
-        cnx = DatabaseConnection.getInstance().getCnx();
+        cnx = MyConnection.getInstance().getCnx();
     }
 
-    // Add a new Prof
     public void ajouter(Prof prof) {
-        String req = "INSERT INTO profs (inter_date, inter_mode) VALUES (?, ?)";
-        try (PreparedStatement stm = cnx.prepareStatement(req)) {
-            stm.setDate(1, prof.getInterDate());
-            stm.setString(2, prof.getInterMode());
+        String sql = "INSERT INTO prof (id, interdate, intermode) VALUES (?, ?, ?)";
+        try (PreparedStatement stm = cnx.prepareStatement(sql)) {
+            stm.setLong(1, prof.getId());                  // FK to user.id
+            stm.setDate(2, prof.getInterDate());           // MUST NOT be null
+            stm.setString(3, prof.getInterMode());         // MUST NOT be null
+
             stm.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();  // 🧠 This is what will show the true SQL error!
             throw new RuntimeException("Error adding professor to the database.", e);
         }
     }
@@ -32,7 +34,7 @@ public class ProfService {
             throw new RuntimeException("Cannot update professor with null ID.");
         }
 
-        String req = "UPDATE profs SET inter_date = ?, inter_mode = ? WHERE id = ?";
+        String req = "UPDATE prof SET inter_date = ?, inter_mode = ? WHERE id = ?";
         try (PreparedStatement stm = cnx.prepareStatement(req)) {
             stm.setDate(1, prof.getInterDate());
             stm.setString(2, prof.getInterMode());
@@ -49,7 +51,7 @@ public class ProfService {
     // Get all professors
     public List<Prof> getAllProfs() {
         List<Prof> profs = new ArrayList<>();
-        String req = "SELECT * FROM profs";
+        String req = "SELECT * FROM prof";
         try (Statement stm = cnx.createStatement();
              ResultSet rs = stm.executeQuery(req)) {
             while (rs.next()) {
@@ -69,7 +71,7 @@ public class ProfService {
     // Get a specific professor by ID
     public Prof getProfById(Long profId) {
         Prof prof = null;
-        String req = "SELECT * FROM profs WHERE id = ?";
+        String req = "SELECT * FROM prof WHERE id = ?";
         try (PreparedStatement stm = cnx.prepareStatement(req)) {
             stm.setLong(1, profId);
             ResultSet rs = stm.executeQuery();
@@ -88,7 +90,7 @@ public class ProfService {
 
     // Delete a professor by ID
     public void supprimer(Long id) {
-        String req = "DELETE FROM profs WHERE id = ?";
+        String req = "DELETE FROM prof WHERE id = ?";
         try (PreparedStatement stm = cnx.prepareStatement(req)) {
             stm.setLong(1, id);
             stm.executeUpdate();

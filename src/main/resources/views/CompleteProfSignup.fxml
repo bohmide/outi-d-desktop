@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.Controllers.CompleteProfController">
+    <children>
+        <VBox alignment="CENTER" spacing="12" layoutX="150" layoutY="40" prefWidth="500" prefHeight="400">
+
+            <Label text="Complete Prof Signup" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+            <DatePicker fx:id="interDatePicker" promptText="Date of Intervention" />
+            <ComboBox fx:id="interModeComboBox" promptText="Intervention Mode">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="online"/>
+                        <String fx:value="face to face"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+            <Label fx:id="messageLabel" textFill="red" />
+
+            <Button text="Finish Signup" onAction="#handleFinishSignup" />
+        </VBox>
+    </children>
+</AnchorPane>

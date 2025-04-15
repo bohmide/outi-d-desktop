@@ -1,6 +1,4 @@
-package org.example.Model;
-
-import org.example.Model.User;
+package org.example.Models;
 
 public class Session {
     private static User currentUser;

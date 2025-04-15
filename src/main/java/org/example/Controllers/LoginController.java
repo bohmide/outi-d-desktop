@@ -1,13 +1,18 @@
-package org.example.Controller;
+package org.example.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.Model.User;
-import org.example.Service.UserService;
-import org.example.Model.Session;
+import org.example.Models.User;
+import org.example.Services.UserService;
+import org.example.Models.Session;
+
+import java.awt.event.ActionEvent;
 
 public class LoginController {
 
@@ -30,27 +35,20 @@ public class LoginController {
         User authenticatedUser = userService.authenticate(email, password);
         if (authenticatedUser != null) {
             Session.setCurrentUser(authenticatedUser);
-            redirectToDashboard(authenticatedUser);
+            redirectToHome();
         } else {
             errorLabel.setText("Invalid email or password.");
         }
     }
 
-    private void redirectToDashboard(User user) {
+    private void redirectToHome() {
         try {
-            String fxmlFile = switch (user.getType().toLowerCase()) {
-                case "student" -> "/org/example/Main/View/Frontoffice/StudentDashboard.fxml";
-                case "prof" -> "/org/example/Main/View/Frontoffice/ProfDashboard.fxml";
-                case "parent" -> "/org/example/Main/View/Frontoffice/ParentDashboard.fxml";
-                default -> "/org/example/Main/View/Frontoffice/Home.fxml";
-            };
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(scene);
         } catch (Exception e) {
-            errorLabel.setText("Login successful but failed to load dashboard.");
+            errorLabel.setText("Login successful but failed to load home.");
             e.printStackTrace();
         }
     }
@@ -58,7 +56,7 @@ public class LoginController {
     @FXML
     private void goToSignup() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Signup.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Signup.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(scene);
@@ -66,4 +64,8 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+
+
+
 }
+

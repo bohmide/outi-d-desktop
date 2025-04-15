@@ -1,4 +1,4 @@
-package org.example.Model;
+package org.example.Models;
 
 import java.sql.Date;
 
@@ -15,8 +15,7 @@ public class Parents {
     public Parents() {}
 
     public Parents(Date birthdayChild, String firstNameChild, String lastNameChild,
-                   String sexeChild, String learningDifficultiesChild,
-                   String firstNameParent, String lastNameParent) {
+                   String sexeChild, String learningDifficultiesChild) {
         this.birthdayChild = birthdayChild;
         this.firstNameChild = firstNameChild;
         this.lastNameChild = lastNameChild;
