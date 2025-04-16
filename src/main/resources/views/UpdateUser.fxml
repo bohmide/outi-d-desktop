@@ -21,15 +21,7 @@
         <PasswordField fx:id="passwordField" promptText="Password" />
         <TextField fx:id="numTelField" promptText="Phone Number" />
 
-        <ComboBox fx:id="roleComboBox" promptText="Select Role">
-            <items>
-                <FXCollections fx:factory="observableArrayList">
-                    <String fx:value="student" />
-                    <String fx:value="prof" />
-                    <String fx:value="parent" />
-                </FXCollections>
-            </items>
-        </ComboBox>
+
 
         <Label fx:id="statusLabel" style="-fx-text-fill: red;" />
 
