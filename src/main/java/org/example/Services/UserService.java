@@ -117,14 +117,32 @@ public class UserService {
         return user;
     }
 
-    // ✅ Delete user
+    public List<User> getAll() {
+        List<User> users = new ArrayList<>();
+        String req = "SELECT * FROM user";
+        try (Statement stm = cnx.createStatement();
+             ResultSet rs = stm.executeQuery(req)) {
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getLong("id"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setType(rs.getString("type"));
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving users from the database.", e);
+        }
+        return users;
+    }
+
     public void supprimer(Long id) {
-        String req = "DELETE FROM user WHERE id = ?";
-        try (PreparedStatement stm = cnx.prepareStatement(req)) {
+        try (PreparedStatement stm = cnx.prepareStatement("DELETE FROM user WHERE id = ?")) {
             stm.setLong(1, id);
             stm.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error deleting user with ID: " + id, e);
+            throw new RuntimeException("Error deleting user with ID " + id, e);
         }
     }
 

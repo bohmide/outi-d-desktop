@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.Controllers.AdminUsersController"
+            prefWidth="800" prefHeight="600" style="-fx-background-color: #f4f4f4;">
+
+    <VBox spacing="20" alignment="TOP_CENTER" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+        <Label text="User Management" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+        <ScrollPane fitToWidth="true" prefHeight="500" style="-fx-background-color: transparent;">
+            <VBox fx:id="userListContainer" spacing="20" alignment="TOP_CENTER" style="-fx-padding: 10;" />
+        </ScrollPane>
+    </VBox>
+</AnchorPane>

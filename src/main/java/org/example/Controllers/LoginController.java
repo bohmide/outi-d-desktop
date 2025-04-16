@@ -2,23 +2,21 @@ package org.example.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.Models.User;
 import org.example.Services.UserService;
 import org.example.Models.Session;
 
-import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class LoginController {
 
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
+    @FXML private Button adminButton;
 
     private final UserService userService = new UserService();
 
@@ -41,9 +39,10 @@ public class LoginController {
         }
     }
 
+
     private void redirectToHome() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/home.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(scene);
@@ -65,7 +64,18 @@ public class LoginController {
         }
     }
 
-
+    @FXML
+    private void goToAdminPanel() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AdminUsers.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (IOException e) {
+            errorLabel.setText("❌ Failed to open admin panel.");
+            e.printStackTrace();
+        }
+    }
 
 }
 
