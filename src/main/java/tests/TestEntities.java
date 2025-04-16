@@ -205,7 +205,7 @@ public class TestEntities {
 
                 case 5: {
                     System.out.println("""
-                                Supprimer un Événement par ID
+                                Supprimer un Événement par ID 
                             """);
 
 
