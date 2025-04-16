@@ -52,6 +52,12 @@ public class UpdateUserController {
             return;
         }
 
+        // ✅ Validation numéro de téléphone
+        if (!numTel.matches("\\d{8}")) {
+            statusLabel.setText("❌ Le numéro de téléphone doit contenir exactement 8 chiffres.");
+            return;
+        }
+
         // Validation de l'email avec une regex simple
         if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
             statusLabel.setText("❌ Email invalide.");

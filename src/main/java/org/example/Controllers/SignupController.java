@@ -73,6 +73,12 @@ public class SignupController {
                 return;
             }
 
+            // ✅ Validation du numéro de téléphone (8 chiffres)
+            if (!numTel.matches("\\d{8}")) {
+                messageLabel.setText("❌ Le numéro de téléphone doit contenir exactement 8 chiffres.");
+                return;
+            }
+
             // ✅ Vérifier que le mot de passe est différent du nom + prénom
             String fullName = (firstName + lastName).toLowerCase();
             if (password.toLowerCase().contains(fullName)) {
