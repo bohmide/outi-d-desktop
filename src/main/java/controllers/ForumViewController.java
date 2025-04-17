@@ -107,7 +107,7 @@ public class ForumViewController implements Initializable {
                 loadForums();
             }
         });
-        
+
         nextButton.setOnAction(event -> {
             if (currentPage < totalPages) {
                 currentPage++;
@@ -269,16 +269,13 @@ public class ForumViewController implements Initializable {
     }
     
     private void editForum(Forum forum) {
-        // Create a dialog for editing an existing forum
         Dialog<Forum> dialog = new Dialog<>();
         dialog.setTitle("Edit Forum");
         dialog.setHeaderText("Edit forum: " + forum.getNom());
-        
-        // Set the button types
+
         ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
-        
-        // Create the form grid
+
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -286,8 +283,7 @@ public class ForumViewController implements Initializable {
         
         TextField nameField = new TextField(forum.getNom());
         TextField themeField = new TextField(forum.getTheme());
-        
-        // Add image selection field
+
         TextField imageField = new TextField();
         imageField.setPromptText("Choose image...");
         imageField.setEditable(false);
@@ -316,30 +312,24 @@ public class ForumViewController implements Initializable {
         grid.add(new Label("Image:"), 0, 2);
         grid.add(imageField, 1, 2);
         grid.add(browseButton, 2, 2);
-        
-        // Enable/Disable save button depending on whether a name was entered
+
         Node saveButton = dialog.getDialogPane().lookupButton(saveButtonType);
-        
-        // Validate input as user types
+
         nameField.textProperty().addListener((observable, oldValue, newValue) -> {
             saveButton.setDisable(newValue.trim().isEmpty());
         });
         
         dialog.getDialogPane().setContent(grid);
-        
-        // Request focus on the name field by default
+
         Platform.runLater(() -> nameField.requestFocus());
-        
-        // Convert the result to a Forum object when the save button is clicked
+
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == saveButtonType) {
                 String imagePath = imageField.getText().trim();
-                
-                // If a new image is selected, copy it to uploads folder
+
                 if (!imagePath.isEmpty() && !imagePath.equals(forum.getImageForum())) {
                     imagePath = copyImageToUploadsFolder(imagePath);
                 } else {
-                    // Keep existing image path
                     imagePath = forum.getImageForum();
                 }
                 
@@ -353,15 +343,13 @@ public class ForumViewController implements Initializable {
             }
             return null;
         });
-        
-        // Show the dialog and process the result
+
         Optional<Forum> result = dialog.showAndWait();
         
         result.ifPresent(updatedForum -> {
-            // Update the forum
             try {
                 forumService.updateEntityById(updatedForum);
-                loadForums(); // Refresh the list
+                loadForums();
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Forum Updated", 
                          "Forum '" + updatedForum.getNom() + "' has been updated successfully.");
             } catch (Exception e) {
@@ -385,16 +373,13 @@ public class ForumViewController implements Initializable {
     }
 
     private void showAddForumDialog() {
-        // Create a dialog for adding a new forum
         Dialog<Forum> dialog = new Dialog<>();
         dialog.setTitle("Add New Forum");
         dialog.setHeaderText("Create a new forum");
 
-        // Set the button types
         ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
-        // Create the form grid
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -484,21 +469,17 @@ public class ForumViewController implements Initializable {
     
     private String copyImageToUploadsFolder(String sourcePath) {
         try {
-            // Generate a unique filename to avoid collisions
             String originalFileName = new File(sourcePath).getName();
             String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
             String uniqueFileName = UUID.randomUUID().toString() + fileExtension;
-            
-            // Create full destination path
+
             Path destinationPath = Paths.get(UPLOAD_DIR, uniqueFileName);
-            
-            // Create directory if it doesn't exist
+
             File directory = new File(UPLOAD_DIR);
             if (!directory.exists()) {
                 directory.mkdirs();
             }
-            
-            // Copy the file
+
             Files.copy(Paths.get(sourcePath), destinationPath, StandardCopyOption.REPLACE_EXISTING);
             
             // Return the relative path for storage

@@ -26,13 +26,12 @@
             </Button>
         </HBox>
     </top>
-    
+
     <center>
         <VBox spacing="10" styleClass="content-area">
             <padding>
                 <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
-            
             <!-- Search Bar -->
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <TextField fx:id="searchField" promptText="Search forums..." HBox.hgrow="ALWAYS"/>
@@ -42,7 +41,6 @@
                     </graphic>
                 </Button>
             </HBox>
-            
             <!-- Forums Grid View -->
             <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
                 <content>

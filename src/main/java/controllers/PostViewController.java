@@ -159,40 +159,30 @@ public class PostViewController implements Initializable {
     
     private void loadPosts() {
         if (currentForum == null) return;
-        
-        // Get all posts for the current forum
-        // We're filtering on the client side for now, but ideally this would be done in the repository
+
         List<Post> allPosts = postService.listEntity();
         List<Post> forumPosts = FXCollections.observableArrayList();
-        
-        // Filter posts by forum ID
+
         for (Post post : allPosts) {
             if (post.getForumId() == currentForum.getId()) {
                 forumPosts.add(post);
             }
         }
-        
-        // Apply sorting
+
         //applySorting(forumPosts);
-        
-        // Apply filtering
+
         //applyFiltering(forumPosts);
-        
-        // Calculate total pages
+
         totalPages = (int) Math.ceil((double) forumPosts.size() / itemsPerPage);
-        
-        // Update page indicator
+
         pageIndicator.setText("Page " + currentPage + " of " + (totalPages > 0 ? totalPages : 1));
-        
-        // Enable/disable pagination buttons
+
         prevButton.setDisable(currentPage <= 1);
         nextButton.setDisable(currentPage >= totalPages || totalPages <= 1);
-        
-        // Get current page items
+
         int fromIndex = (currentPage - 1) * itemsPerPage;
         int toIndex = Math.min(fromIndex + itemsPerPage, forumPosts.size());
-        
-        // Update the UI with posts
+
         displayPosts(fromIndex < toIndex ? forumPosts.subList(fromIndex, toIndex) : FXCollections.observableArrayList());
     }
     
