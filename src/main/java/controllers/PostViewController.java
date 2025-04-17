@@ -75,7 +75,7 @@ public class PostViewController implements Initializable {
         postService = new PostService();
         postsList = FXCollections.observableArrayList();
         
-        setupComboBoxes();
+        //setupComboBoxes();
         setupButtons();
     }
     
@@ -85,7 +85,7 @@ public class PostViewController implements Initializable {
         loadPosts();
     }
     
-    private void setupComboBoxes() {
+    /*private void setupComboBoxes() {
         // Setup sort options
         sortByComboBox.getItems().addAll(
             "Newest First",
@@ -106,7 +106,7 @@ public class PostViewController implements Initializable {
         filterComboBox.setValue("All Posts");
         filterComboBox.setOnAction(event -> loadPosts());
     }
-    
+    */
     private void setupButtons() {
         // Back button
         backButton.setOnAction(event -> navigateBackToForums());
@@ -173,10 +173,10 @@ public class PostViewController implements Initializable {
         }
         
         // Apply sorting
-        applySorting(forumPosts);
+        //applySorting(forumPosts);
         
         // Apply filtering
-        applyFiltering(forumPosts);
+        //applyFiltering(forumPosts);
         
         // Calculate total pages
         totalPages = (int) Math.ceil((double) forumPosts.size() / itemsPerPage);
@@ -196,7 +196,7 @@ public class PostViewController implements Initializable {
         displayPosts(fromIndex < toIndex ? forumPosts.subList(fromIndex, toIndex) : FXCollections.observableArrayList());
     }
     
-    private void applySorting(List<Post> posts) {
+   /* private void applySorting(List<Post> posts) {
         String sortOption = sortByComboBox.getValue();
         if (sortOption == null) return;
         
@@ -215,7 +215,7 @@ public class PostViewController implements Initializable {
                 break;
         }
     }
-    
+
     private void applyFiltering(List<Post> posts) {
         String filterOption = filterComboBox.getValue();
         if (filterOption == null) return;
@@ -236,7 +236,7 @@ public class PostViewController implements Initializable {
                 break;
         }
     }
-    
+    */
     private void displayPosts(List<Post> posts) {
         postsContainer.getChildren().clear();
         

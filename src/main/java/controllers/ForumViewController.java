@@ -63,7 +63,7 @@ public class ForumViewController implements Initializable {
     private ForumService forumService;
     private ObservableList<Forum> forumsList;
     private int currentPage = 1;
-    private int itemsPerPage = 9; // Changed to 9 for a 3x3 grid
+    private int itemsPerPage = 5;
     private int totalPages = 1;
     private final String UPLOAD_DIR = "src/main/resources/uploads/forums/";
 
@@ -74,7 +74,7 @@ public class ForumViewController implements Initializable {
         
         // Make sure upload directory exists
         createUploadDirectoryIfNotExists();
-        
+
         setupButtons();
         loadForums();
     }
@@ -91,7 +91,6 @@ public class ForumViewController implements Initializable {
     }
     
     private void setupButtons() {
-        // Search functionality
         searchButton.setOnAction(event -> {
             String searchQuery = searchField.getText().trim();
             if (!searchQuery.isEmpty()) {
@@ -100,11 +99,8 @@ public class ForumViewController implements Initializable {
                 loadForums();
             }
         });
-        
-        // Search on enter key
         searchField.setOnAction(event -> searchButton.fire());
-        
-        // Pagination
+
         prevButton.setOnAction(event -> {
             if (currentPage > 1) {
                 currentPage--;
@@ -118,35 +114,28 @@ public class ForumViewController implements Initializable {
                 loadForums();
             }
         });
-        
-        // Add forum button
+
         addForumButton.setOnAction(event -> showAddForumDialog());
     }
     
     private void loadForums() {
         List<Forum> allForums = forumService.listEntity();
-        
-        // Calculate total pages
+
         totalPages = (int) Math.ceil((double) allForums.size() / itemsPerPage);
-        
-        // Update page indicator
+
         pageIndicator.setText("Page " + currentPage + " of " + Math.max(1, totalPages));
-        
-        // Enable/disable pagination buttons
+
         prevButton.setDisable(currentPage <= 1);
         nextButton.setDisable(currentPage >= totalPages);
-        
-        // Get current page items
+
         int fromIndex = (currentPage - 1) * itemsPerPage;
         int toIndex = Math.min(fromIndex + itemsPerPage, allForums.size());
-        
-        // Update the list
+
         forumsList.clear();
         if (fromIndex < toIndex) {
             forumsList.addAll(allForums.subList(fromIndex, toIndex));
         }
-        
-        // Display forums in grid
+
         displayForumsInGrid();
     }
     
@@ -165,8 +154,7 @@ public class ForumViewController implements Initializable {
         card.setPadding(new Insets(15));
         card.setMinWidth(200);
         card.setMaxWidth(250);
-        
-        // Add forum image
+
         ImageView imageView = new ImageView();
         imageView.setFitWidth(200);
         imageView.setFitHeight(150);

@@ -34,12 +34,10 @@ public class ForumController {
      * @throws IllegalArgumentException if validation fails or forum with same name exists
      */
     public Forum createForum(String name, String theme, String imagePath) {
-        // Check if forum with same name already exists
         Forum existingForum = forumService.findForumByName(name);
         if (existingForum != null) {
             throw new IllegalArgumentException("Error: Forum with name '" + name + "' already exists");
         }
-        
         try {
             // Create new forum with current date
             // Validation happens in constructor via setters

@@ -45,13 +45,12 @@
                     </graphic>
                 </Button>
             </HBox>
-            
-            <!-- Filter Options -->
+            <!-- Filter Options
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <Label text="Filter by:"/>
                 <ComboBox fx:id="sortByComboBox" promptText="Sort by"/>
                 <ComboBox fx:id="filterComboBox" promptText="Filter"/>
-            </HBox>
+            </HBox>-->
             
             <!-- Posts List -->
             <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
