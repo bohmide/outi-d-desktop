@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="controllers.CommentViewController"
+          prefHeight="600.0" prefWidth="800.0" stylesheets="@../styles/main.css">
+    
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header-bar">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <Button fx:id="backButton" styleClass="back-button">
+                <graphic>
+                    <FontAwesomeIconView glyphName="ARROW_LEFT" size="16"/>
+                </graphic>
+            </Button>
+            <Label fx:id="postTitleLabel" text="Post Title" styleClass="header-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+    
+    <center>
+        <VBox spacing="15" styleClass="content-area">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            
+            <!-- Post Content -->
+            <VBox fx:id="postContentPane" styleClass="post-content-pane">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
+                <Label fx:id="postAuthorLabel" text="Author: username" styleClass="post-author"/>
+                <Label fx:id="postDateLabel" text="Posted on: 01/01/2025" styleClass="post-date"/>
+                <Separator/>
+                <TextArea fx:id="postContentArea" wrapText="true" editable="false" styleClass="post-content"/>
+            </VBox>
+            
+            <!-- Comments Section Title -->
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Comments" styleClass="section-title"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <ComboBox fx:id="sortCommentsComboBox" promptText="Sort by"/>
+            </HBox>
+            
+            <!-- Comments List -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox fx:id="commentsContainer" spacing="10"/>
+            </ScrollPane>
+            
+            <!-- Add Comment Section -->
+            <VBox spacing="10" styleClass="add-comment-section">
+                <Label text="Add your comment" styleClass="section-subtitle"/>
+                <TextArea fx:id="newCommentArea" promptText="Write your comment here..." wrapText="true"/>
+                <HBox alignment="CENTER_RIGHT">
+                    <Button fx:id="submitCommentButton" text="Submit" styleClass="submit-button">
+                        <graphic>
+                            <FontAwesomeIconView glyphName="SEND" size="14"/>
+                        </graphic>
+                    </Button>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
