@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SponsorController">
+    <children>
+        <Label text="Manage Sponsors" style="-fx-font-size: 24px;"/>
+        <VBox spacing="10" layoutX="50" layoutY="80">
+            <Button text="Add Sponsor" fx:id="addSponsorButton"/>
+            <Button text="List Sponsors" fx:id="listSponsorButton"/>
+            <Button text="Delete Sponsor" fx:id="deleteSponsorButton"/>
+            <Button text="Modify Sponsor" fx:id="modifySponsorButton"/>
+        </VBox>
+    </children>
+</AnchorPane>

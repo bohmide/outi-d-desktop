@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventController">
+    <children>
+        <Label text="Manage Events" style="-fx-font-size: 24px;"/>
+        <VBox spacing="10" layoutX="50" layoutY="80">
+            <Button text="Add Event" fx:id="addEventButton"/>
+            <Button text="List Events" fx:id="listEventButton"/>
+            <Button text="Delete Event" fx:id="deleteEventButton"/>
+            <Button text="Modify Event" fx:id="modifyEventButton"/>
+        </VBox>
+    </children>
+</AnchorPane>

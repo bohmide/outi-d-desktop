@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventGenreController">
+    <children>
+        <!-- Title Label -->
+        <Label text="genre" style="-fx-font-size: 24px;"/>
+
+
+        <!-- Input Fields for Adding and Updating Event Genres -->
+        <VBox layoutX="50" layoutY="60" spacing="10">
+            <Label text="Name"/>
+            <TextField fx:id="nameField" promptText="Enter Genre Name"/>
+            <Label text="Number"/>
+            <TextField fx:id="nbrField" promptText="Enter Number"/>
+            <Label text="Image Path"/>
+            <TextField fx:id="imagePathField" promptText="Enter Image Path"/>
+            <Label text="Date Created"/>
+            <DatePicker fx:id="datePicker"/>
+
+            <HBox spacing="10">
+                <Button text="Add Genre" fx:id="addButton" onAction="#handleAddEventGenre"/>
+                <Button text="Update Genre" fx:id="updateButton" onAction="#handleUpdateEventGenre"/>
+                <Button text="Delete Genre" fx:id="deleteButton" onAction="#handleDeleteEventGenre"/>
+            </HBox>
+        </VBox>
+
+        <!-- Table View for Listing Genres -->
+        <TableView fx:id="genreTableView" layoutX="50" layoutY="250" prefWidth="500" prefHeight="250">
+            <columns>
+                <TableColumn fx:id="nameColumn" text="Name" prefWidth="150"/>
+                <TableColumn fx:id="nbrColumn" text="Number" prefWidth="100"/>
+                <TableColumn fx:id="imagePathColumn" text="Image Path" prefWidth="150"/>
+                <TableColumn fx:id="dateColumn" text="Date Created" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>
