@@ -6,7 +6,7 @@
 
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.Controllers.CompleteProfController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.CompleteProfController">
     <children>
         <VBox alignment="CENTER" spacing="12" layoutX="150" layoutY="40" prefWidth="500" prefHeight="400">
 

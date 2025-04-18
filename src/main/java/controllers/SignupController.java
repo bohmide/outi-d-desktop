@@ -1,13 +1,13 @@
-package org.example.Controllers;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.Models.Session;
-import org.example.Models.User;
-import org.example.Services.UserService;
+import models.Session;
+import models.User;
+import services.UserService;
 
 import java.util.List;
 

@@ -8,7 +8,7 @@
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.Controllers.UpdateUserController"
+            fx:controller="controllers.UpdateUserController"
             prefWidth="600" prefHeight="400"
             style="-fx-background-color: #f9f9f9;">
     <VBox alignment="CENTER" spacing="15" prefWidth="400" layoutX="100" layoutY="30">

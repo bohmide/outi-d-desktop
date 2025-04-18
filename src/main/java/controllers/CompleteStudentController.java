@@ -1,14 +1,14 @@
-package org.example.Controllers;
+package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.Models.Session;
-import org.example.Models.Student;
-import org.example.Models.User;
-import org.example.Services.StudentService;
+import models.Session;
+import models.Student;
+import models.User;
+import services.StudentService;
 
 import java.sql.Date;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package org.example.Tests;
+package tests;
 
 import java.sql.Connection;
 
@@ -8,7 +8,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.Utils.MyConnection;
+import utils.MyConnection;
 
 import java.io.IOException;
 

@@ -1,7 +1,7 @@
-package org.example.Services;
+package services;
 
-import org.example.Models.Prof;
-import org.example.Utils.MyConnection;
+import models.Prof;
+import utils.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;

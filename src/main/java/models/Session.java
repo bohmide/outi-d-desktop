@@ -1,4 +1,4 @@
-package org.example.Models;
+package models;
 
 public class Session {
     private static User currentUser;

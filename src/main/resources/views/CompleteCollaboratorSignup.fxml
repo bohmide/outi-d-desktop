@@ -4,7 +4,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.Controllers.CompleteCollaboratorController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.CompleteCollaboratorController">
     <children>
         <VBox alignment="CENTER" spacing="12" layoutX="150" layoutY="40" prefWidth="500" prefHeight="300">
 

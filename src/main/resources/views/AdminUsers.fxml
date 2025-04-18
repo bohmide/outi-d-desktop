@@ -5,7 +5,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Pos?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.Controllers.AdminUsersController"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AdminUsersController"
             prefWidth="800" prefHeight="600" style="-fx-background-color: #f4f4f4;">
 
     <VBox spacing="20" alignment="TOP_CENTER" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">

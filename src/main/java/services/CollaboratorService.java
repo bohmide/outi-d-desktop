@@ -1,7 +1,7 @@
-package org.example.Services;
+package services;
 
-import org.example.Models.Collaborator;
-import org.example.Utils.MyConnection;
+import models.Collaborator;
+import utils.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;

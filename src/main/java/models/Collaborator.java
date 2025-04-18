@@ -1,4 +1,4 @@
-package org.example.Models;
+package models;
 
 public class Collaborator {
     private Long id;
