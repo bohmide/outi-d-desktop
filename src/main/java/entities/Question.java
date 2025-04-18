@@ -1,65 +1,68 @@
 package entities;
 
-import jakarta.persistence.*;
+import javafx.beans.property.*;
 
-@Entity
-@Table(name = "question")
 public class Question {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private IntegerProperty id = new SimpleIntegerProperty();
+    private StringProperty question = new SimpleStringProperty();
+    private StringProperty type = new SimpleStringProperty();
+    private ObjectProperty<Quiz> quiz = new SimpleObjectProperty<>();
 
-    @Column(nullable = false)
-    private String question;
-
-    @Column(nullable = false)
-    private String type; // Exemple: "QCM", "Vrai/Faux"
-
-    @ManyToOne
-    @JoinColumn(name = "quiz_id", nullable = false)
-    private Quiz quiz;
-
-    // Constructeurs
     public Question() {}
 
-    public Question(String question, String type, Quiz quiz) {
-        this.question = question;
-        this.type = type;
-        this.quiz = quiz;
+    public Question(int id, String question, String type, Quiz quiz) {
+        this.id.set(id);
+        this.question.set(question);
+        this.type.set(type);
+        this.quiz.set(quiz);
     }
 
-    // Getters et Setters
     public int getId() {
-        return id;
+        return id.get();
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
     }
 
     public String getQuestion() {
-        return question;
+        return question.get();
     }
 
     public void setQuestion(String question) {
-        this.question = question;
+        this.question.set(question);
+    }
+
+    public StringProperty questionProperty() {
+        return question;
     }
 
     public String getType() {
-        return type;
+        return type.get();
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.type.set(type);
+    }
+
+    public StringProperty typeProperty() {
+        return type;
     }
 
     public Quiz getQuiz() {
-        return quiz;
+        return quiz.get();
     }
 
     public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
+        this.quiz.set(quiz);
+    }
+
+    public ObjectProperty<Quiz> quizProperty() {
+        return quiz;
     }
 }
-

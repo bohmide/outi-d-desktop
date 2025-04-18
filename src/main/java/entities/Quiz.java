@@ -1,53 +1,68 @@
 package entities;
 
-import jakarta.persistence.*;
+import javafx.beans.property.*;
 
-@Entity
-@Table(name = "quiz")
 public class Quiz {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(nullable = false)
-    private int score;
-
-    @OneToOne
-    @JoinColumn(name = "chapitre_id", nullable = false)
-    private Chapitres chapitre;
+    private IntegerProperty id = new SimpleIntegerProperty();
+    private IntegerProperty score = new SimpleIntegerProperty();
+    private String titre ;
+    private ObjectProperty<Chapitres> chapitre = new SimpleObjectProperty<>();
 
     // Constructeurs
     public Quiz() {}
 
     public Quiz(int score, Chapitres chapitre) {
-        this.score = score;
-        this.chapitre = chapitre;
+        this.score.set(score);
+        this.chapitre.set(chapitre);
     }
 
     // Getters et Setters
     public int getId() {
-        return id;
+        return id.get();
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
     }
 
     public int getScore() {
-        return score;
+        return score.get();
     }
 
     public void setScore(int score) {
-        this.score = score;
+        this.score.set(score);
+    }
+
+    public IntegerProperty scoreProperty() {
+        return score;
     }
 
     public Chapitres getChapitre() {
-        return chapitre;
+        return chapitre.get();
     }
 
     public void setChapitre(Chapitres chapitre) {
-        this.chapitre = chapitre;
+        this.chapitre.set(chapitre);
+    }
+
+    public ObjectProperty<Chapitres> chapitreProperty() {
+        return chapitre;
+    }
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    @Override
+    public String toString() {
+        return "Quiz ID: " + getId() + ", Score: " + getScore();
     }
 }
-

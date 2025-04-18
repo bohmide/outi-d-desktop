@@ -5,23 +5,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MyConnection {
-    String url = "jdbc:mysql://localhost:3306/outi-d";
-    String login ="root";
-    String pwd="";
-    public static MyConnection instance ;
+    private final String url = "jdbc:mysql://localhost:3306/outi-d";
+    private final String login = "root";
+    private final String pwd = "";
 
-    public Connection getCnx() {
-        return cnx;
-    }
-
-    Connection cnx;
+    private static MyConnection instance;
+    private Connection cnx;
 
     private MyConnection() {
         try {
-            cnx = DriverManager.getConnection(url,login,pwd);
-            System.out.println("connection established");
+            cnx = DriverManager.getConnection(url, login, pwd);
+            System.out.println("Connexion établie !");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erreur de connexion : " + e.getMessage());
         }
     }
 
@@ -30,5 +26,17 @@ public class MyConnection {
             instance = new MyConnection();
         }
         return instance;
+    }
+
+    public Connection getCnx() {
+        try {
+            if (cnx == null || cnx.isClosed()) {
+                cnx = DriverManager.getConnection(url, login, pwd);
+                System.out.println("Connexion rétablie !");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cnx;
     }
 }

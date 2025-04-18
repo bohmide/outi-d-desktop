@@ -1,65 +1,68 @@
 package entities;
 
-import jakarta.persistence.*;
+import javafx.beans.property.*;
 
-@Entity
-@Table(name = "reponse")
 public class Reponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private IntegerProperty id = new SimpleIntegerProperty();
+    private StringProperty reponse = new SimpleStringProperty();
+    private BooleanProperty isCorrect = new SimpleBooleanProperty();
+    private ObjectProperty<Question> question = new SimpleObjectProperty<>();
 
-    @Column(nullable = false)
-    private String reponse;
-
-    @Column(nullable = false)
-    private boolean isCorrect;
-
-    @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
-
-    // Constructeurs
     public Reponse() {}
 
-    public Reponse(String reponse, boolean isCorrect, Question question) {
-        this.reponse = reponse;
-        this.isCorrect = isCorrect;
-        this.question = question;
+    public Reponse(int id, String reponse, boolean isCorrect, Question question) {
+        this.id.set(id);
+        this.reponse.set(reponse);
+        this.isCorrect.set(isCorrect);
+        this.question.set(question);
     }
 
-    // Getters et Setters
     public int getId() {
-        return id;
+        return id.get();
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return id;
     }
 
     public String getReponse() {
-        return reponse;
+        return reponse.get();
     }
 
     public void setReponse(String reponse) {
-        this.reponse = reponse;
+        this.reponse.set(reponse);
+    }
+
+    public StringProperty reponseProperty() {
+        return reponse;
     }
 
     public boolean isCorrect() {
+        return isCorrect.get();
+    }
+
+    public void setCorrect(boolean isCorrect) {
+        this.isCorrect.set(isCorrect);
+    }
+
+    public BooleanProperty isCorrectProperty() {
         return isCorrect;
     }
 
-    public void setCorrect(boolean correct) {
-        isCorrect = correct;
-    }
-
     public Question getQuestion() {
-        return question;
+        return question.get();
     }
 
     public void setQuestion(Question question) {
-        this.question = question;
+        this.question.set(question);
+    }
+
+    public ObjectProperty<Question> questionProperty() {
+        return question;
     }
 }
-
