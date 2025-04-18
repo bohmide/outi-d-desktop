@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.*?>
+
+<?import java.net.URL?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.GamesController">
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+
+    <top>
+        <Label text="Gestion Games" styleClass="header" BorderPane.alignment="CENTER"
+               style="-fx-font-size: 24px; -fx-font-family: 'Comic Sans MS'; -fx-text-fill: #c800ff; -fx-padding: 10px;"/>
+    </top>
+
+    <center>
+        <VBox spacing="20" style="-fx-background-color: #f0f8ff; -fx-padding: 20px;">
+            <HBox spacing="15">
+                <TextField fx:id="nameField" promptText="Nom du jeu"
+                           style="-fx-font-size: 14px; -fx-background-color: #fff8dc; -fx-border-color: #c800ff; -fx-border-radius: 5px;" />
+            </HBox>
+
+            <HBox spacing="15" alignment="center">
+                <Button text="Ajouter" onAction="#handleAddGame"
+                        style="-fx-background-color: #32cd32; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5px;"/>
+                <Button text="Modifier" onAction="#handleUpdateGame"
+                        style="-fx-background-color: #c800ff; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5px;"/>
+            </HBox>
+
+            <TableView fx:id="gamesTable" prefHeight="300" prefWidth="600"
+                       style="-fx-background-color: #fff; -fx-border-color: #c800ff;">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="100"/>
+                    <TableColumn fx:id="nameColumn" text="Nom du jeu" prefWidth="300"/>
+                    <TableColumn fx:id="actionColumn" text="Actions" prefWidth="200"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>
