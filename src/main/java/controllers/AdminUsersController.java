@@ -8,7 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import models.User;
+import entities.User;
 import services.UserService;
 
 import java.io.IOException;

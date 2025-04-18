@@ -1,6 +1,6 @@
 package services;
 
-import models.Student;
+import entities.Student;
 import utils.MyConnection;
 
 import java.sql.*;

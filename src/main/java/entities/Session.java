@@ -1,4 +1,4 @@
-package models;
+package entities;
 
 public class Session {
     private static User currentUser;

@@ -5,9 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import models.Prof;
-import models.Session;
-import models.User;
+import entities.Prof;
+import entities.Session;
+import entities.User;
 import services.ProfService;
 
 import java.sql.Date;

@@ -5,8 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import models.Session;
-import models.User;
+import entities.Session;
+import entities.User;
 import services.UserService;
 
 import java.util.List;

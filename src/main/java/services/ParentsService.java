@@ -1,6 +1,6 @@
 package services;
 
-import models.Parents;
+import entities.Parents;
 import utils.MyConnection;
 
 import java.sql.*;

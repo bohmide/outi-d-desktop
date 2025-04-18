@@ -1,6 +1,6 @@
 package services;
 
-import models.Collaborator;
+import entities.Collaborator;
 import utils.MyConnection;
 
 import java.sql.*;

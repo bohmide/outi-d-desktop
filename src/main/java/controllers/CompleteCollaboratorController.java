@@ -5,9 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import models.Collaborator;
-import models.Session;
-import models.User;
+import entities.Collaborator;
+import entities.Session;
+import entities.User;
 import services.CollaboratorService;
 
 public class CompleteCollaboratorController {

@@ -1,6 +1,6 @@
 package services;
 
-import models.Prof;
+import entities.Prof;
 import utils.MyConnection;
 
 import java.sql.*;
