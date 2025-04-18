@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.time.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.addCompetitionFormController"
+      spacing="10" alignment="CENTER">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Ajouter une compétition" style="-fx-font-size: 18px;"/>
+    <TextField fx:id="nomCompField" promptText="Nom de la compétition"/>
+    <TextField fx:id="nomEntrepriseField" promptText="Nom de l'entreprise"/>
+    <DatePicker fx:id="dateDebutPicker"/>
+    <DatePicker fx:id="dateFinPicker"/>
+    <TextArea fx:id="descriptionArea" promptText="Description"/>
+    <ComboBox fx:id="organisationComboBox"/>
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Fichier (PDF/PNG):"/>
+        <TextField fx:id="fichierField" editable="false" prefWidth="200"/>
+        <Button text="Parcourir" onAction="#handleFileSelection"/>
+    </HBox>
+
+    <!-- hedha el  message d'erreur -->
+    <Label fx:id="errorLabel" textFill="red" visible="false" wrapText="true"/>
+
+    <Button fx:id="actionButton" text="Ajouter" onAction="#handleAction"/>
+</VBox>

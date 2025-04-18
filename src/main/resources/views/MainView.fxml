@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.MainController"
+            prefWidth="900" prefHeight="800">
+
+    <TabPane fx:id="tabPane" layoutX="20" layoutY="20" prefWidth="760" prefHeight="560">
+        <!-- Onglet Compétitions -->
+        <Tab fx:id="tabCompetitions" text="Compétitions">
+            <content>
+                <AnchorPane fx:id="compPane" />
+            </content>
+        </Tab>
+
+        <!-- Onglet Organisations -->
+        <Tab fx:id="tabOrganisations" text="Organisations">
+            <content>
+                <AnchorPane fx:id="orgPane" />
+            </content>
+        </Tab>
+
+        <!-- Onglet Equipes -->
+        <Tab fx:id="tabEquipe" text="Equipes">
+            <content>
+                <AnchorPane fx:id="equipePane" />
+            </content>
+        </Tab>
+    </TabPane>
+</AnchorPane>

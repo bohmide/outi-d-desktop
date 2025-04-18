@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EquipeController">
+    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30">
+
+        <!-- TableView d'affichage -->
+        <TableView fx:id="equipeTableView" >
+            <columns>
+                <TableColumn fx:id="nomCol" text="Nom Équipe" prefWidth="200"/>
+                <TableColumn fx:id="ambassadeurCol" text="Ambassadeur" prefWidth="200"/>
+                <TableColumn fx:id="membresCol" text="Membres" prefWidth="200"/>
+                <TableColumn fx:id="travailCol" text="Travail" prefWidth="300"/>
+            </columns>
+        </TableView>
+
+        <HBox layoutX="20" layoutY="510" spacing="10">
+
+            <Button text="Supprimer" onAction="#handleSupprimerEquipe"
+                    style="-fx-background-color: #ff4444; -fx-text-fill: white;"/>
+
+        </HBox>
+    </VBox>
+</AnchorPane>
