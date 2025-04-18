@@ -15,11 +15,7 @@ public class SponsorController {
     @FXML
     private Button listSponsorButton;
 
-    @FXML
-    private Button deleteSponsorButton;
 
-    @FXML
-    private Button modifySponsorButton;
 
     @FXML
     public void initialize() {
@@ -31,13 +27,7 @@ public class SponsorController {
             openListSponsorWindow();
         });
 
-        deleteSponsorButton.setOnAction(event -> {
-            openDeleteSponsorWindow();
-        });
 
-        modifySponsorButton.setOnAction(event -> {
-            openModifySponsorWindow();
-        });
     }
 
     private void openAddSponsorWindow() {

@@ -17,26 +17,14 @@ public class GenreController {
     @FXML
     private Button listButton;
 
-    @FXML
-    private Button deleteButton;
 
-    @FXML
-    private Button modifyButton;
 
     @FXML
     public void initialize() {
         addButton.setOnAction(event -> openWindow("/views/AddEventGenre.fxml", "Add Event Genre"));
         listButton.setOnAction(event -> openWindow("/views/ListEventGenres.fxml", "List Event Genres"));
 
-        deleteButton.setOnAction(event -> {
-            System.out.println("Delete Event Genre clicked");
-            // Optional: Add logic to open a deletion interface or dialog.
-        });
 
-        modifyButton.setOnAction(event -> {
-            System.out.println("Modify Event Genre clicked");
-            // Optional: Add logic to open a modification interface or dialog.
-        });
     }
 
     private void openWindow(String fxmlPath, String title) {

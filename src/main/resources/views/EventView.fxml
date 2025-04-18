@@ -9,8 +9,6 @@
         <VBox spacing="10" layoutX="50" layoutY="80">
             <Button text="Add Event" fx:id="addEventButton"/>
             <Button text="List Events" fx:id="listEventButton"/>
-            <Button text="Delete Event" fx:id="deleteEventButton"/>
-            <Button text="Modify Event" fx:id="modifyEventButton"/>
         </VBox>
     </children>
 </AnchorPane>

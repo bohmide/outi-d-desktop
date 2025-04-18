@@ -13,8 +13,6 @@
         <VBox spacing="10" layoutX="50" layoutY="80">
             <Button text="Add Genre" fx:id="addButton"/>
             <Button text="List Genres" fx:id="listButton"/>
-            <Button text="Delete Genre" fx:id="deleteButton"/>
-            <Button text="Modify Genre" fx:id="modifyButton"/>
         </VBox>
     </children>
 </AnchorPane>

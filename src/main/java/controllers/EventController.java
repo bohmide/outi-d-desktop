@@ -18,11 +18,7 @@ public class EventController {
     @FXML
     private Button listEventButton;
 
-    @FXML
-    private Button deleteEventButton;
 
-    @FXML
-    private Button modifyEventButton;
 
     @FXML
     public void initialize() {
@@ -34,13 +30,6 @@ public class EventController {
             openListEventWindow();
         });
 
-        deleteEventButton.setOnAction(event -> {
-            deleteEvent();
-        });
-
-        modifyEventButton.setOnAction(event -> {
-            modifyEvent();
-        });
     }
 
     // Method to open a new window for adding an event
