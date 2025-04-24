@@ -45,7 +45,10 @@ public class MainApp extends Application {
         MenuItem gameItem = new MenuItem("Game");
         gameItem.setOnAction(e -> showGames());
 
-        gamificationMenu.getItems().addAll(quizKidsItem, puzzleItem, memoryCardItem, gameItem);
+        MenuItem badgeItem = new MenuItem("Badge");
+        badgeItem.setOnAction(e -> showBadges());
+
+        gamificationMenu.getItems().addAll(quizKidsItem, puzzleItem, memoryCardItem, gameItem,badgeItem);
 
         // Ajouter tous les menus à la barre
         menuBar.getMenus().addAll(gamificationMenu);
@@ -54,6 +57,16 @@ public class MainApp extends Application {
         Scene scene = new Scene(rootLayout, 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void showBadges() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/badge_view.fxml"));
+            Parent badgeView = loader.load();
+            rootLayout.setCenter(badgeView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showWelcomeScreen() {

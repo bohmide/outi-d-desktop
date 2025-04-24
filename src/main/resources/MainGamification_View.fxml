@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox fx:controller="view.MainGamificationController"
+      xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER"
+      spacing="20"
+      styleClass="main-container"
+      prefWidth="800" prefHeight="600">
+
+    <Label text="Bienvenue dans outi-d Kids !" styleClass="title-label"/>
+
+    <Label text="Choisis ton aventure !" styleClass="subtitle-label"/>
+
+    <HBox alignment="CENTER" spacing="30">
+        <Button fx:id="quizButton" text="Quiz Kids" onAction="#handleQuiz" styleClass="menu-button"/>
+        <VBox fx:id="gameBox" spacing="10" alignment="CENTER">
+            <Button fx:id="gamesButton" text="JEUX" onAction="#toggleGameMenu" styleClass="menu-button"/>
+            <VBox fx:id="gameMenu" visible="false" managed="false" spacing="5">
+                <Button text="MemoryCard" onAction="#handleMemoryCard" styleClass="submenu-button"/>
+                <Button text="Puzzle" onAction="#handlePuzzle" styleClass="submenu-button"/>
+            </VBox>
+        </VBox>
+        <Button fx:id="globetrotterButton" text="Globe-Trotter Challenge" onAction="#handleGlobtrotter" styleClass="menu-button"/>
+    </HBox>
+
+</VBox>
