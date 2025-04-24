@@ -1,4 +1,4 @@
-package controllers;
+package controllers.tests;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,7 +32,7 @@ public class SponsorController {
 
     private void openAddSponsorWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/AddSponsor.fxml")); // Update path as needed
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/test/AddSponsor.fxml")); // Update path as needed
             Scene scene = new Scene(loader.load());
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -45,7 +45,7 @@ public class SponsorController {
 
     private void openListSponsorWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ListSponsors.fxml")); // Update path as needed
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/test/ListSponsors.fxml")); // Update path as needed
             Scene scene = new Scene(loader.load());
             Stage stage = new Stage();
             stage.setScene(scene);

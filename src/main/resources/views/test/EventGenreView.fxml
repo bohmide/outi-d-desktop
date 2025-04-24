@@ -4,7 +4,7 @@
 <?import javafx.geometry.Insets?>
 
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.GenreController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.tests.GenreController">
     <children>
         <Text fx:id="text" style="-fx-font: 24 arial;" />
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.sponsor.SponsorController" spacing="10" stylesheets="@/css/Event/EventStyle.css">
+
+    <HBox>
+        <Label>Sponsor View</Label>
+        <Region HBox.hgrow="ALWAYS"></Region>
+        <Button text="Ajouter Sponsor" style="-fx-background-radius: 10" fx:id="addGenre" onAction="#handleAjouter"></Button>
+    </HBox>
+
+    <TableView fx:id="sponsorTable">
+        <columns>
+            <TableColumn fx:id="sponsorName" text="Nom"></TableColumn>
+            <TableColumn fx:id="description" text="Description"></TableColumn>
+            <TableColumn fx:id="imagePath" text="image"></TableColumn>
+            <TableColumn fx:id="dateCreation" text="date de creation"></TableColumn>
+            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="160"/>
+        </columns>
+    </TableView>
+
+</VBox>

@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.tests.EventController">
     <children>
         <Label text="Manage Events" style="-fx-font-size: 24px;"/>
         <VBox spacing="10" layoutX="50" layoutY="80">

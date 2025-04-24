@@ -1,4 +1,4 @@
-package controllers;
+package controllers.tests;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,7 +35,7 @@ public class EventController {
     // Method to open a new window for adding an event
     private void openAddEventWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EventAdd.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/test/EventAdd.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -49,7 +49,7 @@ public class EventController {
     // Method to open a new window to list events
     private void openListEventWindow() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EventList.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/test/EventList.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = new Stage();
             stage.setScene(scene);

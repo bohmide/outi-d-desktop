@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.evenement.AddEventController" spacing="10" stylesheets="@/css/Event/addStyle.css">
+
+    <Label text="Ajouter un Evenement"/>
+
+    <TextField fx:id="nomEvent" promptText="Event Name"/>
+    <TextArea fx:id="description" promptText="Description"/>
+    <DatePicker fx:id="eventDate" promptText="Event Date"/>
+    <TextField fx:id="nbrMember" promptText="nombre limite de memeber"/>
+    <TextField fx:id="imagePath" promptText="Image Path"/>
+    <TextField fx:id="priw" promptText="Prix"/>
+    <ComboBox fx:id="genreComboBox" promptText="Select Genre"/>
+    <ComboBox fx:id="sponsorComboBox" promptText="Select Sponsor"/>
+
+
+    <HBox styleClass="button-container" alignment="CENTER" spacing="20">
+        <Button fx:id="saveButton" text="Save" onAction="#handleSave" styleClass="button"/>
+        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel" styleClass="button"/>
+    </HBox>
+</VBox>

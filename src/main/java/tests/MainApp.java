@@ -1,5 +1,5 @@
 package tests;
-/*
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +17,9 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/views/EventList.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/views/sponsor/sponsorView.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/genre/genreView.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/views/evenement/eventView.fxml"));
 
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -34,7 +36,7 @@ public class MainApp extends Application {
 }
 
 
-*/
+/*
 
 
 import javafx.application.Application;
@@ -43,7 +45,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 
@@ -55,18 +56,18 @@ public class MainApp extends Application {
         BorderPane root = new BorderPane();
 
         // Load the initial FXML (a welcome screen or a default service screen)
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/WelcomeView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/test/WelcomeView.fxml"));
         root.setCenter(loader.load());
 
         // Create buttons to navigate between different services
         Button eventGenreButton = new Button("Event Genre Service");
-        eventGenreButton.setOnAction(event -> navigateToService("/views/EventGenreView.fxml", root));
+        eventGenreButton.setOnAction(event -> navigateToService("/views/test/EventGenreView.fxml", root));
 
         Button eventServiceButton = new Button("Event Service");
-        eventServiceButton.setOnAction(event -> navigateToService("/views/EventView.fxml", root));
+        eventServiceButton.setOnAction(event -> navigateToService("/views/test/EventView.fxml", root));
 
         Button sponsorServiceButton = new Button("Sponsor Service");
-        sponsorServiceButton.setOnAction(event -> navigateToService("/views/SponsorView.fxml", root));
+        sponsorServiceButton.setOnAction(event -> navigateToService("/views/test/SponsorView.fxml", root));
 
         // Create a horizontal menu at the top
         root.setTop(createNavigationMenu(eventGenreButton, eventServiceButton, sponsorServiceButton));
@@ -100,3 +101,4 @@ public class MainApp extends Application {
         launch(args);
     }
 }
+*/

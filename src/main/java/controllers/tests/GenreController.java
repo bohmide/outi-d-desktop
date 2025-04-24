@@ -1,4 +1,4 @@
-package controllers;
+package controllers.tests;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,8 +21,8 @@ public class GenreController {
 
     @FXML
     public void initialize() {
-        addButton.setOnAction(event -> openWindow("/views/AddEventGenre.fxml", "Add Event Genre"));
-        listButton.setOnAction(event -> openWindow("/views/ListEventGenres.fxml", "List Event Genres"));
+        addButton.setOnAction(event -> openWindow("/views/test/AddEventGenre.fxml", "Add Event Genre"));
+        listButton.setOnAction(event -> openWindow("/views/test/ListEventGenres.fxml", "List Event Genres"));
 
 
     }

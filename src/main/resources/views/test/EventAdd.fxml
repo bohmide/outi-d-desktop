@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import java.time.LocalDate?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.EventAddController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.tests.EventAddController">
     <children>
         <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
             <Label text="Add New Event" style="-fx-font-size: 18px;"/>

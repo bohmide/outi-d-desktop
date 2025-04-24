@@ -6,7 +6,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.ListSponsorController"
+            fx:controller="controllers.tests.ListSponsorController"
             prefWidth="800" prefHeight="500">
 
     <TableView fx:id="sponsorTable" layoutX="20" layoutY="20" prefWidth="760" prefHeight="460" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10">

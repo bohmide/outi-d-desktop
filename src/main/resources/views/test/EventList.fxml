@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.EventListController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.tests.EventListController">
     <children>
         <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
             <Label text="Event List" style="-fx-font-size: 18px;"/>

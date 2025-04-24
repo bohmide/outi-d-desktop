@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.evenement.EventController" spacing="10" stylesheets="@/css/Event/EventStyle.css">
+
+    <HBox>
+        <Label>Event Genre View</Label>
+        <Region HBox.hgrow="ALWAYS"></Region>
+        <Button text="Ajouter Evenement" style="-fx-background-radius: 10" fx:id="addEvent" onAction="#handleAjouter"></Button>
+    </HBox>
+
+<TableView fx:id="eventTable">
+    <columns>
+        <TableColumn fx:id="nomEvent" text="Nom"></TableColumn>
+        <TableColumn fx:id="description" text="DEscription"></TableColumn>
+        <TableColumn fx:id="imagePath" text="image"></TableColumn>
+        <TableColumn fx:id="genre" text="genre"></TableColumn>
+        <TableColumn fx:id="sponsor" text="sponsor"></TableColumn>
+        <TableColumn fx:id="nbrMemeber" text="nomber limite de memebre"></TableColumn>
+        <TableColumn fx:id="prix" text="Prix"></TableColumn>
+        <TableColumn fx:id="dateCreation" text="date de creation"></TableColumn>
+        <TableColumn fx:id="eventDate" text="date de Lancement"></TableColumn>
+        <TableColumn fx:id="actionColumn" text="Actions" />
+    </columns>
+</TableView>
+
+</VBox>

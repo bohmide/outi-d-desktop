@@ -6,7 +6,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="controllers.AddSponsorController"
+      fx:controller="controllers.tests.AddSponsorController"
       alignment="CENTER" spacing="10">
 
     <Label text="Add New Sponsor" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>

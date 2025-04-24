@@ -1,0 +1,67 @@
+/* VBox layout */
+.vbox {
+    -fx-padding: 20;
+    -fx-background-color: #f0f4fc; /* Light blue background */
+    -fx-spacing: 20;
+}
+
+/* Label */
+.label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1976D2; /* Blue text */
+    -fx-padding: 10;
+}
+
+/* TextField and TextArea */
+.text-field, .text-area, .combo-box {
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 8;
+    -fx-border-color: #e0e0e0;
+    -fx-padding: 8;
+    -fx-pref-width: 300px;
+}
+
+/* Focused effect for TextFields */
+.text-field:focused, .text-area:focused, .combo-box:focused {
+    -fx-border-color: #1976D2; /* Blue border when focused */
+}
+
+/* Buttons */
+.button {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: #1976D2; /* Blue button */
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+    -fx-effect: dropshadow(gaussian, #888, 8, 0.8, 0, 4);
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* HBox container for buttons (centered alignment) */
+.button-container {
+    -fx-padding: 10 0;
+    -fx-alignment: center;
+    -fx-spacing: 20; /* Space between buttons */
+}
+
+/* Button style */
+.button {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: #1976D2; /* Blue button */
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+    -fx-effect: dropshadow(gaussian, #888, 8, 0.8, 0, 4);
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* Button hover effect */
+.button:hover {
+    -fx-background-color: #1E88E5; /* Lighter blue on hover */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}

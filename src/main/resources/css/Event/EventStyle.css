@@ -1,0 +1,84 @@
+/* Apply a soft background color and padding to the VBox */
+.vbox {
+    -fx-padding: 20;
+    -fx-background-color: #f0f4fc; /* Light soft background */
+    -fx-spacing: 20;
+}
+
+/* Style for HBox (the top header) */
+.hbox {
+    -fx-padding: 15;
+    -fx-alignment: center;
+    -fx-background-color: #2196F3; /* Blue color */
+    -fx-border-radius: 15;
+    -fx-effect: dropshadow(gaussian, #888, 10, 0.5, 0, 5);
+}
+
+/* Label inside HBox */
+.label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10;
+}
+
+/* Style for the "Ajouter Evenement" button */
+.button {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #fff;
+    -fx-background-color: #1976D2; /* Deep Blue */
+    -fx-background-radius: 12;
+    -fx-padding: 12 24;
+    -fx-effect: dropshadow(gaussian, #888, 8, 0.8, 0, 4);
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+    -fx-background-color: #1E88E5; /* Lighter Blue on hover */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Style for the TableView */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 10;
+    -fx-border-color: #e0e0e0;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, #888, 10, 0.5, 0, 5);
+}
+
+
+/* Style for table cells */
+.table-view .cell {
+    -fx-font-size: 14px;
+    -fx-padding: 12;
+    -fx-border-color: #e0e0e0;
+}
+
+/* Hover effect for table rows */
+.table-view .row-cell:hover {
+    -fx-background-color: #f2f2f2;
+}
+
+/* Styling for the action buttons inside table rows */
+.table-view .table-column-cell .button {
+    -fx-font-size: 12px;
+    -fx-background-color: #FF9800; /* Orange action buttons */
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-padding: 5 12;
+}
+
+.table-view .table-column-cell .button:hover {
+    -fx-background-color: #f57c00;
+}
+
+/* Label inside HBox */
+.label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1976D2; /* Blue color */
+    -fx-padding: 10;
+}

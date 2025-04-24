@@ -129,6 +129,52 @@ public class EventService {
         return null;
     }
 
+    public void addEvent(Event event) {
+        if (event.getGenre() == null) {
+            System.out.println("Genre is null, cannot add event.");
+            return;
+        }
+        if (event.getListSponsors() == null || event.getListSponsors().isEmpty()) {
+            System.out.println("Sponsor list is empty, cannot add event.");
+            return;
+        }
+
+        int genreId = event.getGenre().getId();
+
+        try {
+            // Insert event first and get generated ID
+            String query = "INSERT INTO evenements (`genre_id`, `nom_event`, `description`, `date_event`, `nbr_members`, `image_path`, `date_creation`, `prix`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement preStatement = MyConnection.getInstance().getCnx().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+
+            preStatement.setInt(1, genreId);
+            preStatement.setString(2, event.getNomEvent());
+            preStatement.setString(3, event.getDescription());
+            preStatement.setDate(4, Date.valueOf(event.getDateEvent()));
+            preStatement.setInt(5, event.getNbrMemebers());
+            preStatement.setString(6, event.getImagePath());
+            preStatement.setDate(7, Date.valueOf(event.getDateCreation()));
+            preStatement.setFloat(8, event.getPrix());
+
+            preStatement.executeUpdate();
+
+            ResultSet rs = preStatement.getGeneratedKeys();
+            if (rs.next()) {
+                int eventId = rs.getInt(1);
+                event.setId(eventId);
+
+                // Link all sponsors
+                for (Sponsors sponsor : event.getListSponsors()) {
+                    setEventSponsor(eventId, sponsor.getId());
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("error addEvent (multi-sponsor): " + e.getMessage());
+        }
+    }
+
+
     public void addEvent(Event event, int genreId, int sponsorId) {
         try{
             String query = "INSERT INTO evenements (`genre_id`, `nom_event`, `description`, `date_event`, `nbr_members`, `image_path`, `date_creation`, `prix`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

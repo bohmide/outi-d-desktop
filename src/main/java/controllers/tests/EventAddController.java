@@ -1,4 +1,4 @@
-package controllers;
+package controllers.tests;
 
 import entities.Event;
 import entities.EventGenre;
