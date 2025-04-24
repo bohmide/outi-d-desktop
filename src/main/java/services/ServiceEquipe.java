@@ -7,7 +7,10 @@ import utils.MyConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import utils.MyConnection;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import entities.Competition;  // Ajoutez cette ligne
+
 
 public class ServiceEquipe implements IServiceEquipe {
     private Connection cnx = MyConnection.getInstance().getCnx();
@@ -16,41 +19,28 @@ public class ServiceEquipe implements IServiceEquipe {
     public int ajouterEquipe(Equipe equipe) {
         PreparedStatement pst = null;
         ResultSet rs = null;
+        String query = "INSERT INTO equipe (travail, nom_equipe, ambassadeur, membres) VALUES (?, ?, ?, ?)";
 
         try {
-            String query = "INSERT INTO equipe (travail, nom_equipe, ambassadeur, membres) VALUES (?, ?, ?, ?)";
             pst = cnx.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-
             pst.setString(1, equipe.getTravail());
             pst.setString(2, equipe.getNomEquipe());
             pst.setString(3, equipe.getAmbassadeur());
+            pst.setString(4, equipe.getMembres() == null || equipe.getMembres().trim().isEmpty()
+                    ? "Membres non spécifiés"
+                    : equipe.getMembres());
 
-            // Gestion robuste des membres
-            String membres = equipe.getMembres();
-            if (membres == null || membres.trim().isEmpty()) {
-                pst.setString(4, "Membres non spécifiés");
-            } else {
-                pst.setString(4, membres.substring(0, Math.min(membres.length(), 255)));
-            }
-
-            int rowsAffected = pst.executeUpdate();
-
-            if (rowsAffected == 0) {
-                return -1; // Aucune ligne affectée
+            if (pst.executeUpdate() == 0) {
+                return -1;
             }
 
             rs = pst.getGeneratedKeys();
-            if (rs.next()) {
-                return rs.getInt(1); // Retourne l'ID généré
-            }
-
-            return -1; // Cas où aucun ID n'est généré
+            return rs.next() ? rs.getInt(1) : -1;
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-            return -1; // Retour en cas d'exception
+            return -1;
         } finally {
-            // Fermeture des ressources
             try {
                 if (rs != null) rs.close();
                 if (pst != null) pst.close();
@@ -63,21 +53,28 @@ public class ServiceEquipe implements IServiceEquipe {
     @Override
     public List<Equipe> afficherToutesEquipes() {
         List<Equipe> equipes = new ArrayList<>();
-        String query = "SELECT * FROM equipe";
-        try (Statement st = cnx.createStatement();
-             ResultSet rs = st.executeQuery(query)) {
+        String query =  "SELECT e.*, GROUP_CONCAT(c.nom_comp SEPARATOR ', ') as competitions " +
+                "FROM equipe e " +
+                "LEFT JOIN competition_equipe ce ON e.id = ce.equipe_id " +
+                "LEFT JOIN competition c ON ce.competition_id = c.id " +
+                "GROUP BY e.id";
+
+
+        try (PreparedStatement ps = cnx.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
-                equipes.add(new Equipe(
-                        rs.getInt("id"),
-                        rs.getString("travail"),
-                        rs.getString("nom_equipe"),
-                        rs.getString("ambassadeur"),
-                        rs.getString("membres")
-                ));
+                Equipe equipe = new Equipe();
+                equipe.setId(rs.getInt("id"));
+                equipe.setNomEquipe(rs.getString("nom_equipe"));
+                equipe.setAmbassadeur(rs.getString("ambassadeur"));
+                equipe.setMembres(rs.getString("membres"));
+                equipe.setTravail(rs.getString("travail"));
+                equipe.setCompetitionNom(rs.getString("competitions"));
+                equipes.add(equipe);
             }
         } catch (SQLException e) {
-            System.out.println("Erreur lors de la lecture: " + e.getMessage());
+            e.printStackTrace();
         }
         return equipes;
     }
@@ -88,11 +85,10 @@ public class ServiceEquipe implements IServiceEquipe {
         try (PreparedStatement pst = cnx.prepareStatement(query)) {
             pst.setInt(1, ce.getCompetitionId());
             pst.setInt(2, ce.getEquipeId());
-            int rowsAffected = pst.executeUpdate();
-            return rowsAffected > 0; // Retourne true si au moins une ligne a été affectée
+            return pst.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.out.println("Erreur participation: " + e.getMessage());
-            return false; // Retourne false en cas d'erreur
+            System.err.println("Erreur participation: " + e.getMessage());
+            return false;
         }
     }
 
@@ -108,13 +104,15 @@ public class ServiceEquipe implements IServiceEquipe {
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
-                equipes.add(new Equipe(
+                Equipe equipe = new Equipe(
                         rs.getInt("id"),
                         rs.getString("travail"),
                         rs.getString("nom_equipe"),
                         rs.getString("ambassadeur"),
-                        rs.getString("membres")
-                ));
+                        rs.getString("membres"),
+                        ""
+                );
+                equipes.add(equipe);
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la récupération des équipes: " + e.getMessage());
@@ -124,28 +122,26 @@ public class ServiceEquipe implements IServiceEquipe {
 
     @Override
     public void supprimerEquipe(int id) {
-        String deleteParticipationQuery = "DELETE FROM competition_equipe WHERE equipe_id = ?";
-        String deleteEquipeQuery = "DELETE FROM equipe WHERE id = ?";
-
         try {
             cnx.setAutoCommit(false);
 
-            try (PreparedStatement pst = cnx.prepareStatement(deleteParticipationQuery)) {
+            // D'abord supprimer les participations
+            try (PreparedStatement pst = cnx.prepareStatement(
+                    "DELETE FROM competition_equipe WHERE equipe_id = ?")) {
                 pst.setInt(1, id);
                 pst.executeUpdate();
             }
 
-            try (PreparedStatement pst = cnx.prepareStatement(deleteEquipeQuery)) {
+            // Puis supprimer l'équipe
+            try (PreparedStatement pst = cnx.prepareStatement(
+                    "DELETE FROM equipe WHERE id = ?")) {
                 pst.setInt(1, id);
-                int affectedRows = pst.executeUpdate();
-
-                if (affectedRows == 0) {
+                if (pst.executeUpdate() == 0) {
                     throw new SQLException("Échec de la suppression, aucune équipe trouvée avec l'ID: " + id);
                 }
             }
-
             cnx.commit();
-            System.out.println("Équipe supprimée avec succès !");
+            System.out.println("🗑️ Équipe supprimée avec succès !");
 
         } catch (SQLException e) {
             try {
@@ -162,5 +158,32 @@ public class ServiceEquipe implements IServiceEquipe {
             }
         }
     }
+    public List<Competition> getCompetitionsByEquipe(int equipeId) {
+        List<Competition> competitions = new ArrayList<>();
+        String query = "SELECT c.* FROM competition c " +
+                "JOIN competition_equipe ce ON c.id = ce.competition_id " +
+                "WHERE ce.equipe_id = ?";
 
+        try (PreparedStatement pst = cnx.prepareStatement(query)) {
+            pst.setInt(1, equipeId);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Competition competition = new Competition(
+                        rs.getInt("id"),
+                        rs.getString("nom_comp"),
+                        rs.getString("nom_entreprise"),
+                        rs.getDate("date_debut") != null ? rs.getDate("date_debut").toLocalDate() : null,
+                        rs.getDate("date_fin") != null ? rs.getDate("date_fin").toLocalDate() : null,
+                        rs.getString("description"),
+                        rs.getString("fichier"),
+                        null // Organisation non chargée ici
+                );
+                competitions.add(competition);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des compétitions: " + e.getMessage());
+        }
+        return competitions;
+    }
 }

@@ -9,6 +9,8 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections; // Ajoutez cette ligne
+
 
 public class ServiceCompetition implements IServiceCompetition {
     private Connection cnx = MyConnection.getInstance().getCnx();
@@ -60,8 +62,11 @@ public class ServiceCompetition implements IServiceCompetition {
                         rs.getString("description"),
                         rs.getString("fichier"),
                         org
-                );
 
+                );
+                // Charger les équipes associées
+                List<Equipe> equipes = getEquipesByCompetition(comp.getId());
+                comp.setEquipes(FXCollections.observableArrayList(equipes));
                 list.add(comp);
             }
         } catch (SQLException e) {
@@ -73,16 +78,49 @@ public class ServiceCompetition implements IServiceCompetition {
 
     @Override
     public void supprimerCompetition(int id) {
-        // Pas de changement nécessaire pour la suppression
-        String sql = "DELETE FROM competition WHERE id=?";
-        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ps.executeUpdate();
-            System.out.println("🗑️ Compétition supprimée !");
+        try {
+            cnx.setAutoCommit(false);
+
+            // 1. Supprimer d'abord les équipes associées
+            String deleteEquipesSql = "DELETE FROM equipe WHERE id IN " +
+                    "(SELECT equipe_id FROM competition_equipe WHERE competition_id = ?)";
+            try (PreparedStatement ps = cnx.prepareStatement(deleteEquipesSql)) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+
+            // 2. Supprimer les associations
+            String deleteAssociationsSql = "DELETE FROM competition_equipe WHERE competition_id = ?";
+            try (PreparedStatement ps = cnx.prepareStatement(deleteAssociationsSql)) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+
+            // 3. Supprimer la compétition
+            String deleteCompetitionSql = "DELETE FROM competition WHERE id = ?";
+            try (PreparedStatement ps = cnx.prepareStatement(deleteCompetitionSql)) {
+                ps.setInt(1, id);
+                ps.executeUpdate();
+            }
+
+            cnx.commit();
+            System.out.println("🗑️ Compétition et équipes associées supprimées !");
         } catch (SQLException e) {
-            e.printStackTrace();
+            try {
+                cnx.rollback();
+                System.err.println("Erreur lors de la suppression: " + e.getMessage());
+            } catch (SQLException ex) {
+                System.err.println("Erreur lors du rollback: " + ex.getMessage());
+            }
+        } finally {
+            try {
+                cnx.setAutoCommit(true);
+            } catch (SQLException e) {
+                System.err.println("Erreur lors du rétablissement autoCommit: " + e.getMessage());
+            }
         }
     }
+
 
     @Override
     public void modifierCompetition(Competition comp) {
@@ -107,7 +145,7 @@ public class ServiceCompetition implements IServiceCompetition {
 
     public List<Equipe> getEquipesByCompetition(int idCompetition) {
         List<Equipe> equipes = new ArrayList<>();
-        String query = "SELECT e.id, e.nom_equipe FROM equipe e " +
+        String query =  "SELECT e.* FROM equipe e " +
                 "JOIN competition_equipe ce ON e.id = ce.equipe_id " +
                 "WHERE ce.competition_id = ?";
 
@@ -116,9 +154,14 @@ public class ServiceCompetition implements IServiceCompetition {
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {
-                Equipe equipe = new Equipe();
-                equipe.setId(rs.getInt("id"));
-                equipe.setNomEquipe(rs.getString("nom_equipe")); // Maintenant cette méthode existe
+                Equipe equipe = new Equipe(
+                        rs.getInt("id"),
+                        rs.getString("travail"),
+                        rs.getString("nom_equipe"),
+                        rs.getString("ambassadeur"),
+                        rs.getString("membres"),
+                        ""
+                );
                 equipes.add(equipe);
             }
         } catch (SQLException e) {
@@ -126,4 +169,22 @@ public class ServiceCompetition implements IServiceCompetition {
         }
         return equipes;
     }
+
+    public void ajouterEquipeACompetition(int competitionId, int equipeId) throws SQLException {
+        String sql = "INSERT INTO competition_equipe (competition_id, equipe_id) VALUES (?, ?)";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, competitionId);
+            ps.setInt(2, equipeId);
+            ps.executeUpdate();
+        }
+    }
+    public void supprimerEquipeDeCompetition(int competitionId, int equipeId) throws SQLException {
+        String sql = "DELETE FROM competition_equipe WHERE competition_id = ? AND equipe_id = ?";
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, competitionId);
+            ps.setInt(2, equipeId);
+            ps.executeUpdate();
+        }
+    }
+
 }

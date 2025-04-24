@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.CompetitionCardController"
+      styleClass="competition-card"
+      spacing="10"
+      maxWidth="300">
+
+    <!-- En-tête -->
+    <Label fx:id="nomLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <!-- Contenu -->
+    <VBox spacing="5">
+        <HBox spacing="5">
+            <Label text="Organisation:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="organisationLabel"/>
+        </HBox>
+
+        <HBox spacing="5">
+            <Label text="Dates:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="dateLabel"/>
+        </HBox>
+
+        <Label fx:id="descriptionLabel" wrapText="true"/>
+
+        <!-- Section fichier (optionnelle) -->
+        <HBox fx:id="fichierContainer" spacing="5" visible="false">
+            <Label text="Fichier:" style="-fx-font-weight: bold;"/>
+            <Label fx:id="fichierLabel"/>
+        </HBox>
+    </VBox>
+
+    <!-- Boutons -->
+    <StackPane>
+        <!-- Bouton menu (3 points) -->
+        <Button text="⋮" onAction="#toggleMenu" styleClass="menu-button"/>
+
+        <!-- Menu caché par défaut -->
+        <HBox fx:id="actionMenu" spacing="2" style="-fx-background-color: rgba(255, 255, 255, 0.9); -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);-fx-border-radius: 5px;" visible="false">
+            <Button text="Modifier" onAction="#modifier" styleClass="pastel-edit-button"/>
+            <Button text="Supprimer" onAction="#supprimer" styleClass="pastel-delete-button"/>
+            <Button text="Réserver" onAction="#reserver" styleClass="pastel-reserve-button"/>
+        </HBox>
+    </StackPane>
+</VBox>

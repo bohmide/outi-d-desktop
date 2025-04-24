@@ -17,15 +17,16 @@
 
     <Label text="Ajouter une compétition" style="-fx-font-size: 18px;"/>
     <TextField fx:id="nomCompField" promptText="Nom de la compétition"/>
-    <TextField fx:id="nomEntrepriseField" promptText="Nom de l'entreprise"/>
-    <DatePicker fx:id="dateDebutPicker"/>
-    <DatePicker fx:id="dateFinPicker"/>
+   <!-- <TextField fx:id="nomEntrepriseField" promptText="Nom de l'entreprise"/>-->
+    <DatePicker fx:id="dateDebutPicker" promptText="Date début "/>
+    <DatePicker fx:id="dateFinPicker" promptText="Date fin "/>
     <TextArea fx:id="descriptionArea" promptText="Description"/>
-    <ComboBox fx:id="organisationComboBox"/>
+    <ComboBox fx:id="organisationComboBox" promptText="votre organisation "/>
     <HBox spacing="10" alignment="CENTER_LEFT">
         <Label text="Fichier (PDF/PNG):"/>
         <TextField fx:id="fichierField" editable="false" prefWidth="200"/>
         <Button text="Parcourir" onAction="#handleFileSelection"/>
+        
     </HBox>
 
     <!-- hedha el  message d'erreur -->

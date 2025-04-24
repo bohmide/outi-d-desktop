@@ -6,11 +6,14 @@ import javafx.scene.control.TableView;
 
 import entities.Equipe;
 import interfaces.IServiceEquipe;
+import services.ServiceCompetition;
 import services.ServiceEquipe;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.application.Platform;  // Ajoutez cette ligne
+
 
 public class EquipeController {
     @FXML private TextField nomEquipeField;
@@ -23,8 +26,10 @@ public class EquipeController {
     @FXML private TableColumn<Equipe, String> ambassadeurCol;
     @FXML private TableColumn<Equipe, String> membresCol;
     @FXML private TableColumn<Equipe, String> travailCol;
+    @FXML private TableColumn<Equipe, String> competitionCol;
 
 
+    private ServiceCompetition sc = new ServiceCompetition();
     private IServiceEquipe service = new ServiceEquipe();
 
     // Déclare une ObservableList pour les équipes
@@ -40,6 +45,7 @@ public class EquipeController {
         ambassadeurCol.setCellValueFactory(cellData -> cellData.getValue().ambassadeurProperty());
         membresCol.setCellValueFactory(cellData -> cellData.getValue().membresProperty());
         travailCol.setCellValueFactory(cellData -> cellData.getValue().travailProperty());
+        competitionCol.setCellValueFactory(cellData -> cellData.getValue().competitionNomProperty());
 
         refreshEquipeList();
     }
@@ -64,7 +70,7 @@ public class EquipeController {
         equipe.setMembres(membres.isEmpty() ? "Aucun membre spécifié" : membres);
         equipe.setTravail("Non spécifié"); // Valeur par défaut comme dans ReserverEquipeController
 
-        // Ajout de l'équipe
+        // Ajout de l'équiper
         int equipeId = service.ajouterEquipe(equipe);
 
         if (equipeId > 0) {
@@ -97,9 +103,10 @@ public class EquipeController {
         }
     }
 
-    // Rafraîchir la liste des équipes
-    private void refreshEquipeList() {
+    public void refreshEquipeList() {
         equipesList.setAll(service.afficherToutesEquipes());
+        equipeTableView.refresh();
+
     }
 
     private void clearFields() {

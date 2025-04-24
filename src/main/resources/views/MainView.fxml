@@ -2,32 +2,27 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.MainController"
-            prefWidth="900" prefHeight="800">
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.MainController"
+      spacing="20"
+      style="-fx-padding: 15px;">
 
-    <TabPane fx:id="tabPane" layoutX="20" layoutY="20" prefWidth="760" prefHeight="560">
-        <!-- Onglet Compétitions -->
-        <Tab fx:id="tabCompetitions" text="Compétitions">
-            <content>
-                <AnchorPane fx:id="compPane" />
-            </content>
-        </Tab>
 
-        <!-- Onglet Organisations -->
-        <Tab fx:id="tabOrganisations" text="Organisations">
-            <content>
-                <AnchorPane fx:id="orgPane" />
-            </content>
-        </Tab>
+    <!-- Navigation -->
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Compétitions" onAction="#showCompetitions"
+                style="-fx-background-color: white; -fx-text-fill: #4a90e2; -fx-padding: 8px 16px;"/>
+        <Button text="Organisations" onAction="#showOrganisations"
+                style="-fx-background-color: white ; -fx-text-fill: #4a90e2; -fx-padding: 8px 16px;"/>
+        <Button text="Équipes" onAction="#showEquipes"
+                style="-fx-background-color: white ; -fx-text-fill: #4a90e2 ; -fx-padding: 8px 16px;"/>
+    </HBox>
 
-        <!-- Onglet Equipes -->
-        <Tab fx:id="tabEquipe" text="Equipes">
-            <content>
-                <AnchorPane fx:id="equipePane" />
-            </content>
-        </Tab>
-    </TabPane>
-</AnchorPane>
+
+    <!-- Conteneur pour les vues -->
+    <StackPane fx:id="contentPane" VBox.vgrow="ALWAYS"/>
+
+</VBox>

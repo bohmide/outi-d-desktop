@@ -1,6 +1,11 @@
 package entities;
 import javafx.beans.property.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDate;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Competition {
     private IntegerProperty id = new SimpleIntegerProperty();
@@ -12,10 +17,21 @@ public class Competition {
     private StringProperty fichier = new SimpleStringProperty();
     private ObjectProperty<Organisation> organisation = new SimpleObjectProperty<>();
 
+    // Ajout de la liste des équipes
+    private ListProperty<Equipe> equipes = new SimpleListProperty<>(FXCollections.observableArrayList());
     // Constructeurs
     public Competition() {}
+    // Ajoutez ce constructeur
+    public Competition(int id, String nomComp, String nomEntreprise,
+                       LocalDate dateDebut, LocalDate dateFin,
+                       String description, String fichier,
+                       Organisation organisation) {
+        this(id, nomComp, nomEntreprise, dateDebut, dateFin,
+                description, fichier, organisation,
+                FXCollections.observableArrayList());
+    }
 
-    public Competition(int id, String nomComp, String nomEntreprise, LocalDate dateDebut, LocalDate dateFin, String description, String fichier, Organisation organisation) {
+    public Competition(int id, String nomComp, String nomEntreprise, LocalDate dateDebut, LocalDate dateFin, String description, String fichier, Organisation organisation,List<Equipe> equipes) {
         this.id.set(id);
         this.nomComp.set(nomComp);
         this.nomEntreprise.set(nomEntreprise);
@@ -24,6 +40,9 @@ public class Competition {
         this.description.set(description);
         this.fichier.set(fichier);
         this.organisation.set(organisation);
+        if (equipes != null) {
+            this.equipes.setAll(equipes);
+        }
     }
 
     // Getters & Setters
@@ -58,6 +77,9 @@ public class Competition {
     public ObjectProperty<Organisation> organisationProperty() {
         return organisation;
     }
+    public ListProperty<Equipe> equipesProperty() {
+        return equipes;
+    }
 
     // Getters classiques
     public int getId() {
@@ -91,6 +113,13 @@ public class Competition {
     public Organisation getOrganisation() {
         return organisation.get();
     }
+    public ObservableList<Equipe> getEquipes() {
+        return equipes.get();
+    }
+    public String getNomOrganisation() {
+        return organisation.get() != null ? organisation.get().getNomOrganisation() : "";
+    }
+
 
     // Setters classiques
     public void setId(int id) {
@@ -123,5 +152,8 @@ public class Competition {
 
     public void setOrganisation(Organisation organisation) {
         this.organisation.set(organisation);
+    }
+    public void setEquipes(ObservableList<Equipe> equipes) {
+        this.equipes.set(equipes);
     }
 }

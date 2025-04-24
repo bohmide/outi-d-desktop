@@ -15,9 +15,12 @@ public class MainTest extends Application {
 
 
             Parent root = FXMLLoader.load(getClass().getResource("/views/MainView.fxml"));
-
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/main.css").toExternalForm());
             primaryStage.setTitle("Gestion des Compétitions et Organisations");
-            primaryStage.setScene(new Scene(root));
+            primaryStage.setScene(scene);
+            primaryStage.setMaximized(true); // Pour démarrer en mode plein écran
+
             primaryStage.show();
         } catch (Exception e) {
             System.err.println("Error loading FXML file:");

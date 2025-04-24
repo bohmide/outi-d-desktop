@@ -2,69 +2,28 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.CompetitionController">
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.CompetitionController"
+      spacing="20"
+      style="-fx-padding: 15px; -fx-background-color: transparent;">
+    <Label text="Gestion des Compétitions"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+    <Button text="Ajouter une compétition" onAction="#ajouterCompetition"
+            styleClass="action-button"/>
 
-    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
-        <!-- Boutons d'action -->
-        <HBox spacing="10">
-            <Button text="Ajouter" onAction="#ajouterCompetition"/>
-            <Button text="Modifier" onAction="#modifierCompetition"/>
-            <Button text="Supprimer" onAction="#supprimerCompetition"
-                    style="-fx-background-color: #ff4444; -fx-text-fill: white;"/>
-            <Button text="Réserver" onAction="#reserverEquipe"
-                    style="-fx-background-color: #4285F4; -fx-text-fill: white;"/>
-        </HBox>
+    <!-- Remplacez le VBox par un TilePane pour afficher les cartes en grille -->
+    <TilePane fx:id="cardsContainer"
+              hgap="15" vgap="15"
+              prefColumns="3"
+              style="-fx-background-color: transparent;"
+              prefTileWidth="300"
+              prefTileHeight="200"
+              alignment="TOP_CENTER">
 
-        <!-- Tableau des compétitions -->
-        <TableView fx:id="tableComps" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="colId" text="ID">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="id" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="colNom" text="Nom">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="nomComp" />
-                    </cellValueFactory>
-                </TableColumn>
-
-                <TableColumn fx:id="colEntreprise" text="Entreprise">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="nomEntreprise" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="colOrganisation" text="Organisation">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="nomOrganisation" />
-                    </cellValueFactory>
-                </TableColumn>
-
-                <TableColumn fx:id="colDebut" text="Date Début">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="dateDebut" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="colFin" text="Date Fin">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="dateFin" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="colDescription" text="Description">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="description" />
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn fx:id="colFichier" text="Fichier">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="fichier" />
-                    </cellValueFactory>
-                </TableColumn>
-            </columns>
-        </TableView>
-
-    </VBox>
-</AnchorPane>
+    <!-- Largeur fixe pour chaque carte -->
+        <!-- Les cartes seront ajoutées dynamiquement ici -->
+    </TilePane>
+</VBox>

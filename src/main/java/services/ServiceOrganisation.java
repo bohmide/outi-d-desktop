@@ -47,11 +47,20 @@ public class ServiceOrganisation implements IServiceOrganisation {
 
     @Override
     public boolean supprimerOrganisation(int id) {
-        String sql = "DELETE FROM organisation WHERE id = ?";
-        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            int rowsAffected = ps.executeUpdate();
-            // Si une ligne a été affectée, la suppression a réussi
+        String deleteCompetitions = "DELETE FROM competition WHERE organisation_id = ?";
+        String deleteOrganisation = "DELETE FROM organisation WHERE id = ?";
+
+        try (PreparedStatement ps1 = cnx.prepareStatement(deleteCompetitions);
+             PreparedStatement ps2 = cnx.prepareStatement(deleteOrganisation))
+        {
+            // Supprimer les compétitions liées à l'organisation
+            ps1.setInt(1, id);
+            ps1.executeUpdate();
+
+            // Supprimer l'organisation
+            ps2.setInt(1, id);
+            int rowsAffected = ps2.executeUpdate();
+
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();

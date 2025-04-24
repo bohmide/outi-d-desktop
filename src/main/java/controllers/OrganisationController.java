@@ -13,32 +13,47 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import services.ServiceOrganisation;
 import java.io.IOException;
+import javafx.scene.layout.TilePane; // Ajoutez cet import
+import java.util.List;
+import controllers.addOrganisationFormController; // ou le bon chemin selon votre package
 
 public class OrganisationController {
 
-    @FXML private TableView<Organisation> tableOrgs;
-    @FXML private TableColumn<Organisation, Integer> colOrgId;
-    @FXML private TableColumn<Organisation, String> colOrgNom;
-    @FXML private TableColumn<Organisation, String> colOrgDomaine;
+
+    @FXML private TilePane cardsContainer;
 
     private ServiceOrganisation so = new ServiceOrganisation();
-    private ObservableList<Organisation> orgList;
+  //  private ObservableList<Organisation> orgList;
     private CompetitionController competitionController;
+    private EquipeController equipeController;
+
     @FXML
     public void initialize() {
-        colOrgId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colOrgNom.setCellValueFactory(new PropertyValueFactory<>("nomOrganisation"));
-        colOrgDomaine.setCellValueFactory(new PropertyValueFactory<>("domaine"));
 
-        orgList = FXCollections.observableArrayList();
-        tableOrgs.setItems(orgList);
+
+
+
         rafraichirListeOrganisations();
     }
     public void setCompetitionController(CompetitionController competitionController) {
         this.competitionController = competitionController;
     }
-    private void rafraichirListeOrganisations() {
-        orgList.setAll(so.afficherOrganisations());
+    public void rafraichirListeOrganisations() {
+        cardsContainer.getChildren().clear();
+        List<Organisation> organisations = so.afficherOrganisations();
+
+        try {
+            for (Organisation organisation : organisations) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/OrganisationCard.fxml"));
+                Parent card = loader.load();
+                OrganisationCardController controller = loader.getController();
+                controller.setOrganisationData(organisation);
+                controller.setParentController(this);
+                cardsContainer.getChildren().add(card);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -59,44 +74,35 @@ public class OrganisationController {
     }
 
     @FXML
-    public void modifierOrganisation() {
-        Organisation selected = tableOrgs.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/addOrganisationForm.fxml"));
-                Parent root = loader.load();
+    public void modifierOrganisation(Organisation organisation) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/addOrganisationForm.fxml"));
+            Parent root = loader.load();
 
-                addOrganisationFormController controller = loader.getController();
-                controller.setOrganisationData(selected);
+            addOrganisationFormController controller = loader.getController();
+            controller.setOrganisationData(organisation);
 
-                Stage stage = new Stage();
-                stage.setTitle("Modifier Organisation");
-                stage.setScene(new Scene(root));
-                stage.showAndWait();
+            Stage stage = new Stage();
+            stage.setTitle("Modifier Organisation");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
 
-                rafraichirListeOrganisations();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            showAlert("Sélection nécessaire", "Veuillez sélectionner une organisation");
+            rafraichirListeOrganisations();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     @FXML
-    public void supprimerOrganisation() {
-        Organisation selectedOrg = tableOrgs.getSelectionModel().getSelectedItem();
-        if (selectedOrg != null) {
-            so.supprimerOrganisation(selectedOrg.getId());
-            orgList.setAll(so.afficherOrganisations());
-            rafraichirListeOrganisations();
+    public void supprimerOrganisation(Organisation organisation) {
+        so.supprimerOrganisation(organisation.getId());
+        rafraichirListeOrganisations();
 
-            // Rafraîchit aussi la liste des compétitions si le contrôleur est défini
-            if (competitionController != null) {
-                competitionController.rafraichirListeCompetitions();
-            }
-
-        } else {
-            showAlert("Sélection nécessaire", "Veuillez sélectionner une organisation à supprimer.");
+        // Rafraîchit aussi la liste des compétitions si le contrôleur est défini
+        if (competitionController != null) {
+            competitionController.rafraichirListeCompetitions();
+        }
+        if (equipeController != null) {
+            equipeController.refreshEquipeList();
         }
     }
 

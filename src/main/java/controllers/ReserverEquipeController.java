@@ -11,6 +11,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.application.Platform;
+
 
 public class ReserverEquipeController {
 
@@ -21,10 +23,14 @@ public class ReserverEquipeController {
     @FXML private TextArea membresField;
 
     private Competition competition;
-
+    private Runnable onReservationComplete;
     public void setCompetition(Competition competition) {
         this.competition = competition;
         competitionLabel.setText("Réservation pour : " + competition.getNomComp());
+    }
+
+    public void setOnReservationComplete(Runnable onReservationComplete) {
+        this.onReservationComplete = onReservationComplete;
     }
     public void handleReservation() {
         try {
@@ -88,14 +94,27 @@ public class ReserverEquipeController {
             if (!participationAjoutee) throw new RuntimeException("Échec de l'ajout de la participation");
 
             showAlert("Succès", "Réservation effectuée avec succès !");
-            ((Stage) nomEquipeField.getScene().getWindow()).close();
 
+
+            if (onReservationComplete != null) {
+                onReservationComplete.run();
+            }
+
+
+            ((Stage) nomEquipeField.getScene().getWindow()).close();
+// Fermer la fenêtre APRÈS le rafraîchissement
+            Platform.runLater(() -> {
+                ((Stage) nomEquipeField.getScene().getWindow()).close();
+            });
 
         } catch (Exception e) {
             showAlert("Erreur Critique", "Erreur lors de la réservation: " + e.getMessage());
             e.printStackTrace();
         }
+
     }
+
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

@@ -1,0 +1,289 @@
+.root {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-background-color: linear-gradient(to bottom right, #6a89cc, #82ccdd);
+}
+
+.tab-pane {
+    -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-color: white;
+    -fx-text-base-color: #1e3799;
+    -fx-padding: 10px;
+}
+
+.tab:selected {
+    -fx-background-color: #74b9ff;
+}
+
+.button {
+    -fx-background-color: white;
+    -fx-text-fill: #1e3799;
+    -fx-font-weight: bold;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 20px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #dff9fb;
+    -fx-cursor: hand;
+}
+.card {
+    -fx-background-color: white;
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #ddd;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+.card-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+/* Style général des cartes */
+.card-container {
+    -fx-padding: 10px;
+
+}
+
+.card {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 0);
+    -fx-spacing: 8px;
+}
+
+.card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 8, 0, 0, 0);
+}
+
+/* Styles des textes */
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.card-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #666666;
+    -fx-font-weight: bold;
+}
+
+.card-value {
+    -fx-font-size: 13px;
+    -fx-text-fill: #444444;
+}
+
+.card-description {
+    -fx-font-size: 12px;
+    -fx-text-fill: #555555;
+    -fx-padding: 5px 0;
+}
+
+/* Styles des boutons */
+.card-actions {
+    -fx-padding: 10px 0 0 0;
+}
+
+.card-button {
+    -fx-font-size: 12px;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 3px;
+    -fx-cursor: hand;
+}
+
+.card-button-edit {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+.card-button-delete {
+    -fx-background-color: #f44336;
+    -fx-text-fill: white;
+}
+
+.card-button-reserve {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+}
+
+.card-button:hover {
+    -fx-opacity: 0.9;
+}
+.nav-button {
+    -fx-background-color: #4a90e2;
+    -fx-text-fill: white;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 4px;
+    -fx-font-size: 14px;
+}
+
+.nav-button:hover {
+    -fx-background-color: #3a7bc8;
+}
+
+/* Style pour le conteneur principal */
+#mainContainer {
+    -fx-padding: 15px;
+    -fx-background-color: #f5f5f5;
+}
+
+/* Style pour le conteneur de contenu */
+#contentPane {
+    -fx-background-color: transparent;
+
+}
+/* Style pour le conteneur principal */
+.competition-view {
+    -fx-background-color: transparent;
+}
+
+/* Style pour le conteneur des cartes */
+#cardsContainer {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+}
+
+/* Style pour chaque carte de compétition */
+.action-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.action-button:hover {
+    -fx-background-color:#4CAF50 ; /* Garde la même couleur au survol */
+}
+.competition-card {
+    -fx-background-color:  rgba(255, 255, 255, 0.6);
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-max-width: 300px; /* Largeur fixe */
+    -fx-min-width: 280px; /* Largeur minimale */
+}
+.competition-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 0);
+}
+.content-view {
+    -fx-background-color: transparent;
+    -fx-padding: 10px;
+}
+/* Style pour le TilePane */
+.tile-pane {
+    -fx-padding: 10px;
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+}
+.menu-button {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-color: rgba(255, 255, 255, 0.9);
+    -fx-border-radius: 5px;
+    -fx-padding: 5;
+}
+
+.menu-button:hover {
+    -fx-background-color: rgba(0,0,0,0.1);
+}
+/* Style du titre */
+.card-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+.action-menu {
+    -fx-background-color: white;
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);
+    -fx-spacing: 5;
+    -fx-padding: 5;
+}
+/* Boutons pastel plus foncés */
+.pastel-edit-button {
+    -fx-background-color: #7fa8e6;  /* Bleu pastel foncé */
+    -fx-text-fill: #2c3e50;
+    -fx-background-radius: 5;
+    -fx-padding: 5 15;
+    -fx-font-weight: bold;
+}
+
+.pastel-delete-button {
+    -fx-background-color: #e69a9a;  /* Rouge pastel foncé */
+    -fx-text-fill: #2c3e50;
+    -fx-background-radius: 5;
+    -fx-padding: 5 15;
+    -fx-font-weight: bold;
+}
+
+.pastel-reserve-button {
+    -fx-background-color: #8bd9a7;  /* Vert pastel foncé */
+    -fx-text-fill: #2c3e50;
+    -fx-background-radius: 5;
+    -fx-padding: 5 15;
+    -fx-font-weight: bold;
+}
+
+/* Effets de survol */
+.pastel-edit-button:hover {
+    -fx-background-color: #6c97d4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.pastel-delete-button:hover {
+    -fx-background-color: #d48989;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.pastel-reserve-button:hover {
+    -fx-background-color: #7ac798;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+/*organisation*/
+
+/* Organisation Card Styles */
+.organisation-card {
+    -fx-background-color: rgba(255, 255, 255, 0.6);
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-padding: 15;
+    -fx-spacing: 10;
+    -fx-max-width: 300px;
+    -fx-min-width: 280px;
+}
+
+.organisation-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 0);
+}
+
+.organisation-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.organisation-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #666666;
+    -fx-font-weight: bold;
+}
+
+.organisation-value {
+    -fx-font-size: 13px;
+    -fx-text-fill: #444444;
+}
