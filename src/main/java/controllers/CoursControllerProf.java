@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -241,4 +242,17 @@ public class CoursControllerProf {
             showAlert("Erreur lors du chargement de la vue des chapitres");
         }
     }
+    public void retourAccueil(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/MainAppAccueil.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root, 400, 200));
+            stage.setTitle("OUTI-D - Choisissez votre rôle");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

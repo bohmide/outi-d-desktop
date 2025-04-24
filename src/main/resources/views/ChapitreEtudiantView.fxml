@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ChapitreControllerEtudiant"
+            prefWidth="800" prefHeight="500">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+
+    <VBox spacing="10" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <Label fx:id="lblCoursTitle" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+        <TableView fx:id="tableChapitres" prefHeight="350" prefWidth="760">
+            <columns>
+                <TableColumn fx:id="colNom" text="Nom du Chapitre" prefWidth="200"/>
+                <TableColumn fx:id="colContenuText" text="Contenu" prefWidth="400"/>
+                <TableColumn fx:id="colAction" text="Quiz" prefWidth="150"/>
+            </columns>
+        </TableView>
+
+        <Button fx:id="btnRetour" text="Retour à  la Liste des cours" onAction="#retourAccueil" prefWidth="200"
+                style="-fx-background-color: #03A9F4; -fx-text-fill: white;"/>
+    </VBox>
+</AnchorPane>

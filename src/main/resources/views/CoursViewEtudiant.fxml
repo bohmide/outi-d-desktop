@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.CoursControllerEtudiant"
+            prefHeight="400.0" prefWidth="700.0">
+    <VBox spacing="10" AnchorPane.topAnchor="0"
+          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+          AnchorPane.bottomAnchor="0">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Button text="← Retour a la page d'acceuil " onAction="#retourAccueil" style="-fx-background-color: #ccc; -fx-text-fill: black;"/>
+        </HBox>
+
+        <TableView fx:id="tableCours" prefHeight="300.0">
+            <columns>
+                <TableColumn fx:id="colNom" text="Nom du cours" prefWidth="200"/>
+                <TableColumn fx:id="colDescription" text="État" prefWidth="150"/>
+                <TableColumn fx:id="colDuree" text="Date de création" prefWidth="150"/>
+                <TableColumn fx:id="colAction" text="Action" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </VBox>
+</AnchorPane>
