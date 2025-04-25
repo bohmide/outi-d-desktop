@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.QuizSelectionController"
+      alignment="CENTER"
+      spacing="20"
+
+      styleClass="main-container"
+      prefWidth="600" prefHeight="400">
+
+    <Label text="Sélectionne ton Quiz !" styleClass="title-label"/>
+
+    <HBox spacing="20" alignment="CENTER">
+        <VBox spacing="10" alignment="CENTER">
+            <Label text="Choisis un genre :"/>
+            <ComboBox fx:id="genreComboBox" promptText="Genre"/>
+        </VBox>
+
+        <VBox spacing="10" alignment="CENTER">
+            <Label text="Choisis un niveau :"/>
+            <ComboBox  fx:id="levelComboBox" promptText="Niveau"/>
+        </VBox>
+    </HBox>
+
+    <Button text="Commencer le Quiz" onAction="#handleStartQuiz" styleClass="menu-button"/>
+</VBox>
+

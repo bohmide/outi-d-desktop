@@ -5,6 +5,7 @@ import entities.Badge;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BadgeService {
 
@@ -37,4 +38,11 @@ public class BadgeService {
     public Badge getByName(String name) throws SQLException {
         return badgeDAO.getByName(name);
     }
+    public List<Badge> getUnlockedBadges(int totalScore) throws SQLException {
+        List<Badge> allBadges = getAll();
+        return allBadges.stream()
+                .filter(b -> totalScore >= b.getRequiredScore())
+                .collect(Collectors.toList());
+    }
+
 }

@@ -4,9 +4,8 @@ import entities.QuizKids;
 import utils.MyConnection;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 import com.google.gson.Gson;
 public class QuizKidsDAO {
 
@@ -142,7 +141,12 @@ public class QuizKidsDAO {
         } catch (SQLException e) {
             System.err.println("❌ Error updating QuizKids: " + e.getMessage());
         }
+
+
     }
+
+
+
 
 
 

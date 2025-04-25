@@ -37,14 +37,7 @@
                         -fx-font-size: 14px; -fx-border-radius: 5px;"/>
             </HBox>
 
-            <HBox spacing="15">
-                <Label text="Pièces :" style="-fx-font-size: 14px;" />
-                <ListView fx:id="piecesListView" prefHeight="100" prefWidth="300"
-                          style="-fx-font-size: 13px; -fx-background-color: white;"/>
-                <Button text="Ajouter Pièces" onAction="#handleAddPieceImage"
-                        style="-fx-background-color: #c800ff; -fx-text-fill: white;
-            -fx-font-size: 14px; -fx-border-radius: 5px;" />
-            </HBox>
+
 
 
             <!-- Boutons -->

@@ -22,6 +22,11 @@ import java.lang.reflect.Type;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 
 public class PuzzleController {
     @FXML private TableView<Puzzle> puzzleTable;
@@ -173,18 +178,47 @@ public class PuzzleController {
         List<Puzzle> puzzleList = puzzleDAO.getAll();
         puzzleTable.setItems(FXCollections.observableArrayList(puzzleList));
     }
+    public static List<String> splitImage(String imagePath, int rows, int cols, String outputDir) throws IOException {
+        File inputFile = new File(imagePath);
+        BufferedImage image = ImageIO.read(inputFile);
+        int pieceWidth = image.getWidth() / cols;
+        int pieceHeight = image.getHeight() / rows;
+        List<String> piecePaths = new ArrayList<>();
+
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                int xCoord = x * pieceWidth;
+                int yCoord = y * pieceHeight;
+                BufferedImage subImage = image.getSubimage(xCoord, yCoord, pieceWidth, pieceHeight);
+                String pieceName = String.format("piece_%d_%d.png", y, x);
+                File outputFile = new File(outputDir, pieceName);
+                ImageIO.write(subImage, "png", outputFile);
+                piecePaths.add(outputFile.getAbsolutePath());
+            }
+        }
+        return piecePaths;
+    }
+
 
     @FXML
     void handleAddPuzzle(ActionEvent event) {
         try {
             Games selectedGame = gameComboBox.getValue();
             String finalImg = finalImageField.getText();
-            List<String> pieces = new ArrayList<>(piecesListView.getItems());
 
-            if (selectedGame == null || finalImg.isEmpty() || pieces.isEmpty()) {
+            if (selectedGame == null || finalImg.isEmpty()) {
                 showAlert("Champs requis", "Tous les champs doivent être remplis.");
                 return;
             }
+
+            // Define output directory for pieces
+            String baseDir = "puzzle_pieces";
+            String uniqueDirName = "puzzle_" + System.currentTimeMillis(); // ou UUID.randomUUID().toString()
+            String outputDir = baseDir + File.separator + uniqueDirName;
+            new File(outputDir).mkdirs();
+
+            // Split the image into pieces
+            List<String> pieces = splitImage(finalImg, 4, 4, outputDir);
 
             Puzzle puzzle = new Puzzle(0, selectedGame.getId(), finalImg, pieces);
             puzzleDAO.add(puzzle);
@@ -194,6 +228,7 @@ public class PuzzleController {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     void handleUpdatePuzzle(ActionEvent event) {

@@ -1,12 +1,13 @@
 package services;
 
+import dao.QuizKidsDAO;
 import entities.QuizKids;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuizKidsService {
-    private final List<QuizKids> quizList = new ArrayList<>();
+    private List<QuizKids> quizList = new ArrayList<>();
 
     public void addQuiz(QuizKids quiz) {
         quizList.add(quiz);
@@ -21,7 +22,8 @@ public class QuizKidsService {
     }
 
     public List<QuizKids> getAllQuizzes() {
-        return quizList;
+        QuizKidsDAO quizKidsDAO = new QuizKidsDAO();
+        return quizList = quizKidsDAO.getAll();
     }
 }
 

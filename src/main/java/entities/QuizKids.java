@@ -3,6 +3,7 @@ package entities;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuizKids {
@@ -165,5 +166,14 @@ public class QuizKids {
                 ", genre='" + genre.get() + '\'' +
                 ", country='" + country.get() + '\'' +
                 '}';
+    }
+    public List<String> getCleanOptions() {
+        List<String> cleanedOptions = new ArrayList<>();
+        for (String option : this.options) {
+            // Supprime tous les caractères non désirables
+            String cleanOption = option.replaceAll("[\\[\\]\"]", "").trim();
+            cleanedOptions.add(cleanOption);
+        }
+        return cleanedOptions;
     }
 }
