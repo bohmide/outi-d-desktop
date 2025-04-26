@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.evenement.student.EventStudentController" stylesheets="@/css/Event/eventGridStyle.css">
+    <children>
+        <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <content>
+                <VBox spacing="20" style="-fx-padding: 20; -fx-background-color: #f4f9ff;">
+                    <Text text="Événements Disponibles" style="-fx-font-size: 24px; -fx-fill: #007BFF; -fx-font-weight: bold;"/>
+
+                    <HBox spacing="10">
+                        <TextField fx:id="searchField" promptText="Rechercher par nom ou genre..." />
+                        <ComboBox fx:id="sortComboBox" promptText="Trier par prix/date" />
+                    </HBox>
+
+                    <FlowPane fx:id="eventGrid" hgap="20" vgap="20"/>
+                </VBox>
+
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

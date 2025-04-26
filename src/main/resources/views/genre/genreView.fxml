@@ -3,28 +3,36 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
-
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.genre.GenreController" spacing="10" stylesheets="@/css/Event/EventStyle.css">
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 
-    <HBox>
-        <Label>Event Genre View</Label>
-        <Region HBox.hgrow="ALWAYS"></Region>
-        <Button text="Ajouter Genre" style="-fx-background-radius: 10" fx:id="addGenre" onAction="#handleAjouter"></Button>
+<?import javafx.scene.control.TextField?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.genre.GenreController" spacing="10" stylesheets="@/css/Event/EventStyle.css">
+    <HBox styleClass="header-box">
+        <Label text="Event Genre View" styleClass="header-label"/>
+        <TextField fx:id="searchField" promptText="Rechercher un genre..." />
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button text="Ajouter Genre" styleClass="primary-button" fx:id="addGenre" onAction="#handleAjouter"/>
     </HBox>
 
-    <TableView fx:id="genreTable">
-        <columns>
-            <TableColumn fx:id="genreName" text="Nom"></TableColumn>
-            <TableColumn fx:id="nbrGenre" text="nbr evenement"></TableColumn>
-            <TableColumn fx:id="imagePath" text="image"></TableColumn>
-            <TableColumn fx:id="dateCreation" text="date de creation"></TableColumn>
-            <TableColumn fx:id="actionColumn" text="Actions"/>
-        </columns>
-    </TableView>
 
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS" styleClass="table-scroll-pane">
+        <TableView fx:id="genreTable" styleClass="compact-table">
+            <columns>
+                <TableColumn fx:id="genreName" text="Nom" styleClass="table-column" prefWidth="150"/>
+                <TableColumn fx:id="nbrGenre" text="Nb Événements" styleClass="table-column" prefWidth="120"/>
+                <TableColumn fx:id="imageColumn" text="Image" styleClass="table-column" prefWidth="200">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="imagePath"/>
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="dateCreation" text="Date Création" styleClass="table-column" prefWidth="150"/>
+                <TableColumn fx:id="actionColumn" text="Actions" styleClass="table-column" prefWidth="180"/>
+            </columns>
+        </TableView>
+    </ScrollPane>
 </VBox>

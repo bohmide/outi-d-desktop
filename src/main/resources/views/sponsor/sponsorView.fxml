@@ -3,29 +3,31 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Label?>
-
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.sponsor.SponsorController" spacing="10" stylesheets="@/css/Event/EventStyle.css">
+<?import javafx.scene.control.ScrollPane?>
 
-    <HBox>
-        <Label>Sponsor View</Label>
-        <Region HBox.hgrow="ALWAYS"></Region>
-        <Button text="Ajouter Sponsor" style="-fx-background-radius: 10" fx:id="addGenre" onAction="#handleAjouter"></Button>
+<?import javafx.scene.control.TextField?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.sponsor.SponsorController" spacing="10" stylesheets="@/css/Event/EventStyle.css">
+    <HBox styleClass="header-box">
+        <Label text="Gestion des Sponsors" styleClass="header-label"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="searchField" promptText="Rechercher..." />
+        <Button text="Ajouter Sponsor" styleClass="primary-button" fx:id="addGenre" onAction="#handleAjouter"/>
     </HBox>
 
-    <TableView fx:id="sponsorTable">
-        <columns>
-            <TableColumn fx:id="sponsorName" text="Nom"></TableColumn>
-            <TableColumn fx:id="description" text="Description"></TableColumn>
-            <TableColumn fx:id="imagePath" text="image"></TableColumn>
-            <TableColumn fx:id="dateCreation" text="date de creation"></TableColumn>
-            <TableColumn fx:id="actionColumn" text="Actions" prefWidth="160"/>
-        </columns>
-    </TableView>
 
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS" styleClass="table-scroll-pane">
+        <TableView fx:id="sponsorTable" styleClass="compact-table">
+            <columns>
+                <TableColumn fx:id="sponsorName" text="Nom" styleClass="table-column" prefWidth="200"/>
+                <TableColumn fx:id="description" text="Description" styleClass="table-column" prefWidth="300"/>
+                <TableColumn fx:id="imageColumn" text="Image" styleClass="table-column" prefWidth="200"/>
+                <TableColumn fx:id="dateCreation" text="Date Création" styleClass="table-column" prefWidth="150"/>
+                <TableColumn fx:id="actionColumn" text="Actions" styleClass="table-column" prefWidth="180"/>
+            </columns>
+        </TableView>
+    </ScrollPane>
 </VBox>

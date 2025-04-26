@@ -5,32 +5,30 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import services.SponsorsService;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class AddSponsor {
-    @FXML
-    private TextField nameField;
-
-    @FXML
-    private TextField descriptionField;
-
-    @FXML
-    private TextField imageField;
-
-    @FXML
-    private Button saveButton;
-
-    @FXML
-    private Button cancelButton;
+    @FXML private TextField nameField;
+    @FXML private TextField descriptionField;
+    @FXML private TextField imageField;
+    @FXML private Button saveButton;
+    @FXML private Button cancelButton;
+    @FXML private Button browseButton;
 
     private SponsorsService sponsorsService = new SponsorsService();
+    private Sponsors currentSponsor;
 
-    private Sponsors currentSponsor;  // Sponsor à modifier
-
-    // Méthode pour initialiser les champs avec les données du sponsor sélectionné
     public void setSponsor(Sponsors sponsor) {
         this.currentSponsor = sponsor;
         nameField.setText(sponsor.getNomSponsor());
@@ -42,46 +40,71 @@ public class AddSponsor {
     private void handleSave() {
         String name = nameField.getText().trim();
         String desc = descriptionField.getText().trim();
-        String img  = imageField.getText().trim();
-        SponsorsService service = new SponsorsService();
+        String img = imageField.getText().trim();
 
         if (name.isEmpty() || desc.isEmpty() || img.isEmpty()) {
-            showAlert("error", "Tous les champs sont obligatoires.");
+            showAlert("Erreur", "Tous les champs sont obligatoires.");
             return;
         }
 
         try {
             if (currentSponsor == null) {
-                // Mode ajout
                 Sponsors sp = new Sponsors(name, desc, img, LocalDate.now());
-
-                service.addSponsor(sp);
-                System.out.println("Ajout effectué, nouveau ID : " + sp.getId());
+                sponsorsService.addSponsor(sp);
             } else {
-                // Mode mise à jour
                 currentSponsor.setNomSponsor(name);
                 currentSponsor.setDescription(desc);
                 currentSponsor.setImagePath(img);
-                service.updateSponsor(currentSponsor);
-                System.out.println("Mise à jour effectuée pour ID : " + currentSponsor.getId());
+                sponsorsService.updateSponsor(currentSponsor);
             }
             ((Stage) saveButton.getScene().getWindow()).close();
-
         } catch (Exception e) {
-            e.printStackTrace();  // Affiche la cause dans la console
-            showAlert("error","Une erreur est survenue : " + e.getMessage());
+            showAlert("Erreur", "Une erreur est survenue: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @FXML
-    private void handleCancel(javafx.event.ActionEvent event) {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
+    private void handleBrowseImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(browseButton.getScene().getWindow());
+        if (selectedFile != null) {
+            try {
+                // Créer le dossier images s'il n'existe pas
+                Path destDir = Paths.get("src/main/resources/images");
+                if (!Files.exists(destDir)) {
+                    Files.createDirectories(destDir);
+                }
+
+                // Générer un nom unique pour le fichier
+                String uniqueName = UUID.randomUUID() + "_" + selectedFile.getName();
+                Path destination = destDir.resolve(uniqueName);
+
+                // Copier le fichier
+                Files.copy(selectedFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
+
+                // Mettre à jour le champ avec le chemin relatif
+                imageField.setText("/images/" + uniqueName);
+            } catch (IOException e) {
+                showAlert("Erreur", "Impossible de copier l'image: " + e.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    private void handleCancel() {
+        ((Stage) cancelButton.getScene().getWindow()).close();
     }
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
+        alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }

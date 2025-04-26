@@ -3,48 +3,38 @@ package controllers.evenement;
 import entities.Event;
 import entities.EventGenre;
 import entities.Sponsors;
-import services.EventGenreService;
-import services.EventService;
-import services.SponsorsService;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import services.EventGenreService;
+import services.EventService;
+import services.SponsorsService;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public class AddEventController {
 
-    @FXML
-    private TextField nomEvent;
-
-    @FXML
-    private TextArea description;
-
-    @FXML
-    private DatePicker eventDate;
-
-    @FXML
-    private TextField nbrMember;
-
-    @FXML
-    private TextField imagePath;
-
-    @FXML
-    private TextField priw;
-
-    @FXML
-    private ComboBox<EventGenre> genreComboBox;
-
-    @FXML
-    private ComboBox<Sponsors> sponsorComboBox;
-
-    @FXML
-    private Button saveButton;
-
-    @FXML
-    private Button cancelButton;
+    @FXML private TextField nomEvent;
+    @FXML private TextArea description;
+    @FXML private DatePicker eventDate;
+    @FXML private TextField nbrMember;
+    @FXML private TextField imagePath;
+    @FXML private TextField priw;
+    @FXML private ComboBox<EventGenre> genreComboBox;
+    @FXML private ComboBox<Sponsors> sponsorComboBox;
+    @FXML private Button saveButton;
+    @FXML private Button cancelButton;
+    @FXML private Button browseButton;
 
     private final EventService eventService = new EventService();
     private final EventGenreService genreService = new EventGenreService();
@@ -54,14 +44,11 @@ public class AddEventController {
 
     @FXML
     public void initialize() {
-        List<EventGenre> genres = genreService.listEventGenre();
-        genreComboBox.setItems(FXCollections.observableArrayList(genres));
-
-        List<Sponsors> sponsors = sponsorsService.listSponsor();
-        sponsorComboBox.setItems(FXCollections.observableArrayList(sponsors));
+        // Charger les genres et sponsors
+        genreComboBox.setItems(FXCollections.observableArrayList(genreService.listEventGenre()));
+        sponsorComboBox.setItems(FXCollections.observableArrayList(sponsorsService.listSponsor()));
     }
 
-    // Set event for editing
     public void setEventForEdit(Event event) {
         this.eventToEdit = event;
         nomEvent.setText(event.getNomEvent());
@@ -70,68 +57,88 @@ public class AddEventController {
         nbrMember.setText(String.valueOf(event.getNbrMemebers()));
         imagePath.setText(event.getImagePath());
         priw.setText(String.valueOf(event.getPrix()));
-
         genreComboBox.setValue(event.getGenre());
-        sponsorComboBox.setValue(event.getListSponsors().get(0));  // Assuming one sponsor
+        if (!event.getListSponsors().isEmpty()) {
+            sponsorComboBox.setValue(event.getListSponsors().get(0));
+        }
         saveButton.setText("Modifier");
     }
 
     @FXML
-    public void handleSave(javafx.event.ActionEvent actionEvent) {
-        String name = nomEvent.getText();
-        String desc = description.getText();
-        LocalDate dateEvent = eventDate.getValue();
-        int nbr = Integer.parseInt(nbrMember.getText());
-        String image = imagePath.getText();
-        float prix = Float.parseFloat(priw.getText());
-        LocalDate creationDate = LocalDate.now();
+    private void handleBrowseImage() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choisir une image");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Images", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
 
-        EventGenre selectedGenre = genreComboBox.getValue();
-        Sponsors selectedSponsor = sponsorComboBox.getValue();
+        File selectedFile = fileChooser.showOpenDialog(browseButton.getScene().getWindow());
+        if (selectedFile != null) {
+            try {
+                // Créer le dossier images s'il n'existe pas
+                Path destDir = Paths.get("src/main/resources/images");
+                if (!Files.exists(destDir)) {
+                    Files.createDirectories(destDir);
+                }
 
-        try {
-            if (eventToEdit != null) {
-                // Update existing event
-                eventToEdit.setNomEvent(name);
-                eventToEdit.setDescription(desc);
-                eventToEdit.setDateEvent(dateEvent);
-                eventToEdit.setNbrMemebers(nbr);
-                eventToEdit.setImagePath(image);
-                eventToEdit.setPrix(prix);
-                eventToEdit.setDateCreation(creationDate);
-                eventToEdit.setGenre(selectedGenre);
-                eventToEdit.setListSponsors(List.of(selectedSponsor)); // assuming single sponsor
+                // Générer un nom unique pour le fichier
+                String uniqueName = UUID.randomUUID() + "_" + selectedFile.getName();
+                Path destination = destDir.resolve(uniqueName);
 
-                eventService.updateEvent(eventToEdit);
-            } else {
-                // Add new event
-                Event event = new Event();
-                event.setNomEvent(name);
-                event.setDescription(desc);
-                event.setDateEvent(dateEvent);
-                event.setNbrMemebers(nbr);
-                event.setImagePath(image);
-                event.setPrix(prix);
-                event.setDateCreation(creationDate);
-                event.setGenre(selectedGenre);
-                event.setListSponsors(List.of(selectedSponsor)); // assuming single sponsor
+                // Copier le fichier
+                Files.copy(selectedFile.toPath(), destination, StandardCopyOption.REPLACE_EXISTING);
 
-                eventService.addEvent(event);
+                // Mettre à jour le champ avec le chemin relatif
+                imagePath.setText("/images/" + uniqueName);
+            } catch (IOException e) {
+                showAlert("Erreur", "Impossible de copier l'image: " + e.getMessage());
             }
-
-            // Close popup
-            Stage stage = (Stage) saveButton.getScene().getWindow();
-            stage.close();
-        } catch (NumberFormatException e) {
-            showAlert("Erreur", "Veuillez remplir tous les champs correctement.");
         }
     }
 
     @FXML
-    private void handleCancel(javafx.event.ActionEvent event) {
-        // Close the window without saving
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
+    private void handleSave() {
+        try {
+            // Validation des données
+            if (nomEvent.getText().isEmpty() || description.getText().isEmpty() ||
+                    eventDate.getValue() == null || nbrMember.getText().isEmpty() ||
+                    imagePath.getText().isEmpty() || priw.getText().isEmpty() ||
+                    genreComboBox.getValue() == null || sponsorComboBox.getValue() == null) {
+                showAlert("Erreur", "Tous les champs doivent être remplis");
+                return;
+            }
+
+            // Création/mise à jour de l'événement
+            Event event = eventToEdit != null ? eventToEdit : new Event();
+            event.setNomEvent(nomEvent.getText());
+            event.setDescription(description.getText());
+            event.setDateEvent(eventDate.getValue());
+            event.setNbrMemebers(Integer.parseInt(nbrMember.getText()));
+            event.setImagePath(imagePath.getText());
+            event.setPrix(Float.parseFloat(priw.getText()));
+            event.setDateCreation(LocalDate.now());
+            event.setGenre(genreComboBox.getValue());
+            event.setListSponsors(List.of(sponsorComboBox.getValue()));
+
+            if (eventToEdit != null) {
+                eventService.updateEvent(event);
+            } else {
+                eventService.addEvent(event);
+            }
+
+            // Fermer la fenêtre
+            ((Stage) saveButton.getScene().getWindow()).close();
+
+        } catch (NumberFormatException e) {
+            showAlert("Erreur", "Veuillez entrer des valeurs numériques valides");
+        } catch (Exception e) {
+            showAlert("Erreur", "Une erreur est survenue: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleCancel() {
+        ((Stage) cancelButton.getScene().getWindow()).close();
     }
 
     private void showAlert(String title, String message) {

@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.evenement.AddEventController" spacing="10" stylesheets="@/css/Event/addStyle.css">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.evenement.AddEventController"
+      spacing="10" stylesheets="@/css/Event/addStyle.css">
 
-    <Label text="Ajouter un Evenement"/>
+    <Label text="Ajouter un Événement" styleClass="title"/>
 
-    <TextField fx:id="nomEvent" promptText="Event Name"/>
+    <TextField fx:id="nomEvent" promptText="Nom de l'événement"/>
     <TextArea fx:id="description" promptText="Description"/>
-    <DatePicker fx:id="eventDate" promptText="Event Date"/>
-    <TextField fx:id="nbrMember" promptText="nombre limite de memeber"/>
-    <TextField fx:id="imagePath" promptText="Image Path"/>
+    <DatePicker fx:id="eventDate" promptText="Date de l'événement"/>
+    <TextField fx:id="nbrMember" promptText="Nombre maximum de participants"/>
+    <HBox spacing="10">
+        <TextField fx:id="imagePath" promptText="Chemin de l'image" prefWidth="300"/>
+        <Button fx:id="browseButton" text="Parcourir" onAction="#handleBrowseImage"/>
+    </HBox>
     <TextField fx:id="priw" promptText="Prix"/>
-    <ComboBox fx:id="genreComboBox" promptText="Select Genre"/>
-    <ComboBox fx:id="sponsorComboBox" promptText="Select Sponsor"/>
+    <ComboBox fx:id="genreComboBox" promptText="Sélectionner un genre"/>
+    <ComboBox fx:id="sponsorComboBox" promptText="Sélectionner un sponsor"/>
 
-
-    <HBox styleClass="button-container" alignment="CENTER" spacing="20">
-        <Button fx:id="saveButton" text="Save" onAction="#handleSave" styleClass="button"/>
-        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel" styleClass="button"/>
+    <HBox styleClass="button-container" spacing="20" alignment="CENTER">
+        <Button fx:id="saveButton" text="Enregistrer" onAction="#handleSave"/>
+        <Button fx:id="cancelButton" text="Annuler" onAction="#handleCancel"/>
     </HBox>
 </VBox>
