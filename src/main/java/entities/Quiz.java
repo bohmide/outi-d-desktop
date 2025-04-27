@@ -46,9 +46,17 @@ public class Quiz {
     }
 
     public void setChapitre(Chapitres chapitre) {
+        if (this.chapitre != null && this.chapitre.get() != null
+                && !this.chapitre.get().equals(chapitre)) {
+            // Retirer ce quiz de l'ancien chapitre
+            this.chapitre.get().setQuiz(null);
+        }
         this.chapitre.set(chapitre);
+        // Maintenir la cohérence bidirectionnelle
+        if (chapitre != null && chapitre.getQuiz() != this) {
+            chapitre.setQuiz(this);
+        }
     }
-
     public ObjectProperty<Chapitres> chapitreProperty() {
         return chapitre;
     }

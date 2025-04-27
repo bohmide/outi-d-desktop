@@ -53,7 +53,7 @@
         <!-- TableView -->
         <TableView fx:id="tableQuestions">
             <columns>
-                <TableColumn text="Question" fx:id="colQuestion" prefWidth="300"/>
+                <TableColumn fx:id="colQuestion" text="Question" />
                 <TableColumn text="Type" fx:id="colType" prefWidth="150"/>
                 <TableColumn text="Réponses" fx:id="colActionReponses" prefWidth="150"/>
             </columns>

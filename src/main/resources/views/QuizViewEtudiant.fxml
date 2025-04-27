@@ -1,37 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.QuizControllerEtudiant">
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.QuizControllerEtudiant"
+            prefHeight="700.0" prefWidth="1000.0"
+            style="-fx-background-color: #f5f7fa;">
 
-    <top>
-        <Label fx:id="lblChapitreInfo" style="-fx-font-size: 18px; -fx-padding: 10px;" />
-    </top>
+    <!-- Header -->
+    <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Button text="← Retour"
+                    onAction="#retourAuxChapitres"
+                    fx:id="btnRetour"
+                    style="-fx-background-color: #4a6baf;
+                           -fx-text-fill: white;
+                           -fx-font-weight: bold;
+                           -fx-background-radius: 8;
+                           -fx-padding: 6 14;
+                           -fx-cursor: hand;"/>
+            <Label fx:id="lblChapitreInfo"
+                   style="-fx-font-size: 22px;
+                          -fx-font-weight: bold;
+                          -fx-text-fill: #2c3e50;"/>
+            <Label fx:id="lblNoQuizMessage" text="Aucun quiz disponible" visible="false" />
 
-    <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
-    </padding>
-
-    <center>
-        <TableView fx:id="tableQuiz" prefWidth="600" prefHeight="400">
-            <columns>
-                <TableColumn fx:id="colNomQuiz" text="Titre du Quiz" prefWidth="300"/>
-                <TableColumn fx:id="colAction" text="Action" prefWidth="200"/>
-            </columns>
-        </TableView>
-    </center>
-
-    <bottom>
-        <HBox alignment="CENTER_RIGHT" spacing="10">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Button fx:id="btnRetour" text="Retour au chapitres " onAction="#retourAuxChapitres"
-                    style="-fx-background-color: #03A9F4; -fx-text-fill: white;"/>
         </HBox>
-    </bottom>
+    </VBox>
 
-</BorderPane>
+    <!-- Scrollable List of Quiz Cards -->
+    <ScrollPane fitToWidth="true"
+                AnchorPane.topAnchor="100" AnchorPane.bottomAnchor="20"
+                AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
+                style="-fx-background-color: transparent;">
+        <VBox fx:id="vboxQuiz" spacing="20" alignment="TOP_CENTER"
+              style="-fx-padding: 10;">
+        </VBox>
+    </ScrollPane>
+
+</AnchorPane>

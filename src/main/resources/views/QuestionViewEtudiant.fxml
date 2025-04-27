@@ -4,37 +4,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.QuestionControllerEtudiant"
-            prefWidth="800" prefHeight="600">
+            prefHeight="600.0" prefWidth="800.0"
+            style="-fx-background-color: #f5f7fa;">
 
-    <top>
-        <Label fx:id="lblQuizInfo" style="-fx-font-size: 18px; -fx-padding: 15px;" />
-    </top>
-
-    <center>
-        <VBox spacing="10">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
-            <TableView fx:id="tableQuestions" prefHeight="500">
-                <columns>
-                    <TableColumn fx:id="colQuestion" text="Question" prefWidth="300"/>
-                    <TableColumn fx:id="colType" text="Type" prefWidth="150"/>
-                    <TableColumn fx:id="colActionReponses" text="Réponses" prefWidth="150"/>
-                </columns>
-            </TableView>
-        </VBox>
-    </center>
-
-    <bottom>
-        <HBox spacing="10" alignment="CENTER_RIGHT">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Button fx:id="btnRetour" text="Retour au Quiz" onAction="#retourAuxQuiz"
-                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+    <!-- Header -->
+    <VBox fx:id="headerBox" spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Button text="← Retour" fx:id="btnRetour" onAction="#retourAuxQuiz"
+                    style="-fx-background-color: #4a6baf; -fx-text-fill: white; -fx-font-weight: bold;"/>
+            <Label fx:id="lblQuizInfo" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
         </HBox>
-    </bottom>
+        <Separator style="-fx-background-color: #d3d3d3;"/>
+    </VBox>
 
-</BorderPane>
+    <!-- Zone des questions -->
+    <ScrollPane fx:id="scrollPane" fitToWidth="true"
+                AnchorPane.topAnchor="70" AnchorPane.bottomAnchor="70"
+                AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+        <VBox fx:id="vboxQuestions" spacing="15" style="-fx-padding: 10;"/>
+    </ScrollPane>
+
+    <!-- Bouton Envoyer -->
+    <Button fx:id="btnEnvoyer" text="Envoyer les réponses" onAction="#envoyerQuiz"
+            AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10"
+            style="-fx-background-color: #4a6baf; -fx-text-fill: white; -fx-font-weight: bold;"/>
+</AnchorPane>

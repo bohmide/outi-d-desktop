@@ -1,23 +1,39 @@
 package entities;
 
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Question {
-
-    private IntegerProperty id = new SimpleIntegerProperty();
-    private StringProperty question = new SimpleStringProperty();
-    private StringProperty type = new SimpleStringProperty();
-    private ObjectProperty<Quiz> quiz = new SimpleObjectProperty<>();
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty questionText = new SimpleStringProperty();
+    private final StringProperty type = new SimpleStringProperty();
+    private final ObjectProperty<Quiz> quiz = new SimpleObjectProperty<>();
+    private final ObservableList<Reponse> reponses = FXCollections.observableArrayList();
 
     public Question() {}
 
-    public Question(int id, String question, String type, Quiz quiz) {
+    public Question(int id, String questionText, String type, Quiz quiz) {
         this.id.set(id);
-        this.question.set(question);
+        this.questionText.set(questionText);
         this.type.set(type);
         this.quiz.set(quiz);
     }
 
+    // Add methods to manage answers
+    public ObservableList<Reponse> getReponses() {
+        return reponses;
+    }
+
+    public void addReponse(Reponse reponse) {
+        reponses.add(reponse);
+    }
+
+    public void removeReponse(Reponse reponse) {
+        reponses.remove(reponse);
+    }
+
+    // Existing getters/setters/property methods...
     public int getId() {
         return id.get();
     }
@@ -31,15 +47,15 @@ public class Question {
     }
 
     public String getQuestion() {
-        return question.get();
+        return questionText.get();
     }
 
-    public void setQuestion(String question) {
-        this.question.set(question);
+    public void setQuestion(String questionText) {
+        this.questionText.set(questionText);
     }
 
     public StringProperty questionProperty() {
-        return question;
+        return questionText;
     }
 
     public String getType() {

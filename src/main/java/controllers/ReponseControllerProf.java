@@ -27,8 +27,6 @@ public class ReponseControllerProf {
     @FXML
     private TableView<Reponse> tableReponses;
     @FXML
-    private TableColumn<Reponse, Number> colId;
-    @FXML
     private TableColumn<Reponse, String> colReponse;
     @FXML
     private TableColumn<Reponse, Boolean> colCorrect;
@@ -63,23 +61,18 @@ public class ReponseControllerProf {
         this.currentChapitre = chapitre;
         this.currentCours = cours;
 
-        lblQuestionInfo.setText("Réponses pour: " + question.getQuestion() +
-                " | Quiz: " + quiz.getScore() +
-                " | Chapitre: " + chapitre.getNomChapitre() +
-                " | Cours: " + cours.getNom());
+        lblQuestionInfo.setText("Réponses pour : " + question.getQuestion() +
+                " | Quiz Score : " + quiz.getScore() +
+                " | Chapitre : " + chapitre.getNomChapitre() +
+                " | Cours : " + cours.getNom());
         loadReponses();
     }
 
     @FXML
     public void initialize() {
-        // Configuration des colonnes
-//        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colReponse.setCellValueFactory(new PropertyValueFactory<>("reponse"));
         colCorrect.setCellValueFactory(new PropertyValueFactory<>("correct"));
-
 //        addActionButtonsToTable();
-
-        // Gestion du clic sur une ligne
         tableReponses.setOnMouseClicked(this::handleRowClick);
     }
 
@@ -110,7 +103,6 @@ public class ReponseControllerProf {
 
                 btnEdit.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
                 btnDelete.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
-
                 container.getChildren().addAll(btnEdit, btnDelete);
             }
 
@@ -135,15 +127,22 @@ public class ReponseControllerProf {
             return;
         }
 
-        if (reponseText.length() < 2 || reponseText.length() > 40) {
+        if (reponseText.length() < 2 || reponseText.length() > 100) {
             showAlert("La réponse doit contenir entre 2 et 100 caractères.");
             return;
         }
 
+        boolean estCorrecte = cbCorrect.isSelected();
+
+        if (estCorrecte && isQCU() && alreadyHasCorrectAnswer()) {
+            showAlert("En QCU, une seule réponse correcte est autorisée.");
+            return;
+        }
+
         Reponse reponse = new Reponse();
-        reponse.setReponse(taReponse.getText());
-        reponse.setCorrect(cbCorrect.isSelected());
-        reponse.setQuestion(currentQuestion);
+        reponse.setReponse(reponseText);
+        reponse.setCorrect(estCorrecte);
+        reponse.setParentQuestion(currentQuestion);
 
         reponseService.ajouterReponse(reponse);
         loadReponses();
@@ -169,8 +168,15 @@ public class ReponseControllerProf {
             return;
         }
 
-        selectedReponse.setReponse(taReponse.getText());
-        selectedReponse.setCorrect(cbCorrect.isSelected());
+        boolean estCorrecte = cbCorrect.isSelected();
+
+        if (estCorrecte && isQCU() && alreadyHasCorrectAnswer() && !selectedReponse.isCorrect()) {
+            showAlert("En QCU, une seule réponse correcte est autorisée.");
+            return;
+        }
+
+        selectedReponse.setReponse(reponseText);
+        selectedReponse.setCorrect(estCorrecte);
 
         reponseService.updateReponse(selectedReponse);
         loadReponses();
@@ -182,7 +188,7 @@ public class ReponseControllerProf {
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Confirmation");
-        confirm.setContentText("Êtes-vous sûr de vouloir supprimer cette réponse?");
+        confirm.setContentText("Êtes-vous sûr de vouloir supprimer cette réponse ?");
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 reponseService.supprimerReponse(reponse.getId());
@@ -191,16 +197,15 @@ public class ReponseControllerProf {
             }
         });
     }
+
     @FXML
     public void supprimerReponse() {
         if (selectedReponse == null) {
-            showAlert("Veuillez sélectionner une réponse à supprimer");
+            showAlert("Veuillez sélectionner une réponse à supprimer.");
             return;
         }
-
         supprimerReponse(selectedReponse);
     }
-
 
     @FXML
     private void retourAuxQuestions() {
@@ -225,10 +230,12 @@ public class ReponseControllerProf {
     }
 
     private void handleRowClick(MouseEvent event) {
-        selectedReponse = tableReponses.getSelectionModel().getSelectedItem();
-        if (selectedReponse != null) {
-            taReponse.setText(selectedReponse.getReponse());
-            cbCorrect.setSelected(selectedReponse.isCorrect());
+        if (event.getClickCount() == 1) {
+            selectedReponse = tableReponses.getSelectionModel().getSelectedItem();
+            if (selectedReponse != null) {
+                taReponse.setText(selectedReponse.getReponse());
+                cbCorrect.setSelected(selectedReponse.isCorrect());
+            }
         }
     }
 
@@ -243,5 +250,15 @@ public class ReponseControllerProf {
         alert.setTitle("Attention");
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private boolean alreadyHasCorrectAnswer() {
+        return reponseList.stream().anyMatch(Reponse::isCorrect);
+    }
+
+    private boolean isQCU() {
+        QuestionControllerProf.TypeQuestion typeEnum = QuestionControllerProf.TypeQuestion.valueOf(currentQuestion.getType());
+        return QuestionControllerProf.TypeQuestion.valueOf(currentQuestion.getType()) == QuestionControllerProf.TypeQuestion.CHOIX_UNIQUE;
+
     }
 }

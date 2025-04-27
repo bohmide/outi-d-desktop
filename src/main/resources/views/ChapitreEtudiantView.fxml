@@ -7,23 +7,36 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.ChapitreControllerEtudiant"
-            prefWidth="800" prefHeight="500">
-    <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
-    </padding>
+            prefHeight="700.0" prefWidth="1000.0"
+            style="-fx-background-color: #f5f7fa;">
 
-    <VBox spacing="10" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-        <Label fx:id="lblCoursTitle" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+    <!-- Header -->
+    <VBox spacing="10" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Button text="← Retour"
+                    onAction="#retourAccueil"
+                    style="-fx-background-color: #4a6baf;
+                           -fx-text-fill: white;
+                           -fx-font-weight: bold;
+                           -fx-background-radius: 5;
+                           -fx-padding: 6 12;
+                           -fx-cursor: hand;"
+                    fx:id="btnRetour"/>
+            <Label fx:id="lblCoursTitle"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        </HBox>
 
-        <TableView fx:id="tableChapitres" prefHeight="350" prefWidth="760">
-            <columns>
-                <TableColumn fx:id="colNom" text="Nom du Chapitre" prefWidth="200"/>
-                <TableColumn fx:id="colContenuText" text="Contenu" prefWidth="400"/>
-                <TableColumn fx:id="colAction" text="Quiz" prefWidth="150"/>
-            </columns>
-        </TableView>
-
-        <Button fx:id="btnRetour" text="Retour à  la Liste des cours" onAction="#retourAccueil" prefWidth="200"
-                style="-fx-background-color: #03A9F4; -fx-text-fill: white;"/>
+        <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
     </VBox>
+
+    <!-- Scrollable list of chapters as cards -->
+    <ScrollPane fitToWidth="true"
+                AnchorPane.topAnchor="100" AnchorPane.bottomAnchor="20"
+                AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
+                style="-fx-background-color: transparent;">
+        <VBox fx:id="vboxChapitres" spacing="15"
+              alignment="TOP_CENTER"
+              style="-fx-padding: 10;">
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

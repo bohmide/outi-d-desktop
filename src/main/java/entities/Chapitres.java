@@ -84,9 +84,14 @@ public class Chapitres {
     }
 
     public void setQuiz(Quiz quiz) {
+        if (this.quiz != null && quiz != null) {
+            throw new IllegalStateException("Un chapitre ne peut avoir qu'un seul quiz");
+        }
         this.quiz = quiz;
+        if (quiz != null) {
+            quiz.setChapitre(this);
+        }
     }
-
     @Override
     public String toString() {
         return getNomChapitre();

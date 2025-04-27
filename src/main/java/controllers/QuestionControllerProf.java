@@ -76,7 +76,8 @@ public class QuestionControllerProf {
 
         // Configuration du ComboBox
         cbType.setItems(FXCollections.observableArrayList(
-                "Choix multiple", "Vrai/Faux", "Réponse courte", "Réponse longue"
+                TypeQuestion.CHOIX_MULTIPLE.name(),
+                TypeQuestion.CHOIX_UNIQUE.name()
         ));
 
         // Ajout des boutons d'action
@@ -93,6 +94,11 @@ public class QuestionControllerProf {
             tableQuestions.setItems(questionList);
         }
     }
+    public enum TypeQuestion {
+        CHOIX_MULTIPLE,
+        CHOIX_UNIQUE;
+    }
+
 
     private void addReponsesButtonToTable() {
         colActionReponses.setCellFactory(param -> new TableCell<>() {
@@ -179,7 +185,7 @@ public class QuestionControllerProf {
         }
 
         if (questionText.length() < 5 || questionText.length() > 50) {
-            showAlert("La question doit contenir entre 5 et 200 caractères.");
+            showAlert("La question doit contenir entre 5 et 50 caractères.");
             return;
         }
 

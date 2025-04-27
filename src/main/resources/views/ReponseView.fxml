@@ -14,26 +14,20 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.ReponseControllerProf">
 
-    <VBox spacing="10" AnchorPane.topAnchor="0"
-          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-          AnchorPane.bottomAnchor="0">
+    <VBox spacing="10" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
         <padding>
             <Insets top="10" right="10" bottom="10" left="10"/>
         </padding>
 
-        <!-- En-tête avec info et bouton retour -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Button fx:id="btnRetour" text="Retour aux questions" onAction="#retourAuxQuestions"
                     style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
             <Label fx:id="lblQuestionInfo" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
         </HBox>
 
-        <!-- Formulaire -->
         <VBox spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
-            <Label text="Ajouter/Modifier une réponse" style="-fx-font-weight: bold;"/>
-
-            <TextArea fx:id="taReponse" promptText="Entrez la réponse..."
-                      wrapText="true" prefHeight="100"/>
+            <Label text="Ajouter / Modifier une réponse" style="-fx-font-weight: bold;"/>
+            <TextArea fx:id="taReponse" promptText="Entrez la réponse..." wrapText="true" prefHeight="100"/>
 
             <HBox spacing="10" alignment="CENTER_LEFT">
                 <CheckBox fx:id="cbCorrect" text="Réponse correcte"/>
@@ -49,12 +43,11 @@
             </HBox>
         </VBox>
 
-        <!-- TableView -->
         <TableView fx:id="tableReponses">
             <columns>
-                <TableColumn text="Réponse" fx:id="colReponse" prefWidth="300"/>
-                <TableColumn text="Correcte" fx:id="colCorrect" prefWidth="100"/>
-                <TableColumn text="Actions" fx:id="colAction" prefWidth="150"/>
+                <TableColumn fx:id="colReponse" text="Réponse" prefWidth="300"/>
+                <TableColumn fx:id="colCorrect" text="Correcte" prefWidth="100"/>
+                <TableColumn fx:id="colAction" text="Actions" prefWidth="150"/>
             </columns>
             <VBox.vgrow>ALWAYS</VBox.vgrow>
         </TableView>

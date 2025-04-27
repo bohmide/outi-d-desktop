@@ -4,27 +4,41 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
+
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.CoursControllerEtudiant"
-            prefHeight="400.0" prefWidth="700.0">
-    <VBox spacing="10" AnchorPane.topAnchor="0"
-          AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
-          AnchorPane.bottomAnchor="0">
-    <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
-    </padding>
+            prefHeight="700.0" prefWidth="1000.0"
+            style="-fx-background-color: #f5f7fa;">
+
+    <!-- Header VBox -->
+    <VBox spacing="10" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
         <HBox alignment="CENTER_LEFT" spacing="10">
-            <Button text="← Retour a la page d'acceuil " onAction="#retourAccueil" style="-fx-background-color: #ccc; -fx-text-fill: black;"/>
+            <Button text="← Retour"
+                    onAction="#retourAccueil"
+                    style="-fx-background-color: #4a6baf;
+                           -fx-text-fill: white;
+                           -fx-font-weight: bold;
+                           -fx-background-radius: 5;
+                           -fx-padding: 6 12;
+                           -fx-cursor: hand;"
+                    fx:id="backButton"/>
+
+            <Label text="Espace Étudiant"
+                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
         </HBox>
 
-        <TableView fx:id="tableCours" prefHeight="300.0">
-            <columns>
-                <TableColumn fx:id="colNom" text="Nom du cours" prefWidth="200"/>
-                <TableColumn fx:id="colDescription" text="État" prefWidth="150"/>
-                <TableColumn fx:id="colDuree" text="Date de création" prefWidth="150"/>
-                <TableColumn fx:id="colAction" text="Action" prefWidth="150"/>
-            </columns>
-        </TableView>
+        <Label text="Liste des cours disponibles"
+               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
     </VBox>
+
+    <!-- Scrollable GridPane OUTSIDE VBox -->
+    <ScrollPane fitToWidth="true" pannable="true"
+                AnchorPane.topAnchor="100" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
+                style="-fx-background-color: transparent;">
+        <GridPane fx:id="gridCours" hgap="20" vgap="20" alignment="TOP_CENTER">
+            <padding><Insets bottom="20" left="10" right="10"/></padding>
+        </GridPane>
+    </ScrollPane>
+
 </AnchorPane>

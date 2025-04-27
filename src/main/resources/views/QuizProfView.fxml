@@ -51,6 +51,8 @@
             <columns>
                 <TableColumn text="Nom" fx:id="colNomQuiz" prefWidth="150"/>
                 <TableColumn text="Questions" fx:id="colActionQuestions" prefWidth="150"/>
+                <TableColumn text="Actions" fx:id="colAction" prefWidth="200"/>
+
             </columns>
             <VBox.vgrow>ALWAYS</VBox.vgrow>
         </TableView>

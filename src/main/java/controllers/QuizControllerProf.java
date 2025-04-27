@@ -16,8 +16,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
-import javax.swing.*;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class QuizControllerProf {
 
@@ -44,9 +46,10 @@ public class QuizControllerProf {
     @FXML
     private Button btnRetour;
     @FXML
-     private TextField tfNomQuiz;
+    private TextField tfNomQuiz;
+
     private final QuizService quizService = new QuizService();
-    private ObservableList<Quiz> quizList;
+    private ObservableList<Quiz> quizList = FXCollections.observableArrayList();
     private Quiz selectedQuiz;
     private Chapitres currentChapitre;
     private Cours currentCours;
@@ -56,28 +59,43 @@ public class QuizControllerProf {
         this.currentCours = cours;
         lblChapitreInfo.setText("Quiz du chapitre: " + chapitre.getNomChapitre() + " | Cours: " + cours.getNom());
         loadQuiz();
+        updateButtonStates();
     }
 
     @FXML
     public void initialize() {
-
-//        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNomQuiz.setCellValueFactory(new PropertyValueFactory<>("titre"));
-
         addQuestionsButtonToTable();
-//        addActionButtonsToTable();
-
-        // Gestion du clic sur une ligne
+        addActionButtonsToTable();
         tableQuiz.setOnMouseClicked(this::handleRowClick);
     }
 
     private void loadQuiz() {
-        if (currentChapitre != null) {
-            quizList = FXCollections.observableArrayList(quizService.getAllQuizzes().stream()
-                    .filter(q -> q.getChapitre() != null && q.getChapitre().getId() == currentChapitre.getId())
-                    .toList());
-            tableQuiz.setItems(quizList);
+        try {
+            if (currentChapitre != null) {
+                List<Quiz> quizzes = quizService.getAllQuizzes().stream()
+                        .filter(q -> q.getChapitre() != null && q.getChapitre().getId() == currentChapitre.getId())
+                        .collect(Collectors.toList());
+
+                quizList.setAll(quizzes);
+                tableQuiz.setItems(quizList);
+                updateButtonStates();
+            }
+        } catch (SQLException e) {
+            showErrorAlert("Erreur lors du chargement des quizzes", e);
+            quizList.clear();
+            updateButtonStates();
         }
+    }
+
+
+    private void updateButtonStates() {
+        boolean hasQuiz = !quizList.isEmpty();
+        boolean hasSelection = selectedQuiz != null;
+
+        btnAjouter.setDisable(hasQuiz);
+        btnModifier.setDisable(!hasSelection);
+        btnSupprimer.setDisable(!hasSelection);
     }
 
     private void addQuestionsButtonToTable() {
@@ -95,15 +113,10 @@ public class QuizControllerProf {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(btn);
-                }
+                setGraphic(empty ? null : btn);
             }
         });
     }
-
     private void addActionButtonsToTable() {
         colAction.setCellFactory(param -> new TableCell<>() {
             private final HBox container = new HBox(5);
@@ -115,9 +128,11 @@ public class QuizControllerProf {
                     Quiz quiz = getTableView().getItems().get(getIndex());
                     selectQuizForEdit(quiz);
                 });
+
                 btnDelete.setOnAction(event -> {
                     Quiz quiz = getTableView().getItems().get(getIndex());
-                    supprimerQuiz(quiz);
+                    tableQuiz.getSelectionModel().select(quiz); // Select the quiz first
+                    supprimerQuiz(event); // Then call the delete method
                 });
 
                 btnEdit.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
@@ -129,11 +144,7 @@ public class QuizControllerProf {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(container);
-                }
+                setGraphic(empty ? null : container);
             }
         });
     }
@@ -149,40 +160,36 @@ public class QuizControllerProf {
             Scene scene = tableQuiz.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Erreur lors du chargement de la vue des questions");
+            showErrorAlert("Erreur lors du chargement de la vue des questions", e);
         }
     }
 
     @FXML
     private void ajouterQuiz() {
-
         String nom = tfNomQuiz.getText().trim();
-        if (nom.isEmpty()) {
-            showAlert("Veuillez saisir un titre pour le quiz");
-            return;
-        }
-// Contrôle : longueur
-        if (nom.length() < 3 || nom.length() > 10) {
-            showAlert("Le titre du quiz doit contenir entre 3 et 50 caractères.");
-            return;
-        }
-        // Contrôle : duplication
-        boolean existeDeja = quizList.stream()
-                .anyMatch(q -> q.getTitre().equalsIgnoreCase(nom));
-        if (existeDeja) {
-            showAlert("Un quiz avec ce titre existe déjà pour ce chapitre.");
+
+        if (!validateQuizTitle(nom)) {
             return;
         }
 
-        Quiz quiz = new Quiz();
-        quiz.setTitre(nom);
-        quiz.setScore(0);
-        quiz.setChapitre(currentChapitre);
+        try {
+            Quiz quiz = new Quiz();
+            quiz.setTitre(nom);
+            quiz.setScore(0);
+            quiz.setChapitre(currentChapitre);
 
-        quizService.ajouterQuiz(quiz);
-        loadQuiz();
-        clearForm();
+            quizService.ajouterQuiz(quiz);
+            loadQuiz();
+            clearForm();
+        } catch (SQLException e) {
+            if (e.getMessage().contains("unique constraint") || e.getMessage().contains("duplicate entry")) {
+                showAlert("Ce chapitre a déjà un quiz associé");
+            } else {
+                showErrorAlert("Erreur lors de l'ajout du quiz", e);
+            }
+        } catch (IllegalStateException e) {
+            showAlert(e.getMessage());
+        }
     }
 
     @FXML
@@ -194,57 +201,57 @@ public class QuizControllerProf {
 
         String nom = tfNomQuiz.getText().trim();
 
-        if (nom.isEmpty()) {
-            showAlert("Le titre du quiz ne peut pas être vide.");
+        if (!validateQuizTitle(nom)) {
             return;
         }
 
-        if (nom.length() < 3 || nom.length() > 50) {
-            showAlert("Le titre du quiz doit contenir entre 3 et 50 caractères.");
-            return;
+        try {
+            selectedQuiz.setTitre(nom);
+            quizService.updateQuiz(selectedQuiz);
+            loadQuiz();
+            clearForm();
+        } catch (SQLException e) {
+            showErrorAlert("Erreur lors de la modification du quiz", e);
         }
-
-        // Vérifie si un autre quiz du chapitre a déjà ce titre
-        boolean existeDeja = quizList.stream()
-                .anyMatch(q -> !q.equals(selectedQuiz) && q.getTitre().equalsIgnoreCase(nom));
-        if (existeDeja) {
-            showAlert("Un autre quiz avec ce titre existe déjà pour ce chapitre.");
-            return;
-        }
-
-        selectedQuiz.setTitre(nom);
-        quizService.updateQuiz(selectedQuiz);
-        loadQuiz();
-        clearForm();
     }
-
-    private void supprimerQuiz(Quiz quiz) {
-        if (quiz == null) return;
+    @FXML
+    private void supprimerQuiz(ActionEvent event) {
+        Quiz selectedQuiz = tableQuiz.getSelectionModel().getSelectedItem();
+        if (selectedQuiz == null) {
+            showAlert("Veuillez sélectionner un quiz à supprimer.");
+            return;
+        }
 
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Confirmation");
         confirm.setContentText("Êtes-vous sûr de vouloir supprimer ce quiz?");
         confirm.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                quizService.supprimerQuiz(quiz.getId());
-                loadQuiz();
-                clearForm();
+                try {
+                    quizService.supprimerQuiz(selectedQuiz.getId());
+                    loadQuiz();
+                    clearForm();
+                } catch (SQLException e) {
+                    showErrorAlert("Erreur lors de la suppression du quiz", e);
+                }
             }
         });
     }
-    @FXML
-    private void supprimerQuiz(ActionEvent event) {
-        Quiz selectedQuiz = tableQuiz.getSelectionModel().getSelectedItem();
-        if (selectedQuiz == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Aucun quiz sélectionné");
-            alert.setContentText("Veuillez sélectionner un quiz à supprimer.");
-            alert.show();
-            return;
+
+    private boolean validateQuizTitle(String title) {
+        if (title.isEmpty()) {
+            showAlert("Veuillez saisir un titre pour le quiz");
+            return false;
         }
 
-        supprimerQuiz(selectedQuiz);
+        if (title.length() < 3 || title.length() > 50) {
+            showAlert("Le titre du quiz doit contenir entre 3 et 50 caractères.");
+            return false;
+        }
+
+        return true;
     }
+
 
     @FXML
     private void retourAuxChapitres() {
@@ -258,13 +265,14 @@ public class QuizControllerProf {
             Scene scene = btnRetour.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            showErrorAlert("Erreur lors du retour aux chapitres", e);
         }
     }
 
     private void selectQuizForEdit(Quiz quiz) {
         selectedQuiz = quiz;
         tfNomQuiz.setText(quiz.getTitre());
+        updateButtonStates();
     }
 
     private void handleRowClick(MouseEvent event) {
@@ -272,19 +280,29 @@ public class QuizControllerProf {
         if (selectedQuiz != null) {
             tfNomQuiz.setText(selectedQuiz.getTitre());
         }
+        updateButtonStates();
     }
 
     private void clearForm() {
         selectedQuiz = null;
         tfNomQuiz.clear();
+        updateButtonStates();
     }
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Attention");
+        alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
 
-
+    private void showErrorAlert(String message, Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(message);
+        alert.setContentText(e.getMessage());
+        alert.showAndWait();
+        e.printStackTrace();
+    }
 }

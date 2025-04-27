@@ -21,7 +21,7 @@ public class ReponseService {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, reponse.getReponse());
             stmt.setBoolean(2, reponse.isCorrect());
-            stmt.setInt(3, reponse.getQuestion().getId());
+            stmt.setInt(3, reponse.getParentQuestion().getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
