@@ -191,60 +191,56 @@
     -fx-background-color: rgba(92,107,192,0.3);
     -fx-background-radius: 8px;
 }
-/* Style des cartes */
+/* Style général des cartes */
+/* Effet de carte */
 .memory-card {
-    -fx-background-radius: 15;
-    -fx-border-radius: 15;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 0);
     -fx-cursor: hand;
     -fx-transition: all 0.3s;
 }
 
+/* Dos de carte */
 .card-back {
-    -fx-background-color: linear-gradient(#2c3e50, #3498db);
+    -fx-background-color: linear-gradient(#3498db, #2980b9);
     -fx-border-color: #ecf0f1;
-    -fx-border-width: 3;
-    -fx-border-radius: 15;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
 }
 
-.card-pattern {
-    -fx-background-color: radial-gradient(center 50% 50%, radius 50%, #ffffff33, transparent);
-}
-
-.card-text {
-    -fx-font-size: 40px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #ecf0f1;
-}
-
-.card-front {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0.5, 0, 0);
-    -fx-background-radius: 15;
-}
-
-.card-error {
-    -fx-background-color: linear-gradient(#e74c3c, #c0392b);
-    -fx-background-radius: 15;
-}
-
-.card-shadow {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.5, 0, 0);
-}
-
-.memory-card:matched {
+/* Effet de match */
+.card-success {
     -fx-effect: dropshadow(gaussian, #2ecc71, 20, 0.8, 0, 0);
-}
-
-/* Style du dialogue de victoire */
-.dialog-pane {
-    -fx-background-color: #2c3e50;
-    -fx-border-color: #3498db;
+    -fx-border-color: #27ae60;
     -fx-border-width: 3;
+    -fx-border-radius: 10;
 }
 
-.dialog-pane .label {
-    -fx-text-fill: #ecf0f1;
+/* Dialog de victoire */
+.victory-title {
+    -fx-text-fill: #2ecc71;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 1);
+}
+
+.victory-button {
+    -fx-background-color: #27ae60;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-padding: 10 25;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
+}
+
+.victory-button:hover {
+    -fx-background-color: #219a52;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+.puzzle-button {
+    -fx-min-width: 250px;
     -fx-font-size: 18px;
+    -fx-background-color: #4CAF50;
 }
-
-
-

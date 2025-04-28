@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import services.QuizKidsService;
+import utils.VoiceAssistant;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +43,7 @@ public class QuizSelectionController {
 
         genreComboBox.setItems(FXCollections.observableArrayList(genres));
         levelComboBox.setItems(FXCollections.observableArrayList(levels));
+        VoiceAssistant.speak(" Welcome to outid Quizzes , please choose the type and the level of the quiz you want to play!");
     }
 
     @FXML

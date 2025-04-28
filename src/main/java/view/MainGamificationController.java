@@ -1,5 +1,7 @@
 package view;
 
+import com.sun.speech.freetts.Voice;
+import com.sun.speech.freetts.VoiceManager;
 import dao.QuizKidsDAO;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -15,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import utils.VoiceAssistant;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -27,19 +30,26 @@ public class MainGamificationController extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/MainGamification_View.fxml")));
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/styleKids.css").toExternalForm());
         primaryStage.setTitle("Menu Principal");
         primaryStage.setScene(scene);
         primaryStage.show();
+        VoiceAssistant.speak(" Welcome to our magical world of fun and games!  Please choose your adventure!");
+
+
+
     }
+
     @FXML private VBox gameMenu;
     @FXML
     private void toggleGameMenu() {
         boolean isVisible = gameMenu.isVisible();
         gameMenu.setVisible(!isVisible);
         gameMenu.setManaged(!isVisible); // pour que ça ne prenne pas de place quand caché
+
     }
 
     @FXML
@@ -66,6 +76,10 @@ public class MainGamificationController extends Application {
 
     @FXML
     private void handleGlobtrotter() {
+        loadScene("/QuizSelectionView.fxml", (Stage) gameMenu.getScene().getWindow());
+    }
+    @FXML
+    private void handleDrawingGame() {
         loadScene("/QuizSelectionView.fxml", (Stage) gameMenu.getScene().getWindow());
     }
 

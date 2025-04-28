@@ -1,15 +1,25 @@
 package Controller;
 
 import entities.MemoryCard;
+import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
+import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import utils.VoiceAssistant;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,10 +36,15 @@ public class MemoryCardGameController {
     private Card firstSelected;
     private Card secondSelected;
     private boolean processing = false;
+    private MemoryCardSelectionController selectionController;
 
     public void setMemoryCard(MemoryCard memoryCard) {
         this.memoryCard = memoryCard;
         initializeGame();
+    }
+
+    public void setSelectionController(MemoryCardSelectionController selectionController) {
+        this.selectionController = selectionController;
     }
 
     private void initializeGame() {
@@ -39,25 +54,24 @@ public class MemoryCardGameController {
         List<String> imagePaths = memoryCard.getImages();
         List<String> pairedImages = new ArrayList<>();
 
-        // Création des paires
         for (String path : imagePaths) {
             pairedImages.add(path);
             pairedImages.add(path);
         }
         Collections.shuffle(pairedImages);
 
-        // Configuration de la grille
+        // Configuration originale avec 4 colonnes fixes
         int columns = 4;
-        memoryCardGrid.setHgap(15);
-        memoryCardGrid.setVgap(15);
-        memoryCardGrid.setPadding(new Insets(20));
+        memoryCardGrid.setHgap(10);
+        memoryCardGrid.setVgap(10);
+        memoryCardGrid.setPadding(new Insets(15));
 
-        // Ajout des cartes
         for (int i = 0; i < pairedImages.size(); i++) {
             Card card = new Card(pairedImages.get(i));
             cards.add(card);
             memoryCardGrid.add(card.getContainer(), i % columns, i / columns);
         }
+        VoiceAssistant.speak("🌟 Good ! Now start with fliping the cards to match each same two cards !");
     }
 
     private void handleCardClick(Card card) {
@@ -75,23 +89,63 @@ public class MemoryCardGameController {
     }
 
     private void checkMatch() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        PauseTransition pause = new PauseTransition(Duration.seconds(0.8));
         pause.setOnFinished(e -> {
-            boolean match = firstSelected.matches(secondSelected);
+            boolean match = firstSelected != null &&
+                    secondSelected != null &&
+                    firstSelected.matches(secondSelected);
 
             if (match) {
+                animateSuccess(firstSelected, secondSelected);
                 firstSelected.setMatched(true);
                 secondSelected.setMatched(true);
             } else {
-                firstSelected.hide();
-                secondSelected.hide();
+                animateMismatch(firstSelected);
+                animateMismatch(secondSelected);
             }
 
             resetSelections();
-            Platform.runLater(this::checkWinCondition);
+            checkWinCondition();
         });
-
         pause.play();
+    }
+
+    private void animateSuccess(Card card1, Card card2) {
+        ScaleTransition st1 = new ScaleTransition(Duration.millis(300), card1.getContainer());
+        st1.setFromX(1.0);
+        st1.setFromY(1.0);
+        st1.setToX(1.1);
+        st1.setToY(1.1);
+        st1.setAutoReverse(true);
+        st1.setCycleCount(2);
+
+        ScaleTransition st2 = new ScaleTransition(Duration.millis(300), card2.getContainer());
+        st2.setFromX(1.0);
+        st2.setFromY(1.0);
+        st2.setToX(1.1);
+        st2.setToY(1.1);
+        st2.setAutoReverse(true);
+        st2.setCycleCount(2);
+
+        st1.play();
+        st2.play();
+        VoiceAssistant.speak("Good ! well played ");
+    }
+
+    private void animateMismatch(Card card) {
+        if (card == null) return;
+
+        FadeTransition ft = new FadeTransition(Duration.millis(300), card.getContainer());
+        ft.setFromValue(1.0);
+        ft.setToValue(0.4);
+        ft.setAutoReverse(true);
+        ft.setCycleCount(2);
+        ft.play();
+
+        PauseTransition pt = new PauseTransition(Duration.millis(600));
+        pt.setOnFinished(e -> card.hide());
+        pt.play();
+        VoiceAssistant.speak(" Nice try again!");
     }
 
     private void resetSelections() {
@@ -101,26 +155,80 @@ public class MemoryCardGameController {
     }
 
     private void checkWinCondition() {
-        if (cards.stream().allMatch(Card::isMatched)) {
-            showWinAlert();
+        boolean allMatched = cards.stream().allMatch(Card::isMatched);
+        if (allMatched) {
+            Platform.runLater(this::showCustomVictoryDialog);
         }
     }
 
-    private void showWinAlert() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Félicitations !");
-        alert.setHeaderText(null);
-        alert.setContentText("Vous avez trouvé toutes les paires !");
+    private void showCustomVictoryDialog() {
+        Stage dialogStage = new Stage();
+        dialogStage.initStyle(StageStyle.TRANSPARENT);
+        dialogStage.initOwner(memoryCardGrid.getScene().getWindow());
+        VoiceAssistant.speak("Congratulations !");
 
-        // Affiche l'alerte de manière sécurisée
-        if (Platform.isFxApplicationThread()) {
-            alert.showAndWait();
-        } else {
-            Platform.runLater(alert::showAndWait);
+        VBox content = new VBox(20);
+        content.setAlignment(Pos.CENTER);
+        content.setPadding(new Insets(25));
+        content.setStyle("-fx-background-color: rgba(44, 62, 80, 0.95);"
+                + "-fx-border-color: #27ae60;"
+                + "-fx-border-width: 3;"
+                + "-fx-border-radius: 15;"
+                + "-fx-background-radius: 15;");
+
+        // Ajout du trophée original
+        ImageView confetti = new ImageView();
+        try {
+            confetti.setImage(new Image(getClass().getResourceAsStream("/images/trophy.png")));
+            confetti.setFitWidth(250);
+            confetti.setFitHeight(150);
+            content.getChildren().add(confetti);
+        } catch (Exception e) {
+            Label fallbackLabel = new Label("🎉🎊");
+            fallbackLabel.setStyle("-fx-font-size: 40px;");
+            content.getChildren().add(fallbackLabel);
         }
+
+        Label title = new Label("FÉLICITATIONS !");
+        title.setStyle("-fx-text-fill: #2ecc71;"
+                + "-fx-font-size: 28px;"
+                + "-fx-font-weight: bold;");
+
+        Label message = new Label("Vous avez trouvé toutes les paires !");
+        message.setStyle("-fx-text-fill: white;"
+                + "-fx-font-size: 18px;");
+
+        Button restartButton = new Button("Rejouer");
+        restartButton.setStyle("-fx-background-color: #27ae60;"
+                + "-fx-text-fill: white;"
+                + "-fx-padding: 10 20;");
+        restartButton.setOnAction(e -> {
+            dialogStage.close();
+            initializeGame();
+
+        });
+
+        Button menuButton = new Button("Menu Principal");
+        menuButton.setStyle("-fx-background-color: #8e44ad;"
+                + "-fx-text-fill: white;"
+                + "-fx-padding: 10 20;");
+        menuButton.setOnAction(e -> {
+            dialogStage.close();
+            ((Stage) memoryCardGrid.getScene().getWindow()).close();
+            selectionController.showSelectionWindow();
+        });
+
+        HBox buttons = new HBox(20, restartButton, menuButton);
+        buttons.setAlignment(Pos.CENTER);
+
+        content.getChildren().addAll(title, message, buttons);
+
+        Scene scene = new Scene(content);
+        scene.setFill(Color.TRANSPARENT);
+        dialogStage.setScene(scene);
+        dialogStage.show();
     }
 
-    // Classe interne pour la gestion des cartes
     private class Card {
         private final String imagePath;
         private final ImageView frontView;
@@ -131,74 +239,52 @@ public class MemoryCardGameController {
 
         public Card(String imagePath) {
             this.imagePath = imagePath;
-            this.frontView = createImageView(imagePath);
-            this.backView = createBlackBackView();
+            this.frontView = new ImageView();
+            this.backView = createBackView();
             this.container = new StackPane(backView, frontView);
-
-            setupCardAppearance();
-            setupClickHandler();
+            initializeCard();
+            loadImageAsync();
         }
 
-        private StackPane createBlackBackView() {
+        private StackPane createBackView() {
             StackPane back = new StackPane();
-            back.setStyle("-fx-background-color: #000000; " +
-                    "-fx-border-color: #444444; " +
-                    "-fx-border-width: 3; " +
-                    "-fx-border-radius: 5;");
-            back.setPrefSize(130, 130);
+            back.setStyle("-fx-background-color: #34495e;"
+                    + "-fx-border-color: #2c3e50;"
+                    + "-fx-border-width: 2;"
+                    + "-fx-border-radius: 10;"
+                    + "-fx-background-radius: 10;");
+            back.setPrefSize(120, 120);
             return back;
         }
 
-        private ImageView createImageView(String path) {
-            try {
-                File imageFile = new File(path);
-                Image image = new Image(imageFile.toURI().toString());
-                return createImageCard(image);
-            } catch (Exception e) {
-                System.err.println("Erreur de chargement de l'image: " + path);
-                return createErrorImageView();
-            }
-        }
-
-        private ImageView createImageCard(Image image) {
-            ImageView iv = new ImageView(image);
-            iv.setFitWidth(120);
-            iv.setFitHeight(120);
-            iv.setPreserveRatio(true);
-            iv.setSmooth(true);
-            iv.setCache(true);
-            return iv;
-        }
-
-        private ImageView createErrorImageView() {
-            ImageView iv = new ImageView();
-            iv.setFitWidth(120);
-            iv.setFitHeight(120);
-            iv.setStyle("-fx-background-color: #8B0000;");
-            return iv;
-        }
-
-        private void setupCardAppearance() {
-            container.getStyleClass().add("memory-card");
-            container.setPrefSize(130, 130);
+        private void initializeCard() {
             frontView.setVisible(false);
+            frontView.setFitWidth(120);
+            frontView.setFitHeight(120);
+            frontView.setPreserveRatio(true);
 
-            // Effet hover
-            container.setOnMouseEntered(e -> {
-                if (!revealed && !matched) {
-                    container.setStyle("-fx-effect: dropshadow(gaussian, #FFFFFF, 15, 0.5, 0, 0);");
-                }
-            });
-
-            container.setOnMouseExited(e -> {
-                if (!revealed && !matched) {
-                    container.setStyle("-fx-effect: null;");
-                }
-            });
+            container.setPrefSize(120, 120);
+            container.setStyle("-fx-cursor: hand;");
+            container.setOnMouseClicked(e -> handleCardClick(this));
         }
 
-        private void setupClickHandler() {
-            container.setOnMouseClicked(e -> handleCardClick(this));
+        private void loadImageAsync() {
+            new Thread(() -> {
+                try {
+                    File file = new File(imagePath);
+                    Image image = new Image(file.toURI().toString());
+                    Platform.runLater(() -> {
+                        frontView.setImage(image);
+                        frontView.setVisible(false);
+                    });
+                } catch (Exception e) {
+                    Platform.runLater(() -> {
+                        Label errorLabel = new Label("!");
+                        errorLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: white;");
+                        container.getChildren().add(errorLabel);
+                    });
+                }
+            }).start();
         }
 
         public void reveal() {
@@ -208,8 +294,14 @@ public class MemoryCardGameController {
         }
 
         public void hide() {
-            frontView.setVisible(false);
-            backView.setVisible(true);
+            FadeTransition ft = new FadeTransition(Duration.millis(300), container);
+            ft.setFromValue(0.4);
+            ft.setToValue(1.0);
+            ft.setOnFinished(e -> {
+                frontView.setVisible(false);
+                backView.setVisible(true);
+            });
+            ft.play();
             revealed = false;
         }
 
@@ -217,10 +309,19 @@ public class MemoryCardGameController {
             return this.imagePath.equals(other.imagePath);
         }
 
-        // Getters
+        public void showSuccessEffect() {
+            container.setStyle("-fx-effect: dropshadow(gaussian, #2ecc71, 20, 0.8, 0, 0);"
+                    + "-fx-border-color: #27ae60;"
+                    + "-fx-border-width: 3;");
+        }
+
         public StackPane getContainer() { return container; }
         public boolean isRevealed() { return revealed; }
         public boolean isMatched() { return matched; }
-        public void setMatched(boolean matched) { this.matched = matched; }
+        public void setMatched(boolean matched) {
+            this.matched = matched;
+            container.setStyle("-fx-opacity: 0.7;");
+            showSuccessEffect();
+        }
     }
 }

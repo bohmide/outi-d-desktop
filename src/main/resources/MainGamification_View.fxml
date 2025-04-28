@@ -25,6 +25,7 @@
             </VBox>
         </VBox>
         <Button fx:id="globetrotterButton" text="Globe-Trotter Challenge" onAction="#handleGlobtrotter" styleClass="menu-button"/>
+        <Button fx:id="DrawingGameButton" text="Drawing Game" onAction="#handleDrawingGame" styleClass="menu-button"/>
     </HBox>
 
 </VBox>

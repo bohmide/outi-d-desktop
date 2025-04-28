@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import entities.Games;
 import entities.Puzzle;
 import javafx.stage.Stage;
+import utils.VoiceAssistant;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,6 +36,7 @@ public class PuzzleSelectionController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        VoiceAssistant.speak(" Are you ready to enjoy our puzzle games! Please choose the game you want!");
 
         for (Puzzle puzzle : puzzles) {
             Games game = null;
@@ -59,6 +61,7 @@ public class PuzzleSelectionController implements Initializable {
 
         }
     }
+    // Modifiez la méthode openPuzzleGame
     private void openPuzzleGame(Puzzle puzzle) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/PuzzleGameView.fxml"));
@@ -66,6 +69,7 @@ public class PuzzleSelectionController implements Initializable {
 
             PuzzleGameController controller = loader.getController();
             controller.setPuzzle(puzzle);
+            controller.setSelectionController(this); // Ajout important
             controller.setupPuzzle();
 
             Stage stage = new Stage();
@@ -74,10 +78,20 @@ public class PuzzleSelectionController implements Initializable {
             stage.setScene(scene);
             stage.setTitle("Jouer au puzzle");
             stage.show();
+            VoiceAssistant.speak(" Good choice , Now start with moving the cards to complete the full image ");
+
+            // Cache la fenêtre de sélection
+            ((Stage) puzzleList.getScene().getWindow()).hide();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Ajoutez cette méthode
+    public void showSelectionWindow() {
+        Stage stage = (Stage) puzzleList.getScene().getWindow();
+        stage.show();
     }
 
 

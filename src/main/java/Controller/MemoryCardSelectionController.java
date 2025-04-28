@@ -2,6 +2,8 @@ package Controller;
 
 import dao.GamesDAO;
 import dao.MemoryCardDAO;
+import entities.Games;
+import entities.MemoryCard;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,9 +11,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-import entities.Games;
-import entities.MemoryCard;
 import javafx.stage.Stage;
+import utils.VoiceAssistant;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,36 +27,34 @@ public class MemoryCardSelectionController implements Initializable {
 
     private final MemoryCardDAO memoryCardDAO = new MemoryCardDAO();
     private final GamesDAO gameDAO = new GamesDAO();
+    private Stage currentStage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<MemoryCard> memoryCards = null;
+        loadMemoryCards();
+        VoiceAssistant.speak(" You like memory cards ! Choose the game you want");
+    }
+
+    private void loadMemoryCards() {
         try {
-            memoryCards = memoryCardDAO.getAll();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            List<MemoryCard> memoryCards = memoryCardDAO.getAll();
+            memoryCardList.getChildren().clear();
 
-        for (MemoryCard memoryCard : memoryCards) {
-            Games game = null;
-            try {
-                game = gameDAO.getById(memoryCard.getGameId());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            for (MemoryCard memoryCard : memoryCards) {
+                Games game = gameDAO.getById(memoryCard.getGameId());
+                Button btn = createMemoryCardButton(game, memoryCard);
+                memoryCardList.getChildren().add(btn);
             }
-
-            Button memoryCardButton = new Button(game.getName());
-            memoryCardButton.getStyleClass().add("menu-button");
-
-            Games finalGame = game;
-            memoryCardButton.setOnAction(e -> {
-                // Appel de la scène de jeu pour cette MemoryCard
-                System.out.println("Lancement de la MemoryCard : " + finalGame.getName());
-                openMemoryCardGame(memoryCard);
-            });
-
-            memoryCardList.getChildren().add(memoryCardButton);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
+
+    private Button createMemoryCardButton(Games game, MemoryCard memoryCard) {
+        Button button = new Button(game.getName());
+        button.getStyleClass().addAll("menu-button", "memory-card-button");
+        button.setOnAction(e -> openMemoryCardGame(memoryCard));
+        return button;
     }
 
     private void openMemoryCardGame(MemoryCard memoryCard) {
@@ -63,20 +62,29 @@ public class MemoryCardSelectionController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/MemoryCardGameView.fxml"));
             Parent root = loader.load();
 
-            // IMPORTANT: Initialiser le controller APRÈS le load()
             MemoryCardGameController controller = loader.getController();
-            controller.setMemoryCard(memoryCard); // Set before showing
+            controller.setMemoryCard(memoryCard);
+            controller.setSelectionController(this);
 
-            Stage stage = new Stage();
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/styleKids.css").toExternalForm());
-            stage.setScene(scene);
-            stage.setTitle("Jouer à la MemoryCard - " + memoryCard.getGameName());
-            stage.show();
+            Stage gameStage = new Stage();
+            gameStage.setScene(new Scene(root));
+            gameStage.setTitle(memoryCard.getGameName());
+            gameStage.show();
 
-        } catch (IOException e) {
+
+            // Conserver la référence au stage actuel
+            currentStage = (Stage) memoryCardList.getScene().getWindow();
+            currentStage.hide();
+
+        } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
     }
 
+    public void showSelectionWindow() {
+        if (currentStage != null) {
+            currentStage.show();
+            loadMemoryCards(); // Rafraîchir la liste si nécessaire
+        }
+    }
 }

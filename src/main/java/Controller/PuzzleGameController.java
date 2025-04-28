@@ -1,15 +1,28 @@
 package Controller;
 
+import entities.Puzzle;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.image.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import entities.Puzzle;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import utils.VoiceAssistant;
 
-import java.io.File;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class PuzzleGameController implements Initializable {
 
@@ -20,14 +33,19 @@ public class PuzzleGameController implements Initializable {
     private int rows = 4;
     private int cols = 4;
     private ImageView selectedPiece = null;
+    private PuzzleSelectionController selectionController;
 
     public void setPuzzle(Puzzle puzzle) {
         this.currentPuzzle = puzzle;
     }
 
+    public void setSelectionController(PuzzleSelectionController selectionController) {
+        this.selectionController = selectionController;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialisation optionnelle si nécessaire
+        // Initialisation optionnelle
     }
 
     public void setupPuzzle() {
@@ -35,36 +53,58 @@ public class PuzzleGameController implements Initializable {
         Collections.shuffle(pieces);
 
         puzzleGrid.getChildren().clear();
+        puzzleGrid.setHgap(2);
+        puzzleGrid.setVgap(2);
+        puzzleGrid.setPadding(new Insets(10));
 
         int index = 0;
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                String piecePath = pieces.get(index);
-                Image image = new Image(new File(piecePath).toURI().toString());
-                ImageView imageView = new ImageView(image);
-                imageView.setFitWidth(100);
-                imageView.setFitHeight(100);
-                imageView.setPreserveRatio(true);
-                imageView.setUserData(piecePath); // Stocker le chemin dans userData
+                if(index >= pieces.size()) break;
 
-                enableSelection(imageView, row, col);
+                String piecePath = pieces.get(index);
+                ImageView imageView = createPuzzlePiece(piecePath);
+                setupPieceInteractivity(imageView, row, col);
                 puzzleGrid.add(imageView, col, row);
                 index++;
             }
         }
     }
 
-    private void enableSelection(ImageView imageView, int row, int col) {
-        imageView.setOnMouseClicked(event -> {
-            if (selectedPiece == null) {
-                selectedPiece = imageView;
-                selectedPiece.setStyle("-fx-border-color: blue; -fx-border-width: 3;");
-            } else {
-                swapPieces(selectedPiece, imageView);
-                selectedPiece.setStyle("");
-                selectedPiece = null;
-            }
-        });
+    private ImageView createPuzzlePiece(String piecePath) {
+        Image image = new Image("file:" + piecePath);
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(150);
+        imageView.setFitHeight(150);
+        imageView.setPreserveRatio(true);
+        imageView.setUserData(piecePath);
+        return imageView;
+    }
+
+    private void setupPieceInteractivity(ImageView imageView, int row, int col) {
+        imageView.setOnMouseClicked(event -> handlePieceClick(imageView));
+        imageView.setStyle("-fx-cursor: hand; -fx-border-color: #eeeeee;");
+    }
+
+    private void handlePieceClick(ImageView clickedPiece) {
+        if (selectedPiece == null) {
+            selectPiece(clickedPiece);
+        } else {
+            swapPieces(selectedPiece, clickedPiece);
+            unselectPiece();
+        }
+    }
+
+    private void selectPiece(ImageView piece) {
+        selectedPiece = piece;
+        piece.setStyle("-fx-border-color: #3498db; -fx-border-width: 3;");
+    }
+
+    private void unselectPiece() {
+        if(selectedPiece != null) {
+            selectedPiece.setStyle("-fx-border-color: #eeeeee;");
+            selectedPiece = null;
+        }
     }
 
     private void swapPieces(ImageView piece1, ImageView piece2) {
@@ -80,45 +120,96 @@ public class PuzzleGameController implements Initializable {
 
     @FXML
     private void handleCheckSolution() {
-        boolean success = true;
-
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < cols; col++) {
-                ImageView imageView = getImageViewAt(row, col);
-                if (imageView == null) continue;
-
-                String currentPath = (String) imageView.getUserData();
-                String correctPath = currentPuzzle.getPieces().get(row * cols + col);
-
-                if (!currentPath.equals(correctPath)) {
-                    imageView.setStyle("-fx-border-color: red; -fx-border-width: 3;");
-                    success = false;
-                } else {
-                    imageView.setStyle("");
-                }
-            }
-        }
-
-        if (success) {
-            showAlert("Bravo !", "Tu as réussi le puzzle !");
+        if(isPuzzleSolved()) {
+            Platform.runLater(this::showVictoryDialog);
         } else {
-            showAlert("Oups !", "Certaines pièces ne sont pas au bon endroit. Essaie encore !");
+            highlightIncorrectPieces();
+            showAlert("Solution incorrecte", "Continue à essayer !");
         }
     }
 
-    private ImageView getImageViewAt(int row, int col) {
-        for (javafx.scene.Node node : puzzleGrid.getChildren()) {
-            if (node instanceof ImageView imageView) {
-                Integer r = GridPane.getRowIndex(node);
-                Integer c = GridPane.getColumnIndex(node);
-                if (r == null) r = 0;
-                if (c == null) c = 0;
-                if (r == row && c == col) {
-                    return imageView;
-                }
+    private boolean isPuzzleSolved() {
+        for(int i = 0; i < currentPuzzle.getPieces().size(); i++) {
+            ImageView piece = getPieceAtPosition(i/cols, i%cols);
+            if(piece == null || !piece.getUserData().equals(currentPuzzle.getPieces().get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void highlightIncorrectPieces() {
+        for(int i = 0; i < currentPuzzle.getPieces().size(); i++) {
+            ImageView piece = getPieceAtPosition(i/cols, i%cols);
+            if(piece != null && !piece.getUserData().equals(currentPuzzle.getPieces().get(i))) {
+                piece.setStyle("-fx-border-color: #e74c3c;");
+            }
+        }
+    }
+
+    private ImageView getPieceAtPosition(int row, int col) {
+        for(javafx.scene.Node node : puzzleGrid.getChildren()) {
+            if(GridPane.getRowIndex(node) == row &&
+                    GridPane.getColumnIndex(node) == col) {
+                return (ImageView) node;
             }
         }
         return null;
+    }
+
+    private void showVictoryDialog() {
+        Stage dialog = new Stage();
+        dialog.initStyle(StageStyle.TRANSPARENT);
+        dialog.initOwner(puzzleGrid.getScene().getWindow());
+
+        VBox content = new VBox(20);
+        content.setAlignment(Pos.CENTER);
+        content.setPadding(new Insets(25));
+        content.setStyle("-fx-background-color: rgba(44, 62, 80, 0.95);"
+                + "-fx-border-color: #27ae60;"
+                + "-fx-border-width: 3;"
+                + "-fx-border-radius: 15;");
+
+        // Image de victoire
+        ImageView trophy = new ImageView(new Image(getClass().getResourceAsStream("/images/trophy.png")));
+        trophy.setFitWidth(200);
+        trophy.setFitHeight(120);
+
+        Label title = new Label("PUZZLE RÉUSSI !");
+        title.setStyle("-fx-text-fill: #2ecc71; -fx-font-size: 24px; -fx-font-weight: bold;");
+
+        HBox buttons = createDialogButtons(dialog);
+
+        content.getChildren().addAll(trophy, title, buttons);
+
+        Scene scene = new Scene(content);
+        scene.setFill(Color.TRANSPARENT);
+        scene.getStylesheets().add(getClass().getResource("/styleKids.css").toExternalForm());
+        dialog.setScene(scene);
+        dialog.show();
+        VoiceAssistant.speak("Congratulation , you doing well with this game!");
+    }
+
+    private HBox createDialogButtons(Stage dialog) {
+        Button replayBtn = new Button("Rejouer");
+        replayBtn.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 10 20;");
+        replayBtn.setOnAction(e -> {
+            dialog.close();
+            setupPuzzle();
+        });
+
+        Button menuBtn = new Button("Menu Principal");
+        menuBtn.setStyle("-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-padding: 10 20;");
+        menuBtn.setOnAction(e -> {
+            dialog.close();
+            ((Stage) puzzleGrid.getScene().getWindow()).close();
+            if(selectionController != null) {
+                selectionController.showSelectionWindow();
+            }
+            VoiceAssistant.speak("🌟 You want to play another one ?");
+        });
+
+        return new HBox(20, replayBtn, menuBtn);
     }
 
     private void showAlert(String title, String message) {

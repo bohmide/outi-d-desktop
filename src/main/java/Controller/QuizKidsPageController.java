@@ -8,6 +8,7 @@ import javafx.scene.layout.VBox;
 import services.BadgeService;
 import services.EmailService;
 import services.FreeAIImageService;
+import utils.VoiceAssistant;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -55,6 +56,7 @@ public class QuizKidsPageController {
             }
             questionsContainer.getChildren().add(questionBox);
         }
+        VoiceAssistant.speak("Now start with answering the questions to win your badge! ");
     }
 
     @FXML
