@@ -3,6 +3,9 @@ package controllers;
 import entities.Comment;
 import entities.Post;
 import services.BadWordDetector;
+import services.SMSService; // N'oublie pas d'importer ton service SMS
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -97,7 +100,7 @@ public class CommentViewController implements Initializable {
         // Submit comment button
         submitCommentButton.setOnAction(event -> submitComment());
     }
-    
+
     private void navigateBackToPosts() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PostView.fxml"));
@@ -205,20 +208,29 @@ public class CommentViewController implements Initializable {
         }
     }
 
+
+
+// ...
+
     private void submitComment() {
         String content = newCommentArea.getText().trim();
+
         if (content.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Warning", "Empty Comment",
                     "Comment content cannot be empty.");
             return;
         }
-        // Si bad words détectés
-        if (BadWordDetector.containsBadWords(content)) {
+
+        boolean containsBadWords = BadWordDetector.containsBadWords(content);
+
+        if (containsBadWords) {
             showAlert(Alert.AlertType.WARNING, "Attention", "Censure automatique",
                     "Votre commentaire contenait des mots interdits. Ils ont été remplacés par ***.");
         }
+
         // Censurer automatiquement
         String censoredContent = BadWordDetector.censorBadWords(content);
+
         if (currentPost == null) return;
 
         // Create a new comment
@@ -230,6 +242,24 @@ public class CommentViewController implements Initializable {
         // Save comment
         commentService.addEntity(comment);
 
+        // Envoyer SMS uniquement si badword détecté
+        if (containsBadWords) {
+            String adminPhoneNumber = "+21623902666";
+
+            // Préparer la date
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String today = LocalDate.now().format(formatter);
+
+            // Préparer le contenu du SMS
+            String smsContent =
+                    "⚠️ Commentaire censuré !\n"
+                            + "Post: " + currentPost.getContenu() + "\n"
+                            + "Date: " + today + "\n"
+                            + "Contenu modéré: " + censoredContent;
+
+            // Envoyer le SMS
+            SMSService.sendSMS(adminPhoneNumber, smsContent);
+        }
         // Update post comment count
         currentPost.setNbComment(currentPost.getNbComment() + 1);
 
@@ -239,6 +269,7 @@ public class CommentViewController implements Initializable {
         // Reload comments
         loadComments();
     }
+
 
 
     private void editComment(Comment comment) {
