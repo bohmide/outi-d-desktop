@@ -10,7 +10,7 @@
       spacing="20"
       style="-fx-padding: 15px; -fx-background-color: transparent;">
     <Label text="Gestion des Compétitions"
-           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+           style="-fx-font-size: 30px; -fx-font-weight: bold;-fx-text-fill: white;"/>
     <Button text="Ajouter une compétition" onAction="#ajouterCompetition"
             styleClass="action-button"/>
 
@@ -20,7 +20,7 @@
               prefColumns="3"
               style="-fx-background-color: transparent;"
               prefTileWidth="300"
-              prefTileHeight="200"
+              prefTileHeight="230"
               alignment="TOP_CENTER">
 
     <!-- Largeur fixe pour chaque carte -->

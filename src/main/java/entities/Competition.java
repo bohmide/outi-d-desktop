@@ -16,6 +16,9 @@ public class Competition {
     private StringProperty description = new SimpleStringProperty();
     private StringProperty fichier = new SimpleStringProperty();
     private ObjectProperty<Organisation> organisation = new SimpleObjectProperty<>();
+  //  private DoubleProperty latitude = new SimpleDoubleProperty();
+   // private DoubleProperty longitude = new SimpleDoubleProperty();
+    private StringProperty localisation = new SimpleStringProperty();
 
     // Ajout de la liste des équipes
     private ListProperty<Equipe> equipes = new SimpleListProperty<>(FXCollections.observableArrayList());
@@ -28,10 +31,17 @@ public class Competition {
                        Organisation organisation) {
         this(id, nomComp, nomEntreprise, dateDebut, dateFin,
                 description, fichier, organisation,
-                FXCollections.observableArrayList());
+                FXCollections.observableArrayList(),"");
+    }
+    public Competition(int id, String nomComp, String nomEntreprise,
+                       LocalDate dateDebut, LocalDate dateFin,
+                       String description, String fichier,
+                       Organisation organisation, List<Equipe> equipes) {
+        this(id, nomComp, nomEntreprise, dateDebut, dateFin,
+                description, fichier, organisation, equipes, "");
     }
 
-    public Competition(int id, String nomComp, String nomEntreprise, LocalDate dateDebut, LocalDate dateFin, String description, String fichier, Organisation organisation,List<Equipe> equipes) {
+    public Competition(int id, String nomComp, String nomEntreprise, LocalDate dateDebut, LocalDate dateFin, String description, String fichier, Organisation organisation,List<Equipe> equipes, String localisation) {
         this.id.set(id);
         this.nomComp.set(nomComp);
         this.nomEntreprise.set(nomEntreprise);
@@ -40,6 +50,9 @@ public class Competition {
         this.description.set(description);
         this.fichier.set(fichier);
         this.organisation.set(organisation);
+        //this.latitude.set(latitude);
+       // this.longitude.set(longitude);
+        this.localisation.set(localisation);
         if (equipes != null) {
             this.equipes.setAll(equipes);
         }
@@ -81,6 +94,12 @@ public class Competition {
         return equipes;
     }
 
+    public StringProperty localisationProperty() {
+        return localisation;
+    }
+
+
+
     // Getters classiques
     public int getId() {
         return id.get();
@@ -120,6 +139,11 @@ public class Competition {
         return organisation.get() != null ? organisation.get().getNomOrganisation() : "";
     }
 
+    public String getLocalisation() {
+        return localisation.get();
+    }
+
+
 
     // Setters classiques
     public void setId(int id) {
@@ -156,4 +180,9 @@ public class Competition {
     public void setEquipes(ObservableList<Equipe> equipes) {
         this.equipes.set(equipes);
     }
+
+    public void setLocalisation(String localisation) {
+        this.localisation.set(localisation);
+    }
+
 }

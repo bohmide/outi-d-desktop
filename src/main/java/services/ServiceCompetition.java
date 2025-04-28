@@ -17,8 +17,9 @@ public class ServiceCompetition implements IServiceCompetition {
 
     @Override
     public void ajouterCompetition(Competition comp) {
-        String sql = "INSERT INTO competition (nom_comp, nom_entreprise, date_debut, date_fin, description, fichier, organisation_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+        String sql = "INSERT INTO competition (nom_comp, nom_entreprise, date_debut, date_fin, description, fichier, organisation_id, localisation) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = cnx.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, comp.getNomComp());
             ps.setString(2, comp.getNomEntreprise());
             // Conversion de LocalDate à java.sql.Date uniquement ici
@@ -27,9 +28,15 @@ public class ServiceCompetition implements IServiceCompetition {
             ps.setString(5, comp.getDescription());
             ps.setString(6, comp.getFichier());
             ps.setInt(7, comp.getOrganisation().getId());
+            ps.setString(8, comp.getLocalisation());
 
             ps.executeUpdate();
             System.out.println("✅ Compétition ajoutée !");
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    comp.setId(generatedKeys.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -64,6 +71,9 @@ public class ServiceCompetition implements IServiceCompetition {
                         org
 
                 );
+                // Ajouter la localisation
+                comp.setLocalisation(rs.getString("localisation")); // <-- Correction ici
+
                 // Charger les équipes associées
                 List<Equipe> equipes = getEquipesByCompetition(comp.getId());
                 comp.setEquipes(FXCollections.observableArrayList(equipes));

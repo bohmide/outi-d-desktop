@@ -1,6 +1,6 @@
 .root {
     -fx-font-family: 'Segoe UI', sans-serif;
-    -fx-background-color: linear-gradient(to bottom right, #6a89cc, #82ccdd);
+    -fx-background-color: linear-gradient(to bottom right, #5533ff, #00dcff);
 }
 
 .tab-pane {
@@ -166,19 +166,20 @@
     -fx-background-color:#4CAF50 ; /* Garde la même couleur au survol */
 }
 .competition-card {
-    -fx-background-color:  rgba(255, 255, 255, 0.6);
+    -fx-background-color:  rgba(255, 255, 255, 0.2);
     -fx-background-radius: 10;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
     -fx-padding: 15;
     -fx-spacing: 10;
     -fx-max-width: 300px; /* Largeur fixe */
     -fx-min-width: 280px; /* Largeur minimale */
+
 }
 .competition-card:hover {
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 0);
 }
 .content-view {
-    -fx-background-color: transparent;
+    -fx-background-color: linear-gradient(to bottom right, #5533ff, #00dcff);
     -fx-padding: 10px;
 }
 /* Style pour le TilePane */
@@ -193,8 +194,21 @@
     -fx-background-color: rgba(255, 255, 255, 0.9);
     -fx-border-radius: 5px;
     -fx-padding: 5;
+    -fx-translate-x: -60px; /* déplace le bouton de 10px vers la gauche */
 }
 
+.details-button {
+    -fx-background-color: #4CAF50; /* Couleur verte */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-font-weight: bold; /* Texte en gras */
+
+    /* Pour le positionner en bas */
+    -fx-translate-y: 50; /* Déplace le bouton vers le bas de 100 pixels */
+    -fx-padding: 50px;
+    /* Autres styles optionnels */
+    -fx-padding: 10 20; /* Rembourrage interne */
+    -fx-border-radius: 5; /* Coins arrondis */
+}
 .menu-button:hover {
     -fx-background-color: rgba(0,0,0,0.1);
 }
@@ -286,4 +300,26 @@
 .organisation-value {
     -fx-font-size: 13px;
     -fx-text-fill: #444444;
+}
+/* Dans votre fichier CSS principal */
+.dialog-background {
+    -fx-background-color: rgba(0,0,0,0.7);
+}
+
+.dialog-pane {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 20, 0, 0, 0);
+}
+
+.dialog-close-button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+}
+
+.text-field:disabled {
+    -fx-opacity: 1.0;
 }

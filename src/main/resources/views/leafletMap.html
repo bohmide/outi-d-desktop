@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+            background-color: #e8e8e8;
+        }
+        .custom-marker {
+            background-color: red;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    var map;
+    var marker;
+
+    function initialize() {
+        map = L.map('map').setView([36.8065, 10.1815], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        marker = L.marker([36.8065, 10.1815], {
+            draggable: true,
+            icon: L.divIcon({
+                className: 'custom-marker',
+                iconSize: [20, 20]
+            })
+        }).addTo(map);
+
+        // Gestion des clics et déplacements
+        map.on('click', function(e) {
+            marker.setLatLng(e.latlng);
+            getAddress(e.latlng);
+        });
+
+        marker.on('dragend', function(e) {
+            getAddress(marker.getLatLng());
+        });
+    }
+
+    function getAddress(latlng) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latlng.lat}&lon=${latlng.lng}`)
+            .then(response => response.json())
+            .then(data => {
+                const address = data.display_name || "Adresse inconnue";
+                if(window.javaConnector) {
+                    window.javaConnector.updateLocation(
+                        latlng.lat,
+                        latlng.lng,
+                        address
+                    );
+                }
+            })
+            .catch(error => {
+                console.error('Erreur de géocodage:', error);
+                if(window.javaConnector) {
+                    window.javaConnector.updateLocation(
+                        latlng.lat,
+                        latlng.lng,
+                        "Impossible de récupérer l'adresse"
+                    );
+                }
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', initialize);
+</script>
+</body>
+</html>

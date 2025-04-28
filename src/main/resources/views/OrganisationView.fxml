@@ -10,7 +10,7 @@
       spacing="20"
       style="-fx-padding: 15px; -fx-background-color: transparent;">
     <Label text="Gestion des Organisations"
-           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+           style="-fx-font-size: 30px; -fx-font-weight: bold;-fx-text-fill: white;"/>
     <Button text="Ajouter une organisation" onAction="#ajouterOrganisation"
             styleClass="action-button"/>
 

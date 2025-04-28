@@ -5,6 +5,7 @@
 <?import javafx.scene.text.*?>
 <?import java.time.*?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.web.WebView?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
@@ -28,6 +29,14 @@
         <Button text="Parcourir" onAction="#handleFileSelection"/>
         
     </HBox>
+
+    <WebView fx:id="mapView" prefHeight="600" prefWidth="400"/>
+
+    <HBox spacing="10">
+        <Label text="Localisation:"/>
+        <TextField fx:id="localisationField" promptText="Adresse" editable="false" prefWidth="300"/>
+    </HBox>
+
 
     <!-- hedha el  message d'erreur -->
     <Label fx:id="errorLabel" textFill="red" visible="false" wrapText="true"/>

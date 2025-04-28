@@ -8,31 +8,32 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="controllers.CompetitionCardController"
       styleClass="competition-card"
-      spacing="10"
+      spacing="60"
       maxWidth="300">
 
     <!-- En-tête -->
-    <Label fx:id="nomLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <Label fx:id="nomLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;-fx-text-fill: white;"/>
 
     <!-- Contenu -->
     <VBox spacing="5">
         <HBox spacing="5">
-            <Label text="Organisation:" style="-fx-font-weight: bold;"/>
-            <Label fx:id="organisationLabel"/>
+            <Label text="Organisation:" style="-fx-font-weight: bold;-fx-text-fill: #e5e5e8;"/>
+            <Label fx:id="organisationLabel" style="-fx-text-fill: #e5e5e8;"/>
         </HBox>
 
         <HBox spacing="5">
-            <Label text="Dates:" style="-fx-font-weight: bold;"/>
-            <Label fx:id="dateLabel"/>
+            <Label text="Dates:" style="-fx-font-weight: bold;-fx-text-fill: #e5e5e8 ;"/>
+            <Label fx:id="dateLabel" style="-fx-text-fill: #e5e5e8;"/>
         </HBox>
 
-        <Label fx:id="descriptionLabel" wrapText="true"/>
+        <Label fx:id="descriptionLabel" wrapText="true"  maxHeight="20" style="-fx-text-fill: #e5e5e8;" />
 
         <!-- Section fichier (optionnelle) -->
         <HBox fx:id="fichierContainer" spacing="5" visible="false">
-            <Label text="Fichier:" style="-fx-font-weight: bold;"/>
-            <Label fx:id="fichierLabel"/>
+            <Label text="Fichier:" style="-fx-font-weight: bold; -fx-text-fill: #e5e5e8;"/>
+            <Label fx:id="fichierLabel"  style="-fx-text-fill: #e5e5e8;" />
         </HBox>
+
     </VBox>
 
     <!-- Boutons -->
@@ -46,5 +47,7 @@
             <Button text="Supprimer" onAction="#supprimer" styleClass="pastel-delete-button"/>
             <Button text="Réserver" onAction="#reserver" styleClass="pastel-reserve-button"/>
         </HBox>
+        <Button text="Détails" onAction="#showDetailsPage" styleClass="details-button"/>
     </StackPane>
+
 </VBox>

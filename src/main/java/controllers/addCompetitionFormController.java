@@ -17,6 +17,12 @@ import java.nio.file.Path;
 import java.io.IOException;
 import java.nio.file.Files;
 import javafx.event.ActionEvent;
+import javafx.scene.web.WebView;
+import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
+import javafx.concurrent.Worker;
+import javafx.application.Platform;
+import java.net.URL; // Ajoutez cette ligne avec les autres imports
 
 public class addCompetitionFormController {
 
@@ -29,6 +35,14 @@ public class addCompetitionFormController {
     @FXML private ComboBox<Organisation> organisationComboBox;
     @FXML private Button actionButton;
     @FXML private TextField fichierField;
+    @FXML private TextField localisationField;
+    @FXML private WebView mapView;
+
+
+    private WebEngine webEngine;
+
+    private JSObject jsConnector;
+    private Competition competition; // Pour stocker la compétition en cours d'édition
     private String fichierPath; // Pour stocker le chemin du fichier
     private final ServiceCompetition serviceCompetition = new ServiceCompetition();
     private final ServiceOrganisation serviceOrganisation = new ServiceOrganisation();
@@ -39,7 +53,59 @@ public class addCompetitionFormController {
     public void initialize() {
         List<Organisation> organisations = serviceOrganisation.afficherOrganisations();
         organisationComboBox.setItems(FXCollections.observableArrayList(organisations));
+        // Initialiser la carte
+        initMap();
+        }
+    private void initMap() {
+        if (mapView != null) {
+            mapView.setPrefHeight(400); // Définir une hauteur fixe
+
+            webEngine = mapView.getEngine();
+            webEngine.setJavaScriptEnabled(true);
+
+            // Activer les logs de la console
+            webEngine.setOnAlert(event -> System.out.println("JS Alert: " + event.getData()));
+
+            // Charger depuis les ressources
+            URL mapHtml = getClass().getResource("/views/leafletMap.html");
+            if (mapHtml != null) {
+                webEngine.load(mapHtml.toExternalForm());
+
+                webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+                    if (newState == Worker.State.SUCCEEDED) {
+                        // Initialiser la communication
+                        JSObject window = (JSObject) webEngine.executeScript("window");
+                        window.setMember("javaConnector", new JavaConnector());
+
+                        // Vérifier le chargement de Leaflet
+                        Boolean leafletLoaded = (Boolean) webEngine.executeScript("typeof L !== 'undefined'");
+                        if (leafletLoaded != null && leafletLoaded) {
+                            System.out.println("Leaflet chargé avec succès");
+                        }
+                    }
+                });
+            }
+        }
     }
+
+    // Modification de la méthode setMapLocation
+    private void setMapLocation(double lat, double lng) {
+        if (webEngine != null) {
+            webEngine.executeScript(
+                    "if(marker) marker.setLatLng([" + lat + ", " + lng + "]);" +
+                            "if(map) map.setView([" + lat + ", " + lng + "]);"
+            );
+        }
+    }
+    public class JavaConnector {
+        public void updateLocation(double lat, double lng, String address) {
+            Platform.runLater(() -> {
+
+                if (localisationField != null) {
+                    localisationField.setText(address);
+                }
+            });
+        }}
     @FXML
     private void handleFileSelection(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -78,14 +144,15 @@ public class addCompetitionFormController {
         dateDebutPicker.setValue(competition.getDateDebut());
         dateFinPicker.setValue(competition.getDateFin());
         descriptionArea.setText(competition.getDescription());
+        localisationField.setText(competition.getLocalisation());
         organisationComboBox.getSelectionModel().select(competition.getOrganisation());
+
+
+
 
         // Modifier le texte du bouton lorsque en mode édition
         actionButton.setText("Modifier");
-        if (competition.getFichier() != null && !competition.getFichier().isEmpty()) {
-            fichierField.setText(competition.getFichier());
-            this.fichierPath = competition.getFichier(); // Conserver le chemin original
-        }
+
         // Sauvegarder le nom du fichier existant
         this.fichierExistant = competition.getFichier();
 
@@ -107,6 +174,7 @@ public class addCompetitionFormController {
         LocalDate dateFin = dateFinPicker.getValue();
         String description = descriptionArea.getText().trim();
         Organisation organisation = organisationComboBox.getValue();
+        String localisation = localisationField.getText();
 
         // Validation des champs obligatoires
         if (nomComp.isEmpty()  || dateDebut == null || dateFin == null || organisation == null || description.isEmpty()) {
@@ -129,8 +197,11 @@ public class addCompetitionFormController {
 
 
 
+
     // Gestion du fichier
         String nomFichier = fichierField.getText().isEmpty() ? fichierExistant : fichierField.getText();
+
+
 
         Competition comp = new Competition();
         comp.setNomComp(nomComp);
@@ -140,6 +211,7 @@ public class addCompetitionFormController {
         comp.setDescription(description);
         comp.setOrganisation(organisation);
         comp.setFichier(nomFichier);
+        comp.setLocalisation(localisation);
 
         if (currentCompetitionId != null) {
             // Mode modification
