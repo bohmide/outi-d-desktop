@@ -2,6 +2,7 @@ package controllers;
 
 import entities.Comment;
 import entities.Post;
+import services.BadWordDetector;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +25,6 @@ import java.util.stream.Collectors;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
 public class CommentViewController implements Initializable {
-
     @FXML
     private Button backButton;
     
@@ -204,46 +204,60 @@ public class CommentViewController implements Initializable {
             commentsContainer.getChildren().add(emptyLabel);
         }
     }
-    
+
     private void submitComment() {
         String content = newCommentArea.getText().trim();
-        
         if (content.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Warning", "Empty Comment", 
-                     "Comment content cannot be empty.");
+            showAlert(Alert.AlertType.WARNING, "Warning", "Empty Comment",
+                    "Comment content cannot be empty.");
             return;
         }
-        
+        // Si bad words détectés
+        if (BadWordDetector.containsBadWords(content)) {
+            showAlert(Alert.AlertType.WARNING, "Attention", "Censure automatique",
+                    "Votre commentaire contenait des mots interdits. Ils ont été remplacés par ***.");
+        }
+        // Censurer automatiquement
+        String censoredContent = BadWordDetector.censorBadWords(content);
         if (currentPost == null) return;
-        
+
         // Create a new comment
         Comment comment = new Comment();
         comment.setPostId(currentPost.getId());
-        comment.setDescription(content);
+        comment.setDescription(censoredContent);
         comment.setDateCreation(LocalDate.now());
-        
+
         // Save comment
         commentService.addEntity(comment);
-        
+
         // Update post comment count
         currentPost.setNbComment(currentPost.getNbComment() + 1);
-        
+
         // Clear the textarea
         newCommentArea.clear();
-        
+
         // Reload comments
         loadComments();
     }
-    
+
+
     private void editComment(Comment comment) {
         TextInputDialog dialog = new TextInputDialog(comment.getDescription());
         dialog.setTitle("Edit Comment");
         dialog.setHeaderText("Edit your comment");
         dialog.setContentText("Comment:");
-        
         dialog.showAndWait().ifPresent(result -> {
             if (!result.trim().isEmpty()) {
-                comment.setDescription(result);
+                // Vérifier s'il y a des bad words
+                if (BadWordDetector.containsBadWords(result)) {
+                    // Afficher une alerte Warning
+                    showAlert(Alert.AlertType.WARNING, "Attention", "Censure automatique",
+                            "Votre commentaire contenait des mots interdits. Ils ont été remplacés par ***.");
+                }
+                // Censurer le texte avant de l'enregistrer
+                String censoredResult = BadWordDetector.censorBadWords(result);
+
+                comment.setDescription(censoredResult);
                 commentService.updateEntityById(comment);
                 loadComments();
             }
@@ -268,7 +282,7 @@ public class CommentViewController implements Initializable {
             }
         });
     }
-    
+
     private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
