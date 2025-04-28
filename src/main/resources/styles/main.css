@@ -5,9 +5,9 @@
     -fx-primary: #2A2E37;
     -fx-secondary: #1F2020;
     -fx-primarytext: #B2B2B2;
-    -fx-accent: #4CAF50;
-    -fx-accent-light: #81C784;
-    -fx-accent-dark: #388E3C;
+    -fx-accent: #3498db; /* Bleu */
+    -fx-accent-light: #5dade2; /* Bleu clair */
+    -fx-accent-dark: #2980b9; /* Bleu foncé */
     -fx-light-gray: #d3d3d3;
     -fx-red: #FF5252;
     -fx-blue: #3498db;
@@ -411,4 +411,18 @@
     -fx-font-size: 12px;
     -fx-background-radius: 4;
     -fx-padding: 8 12;
+}
+.like-button {
+    -fx-background-color: #FFC107; /* Jaune */
+    -fx-text-fill: black; /* Texte noir pour mieux contraster */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 5px 10px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 4,0,0,2 );
+}
+
+.like-button:hover {
+    -fx-background-color: #FFA000; /* Jaune un peu plus foncé au survol */
 }

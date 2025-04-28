@@ -11,8 +11,8 @@ public class Post {
     private int nbComment;
     private int forumId;
     private String contenu;
-    private Forum forum; // Reference to the parent forum
-    private List<Comment> comments; // List of comments on this post
+    private Forum forum;
+    private List<Comment> comments;
     
     // Default constructor
     public Post() {}
@@ -140,16 +140,13 @@ public class Post {
         }
     }
     
-    /**
-     * Validates all the data in this post object
-     * @throws IllegalArgumentException if any validation fails
-     */
+
     public void validate() {
         if (nom == null || nom.trim().isEmpty()) {
             throw new IllegalArgumentException("Post title cannot be empty");
         }
-        if (nom.length() > 255) {
-            throw new IllegalArgumentException("Post title cannot exceed 255 characters");
+        if (nom.length() > 10) {
+            throw new IllegalArgumentException("Post title cannot exceed 10 characters");
         }
         if (dateCreation == null) {
             throw new IllegalArgumentException("Post creation date cannot be null");

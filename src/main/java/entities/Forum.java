@@ -62,8 +62,8 @@ public class Forum {
         if (theme == null || theme.trim().isEmpty()) {
             throw new IllegalArgumentException("Forum theme cannot be empty");
         }
-        if (theme.length() > 255) {
-            throw new IllegalArgumentException("Forum theme cannot exceed 255 characters");
+        if (theme.length() > 10) {
+            throw new IllegalArgumentException("Forum theme cannot exceed 10 characters");
         }
         this.theme = theme;
     }
@@ -99,10 +99,7 @@ public class Forum {
         this.posts = posts;
     }
     
-    /**
-     * Validates all the data in this forum object
-     * @throws IllegalArgumentException if any validation fails
-     */
+
     public void validate() {
         if (nom == null || nom.trim().isEmpty()) {
             throw new IllegalArgumentException("Forum name cannot be empty");

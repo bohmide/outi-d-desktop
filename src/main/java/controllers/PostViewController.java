@@ -75,7 +75,7 @@ public class PostViewController implements Initializable {
         postService = new PostService();
         postsList = FXCollections.observableArrayList();
         
-        //setupComboBoxes();
+        setupComboBoxes();
         setupButtons();
     }
     
@@ -85,7 +85,7 @@ public class PostViewController implements Initializable {
         loadPosts();
     }
     
-    /*private void setupComboBoxes() {
+    private void setupComboBoxes() {
         // Setup sort options
         sortByComboBox.getItems().addAll(
             "Newest First",
@@ -106,7 +106,7 @@ public class PostViewController implements Initializable {
         filterComboBox.setValue("All Posts");
         filterComboBox.setOnAction(event -> loadPosts());
     }
-    */
+
     private void setupButtons() {
         // Back button
         backButton.setOnAction(event -> navigateBackToForums());
@@ -169,9 +169,9 @@ public class PostViewController implements Initializable {
             }
         }
 
-        //applySorting(forumPosts);
+        applySorting(forumPosts);
 
-        //applyFiltering(forumPosts);
+        applyFiltering(forumPosts);
 
         totalPages = (int) Math.ceil((double) forumPosts.size() / itemsPerPage);
 
@@ -186,7 +186,7 @@ public class PostViewController implements Initializable {
         displayPosts(fromIndex < toIndex ? forumPosts.subList(fromIndex, toIndex) : FXCollections.observableArrayList());
     }
     
-   /* private void applySorting(List<Post> posts) {
+   private void applySorting(List<Post> posts) {
         String sortOption = sortByComboBox.getValue();
         if (sortOption == null) return;
         
@@ -226,7 +226,6 @@ public class PostViewController implements Initializable {
                 break;
         }
     }
-    */
     private void displayPosts(List<Post> posts) {
         postsContainer.getChildren().clear();
         
@@ -250,10 +249,24 @@ public class PostViewController implements Initializable {
             
             Label commentsLabel = new Label("Comments: " + post.getNbComment());
             commentsLabel.getStyleClass().add("post-comments-count");
-            
-            Label likesLabel = new Label("Likes: " + post.getNbLike());
-            likesLabel.getStyleClass().add("post-likes-count");
-            
+
+            Button likeButton = new Button("👍 " + post.getNbLike());
+            likeButton.getStyleClass().add("like-button"); // Style the button with your like button class
+
+            likeButton.setOnAction(e -> {
+                int newNbLike = post.getNbLike() + 1;
+                post.setNbLike(newNbLike); // Update the local post's like count
+                likeButton.setText("👍 " + newNbLike); // Update the button text with the new like count
+
+                // Now update the like count in the database
+                try {
+                    // Assuming you have a PostController instance (controller)
+                    postService.updateLikeCount(post.getId());
+                    loadPosts();// Call the updateLikeCount method
+                } catch (Exception ex) {
+                    System.out.println("Error updating like count in database: " + ex.getMessage());
+                }
+            });
             HBox actionsBox = new HBox(10);
             
             Button viewButton = new Button("View");
@@ -272,7 +285,7 @@ public class PostViewController implements Initializable {
             
             Separator separator = new Separator();
             
-            postBox.getChildren().addAll(titleLabel, dateLabel, contentPreview, commentsLabel, likesLabel, actionsBox, separator);
+            postBox.getChildren().addAll(titleLabel, dateLabel, contentPreview, commentsLabel,likeButton,actionsBox, separator);
             
             // Make the entire post clickable
             postBox.setOnMouseClicked(event -> {

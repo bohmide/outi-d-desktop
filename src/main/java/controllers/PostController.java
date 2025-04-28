@@ -63,6 +63,14 @@ public class PostController {
             throw new IllegalArgumentException("Failed to update post: " + e.getMessage());
         }
     }
+    public void updateLike(int postId) {
+        try {
+            // Call the PostService to update the like count
+            postService.updateLikeCount(postId);
+        } catch (Exception e) {
+            System.out.println("Error updating like count: " + e.getMessage());
+        }
+    }
 
     public boolean deletePost(int id) {
         Post post = postService.findPostById(id);
@@ -70,7 +78,6 @@ public class PostController {
         if (post == null) {
             throw new IllegalArgumentException("Error: Post with ID " + id + " not found");
         }
-        
         postService.deleteEntityById(post);
         return true;
     }

@@ -62,7 +62,7 @@ public class CommentViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         commentService = new CommentService();
         
-       // setupSortComboBox();
+        setupSortComboBox();
         setupButtons();
     }
     
@@ -81,14 +81,14 @@ public class CommentViewController implements Initializable {
         loadComments();
     }
     
-    /*private void setupSortComboBox() {
+    private void setupSortComboBox() {
         sortCommentsComboBox.getItems().addAll(
             "Newest First",
             "Oldest First"
         );
         sortCommentsComboBox.setValue("Newest First");
         sortCommentsComboBox.setOnAction(event -> loadComments());
-    }*/
+    }
     
     private void setupButtons() {
         // Back button
@@ -135,12 +135,12 @@ public class CommentViewController implements Initializable {
             .collect(Collectors.toList());
         
         // Apply sorting
-        //applySorting(postComments);
+        applySorting(postComments);
         
         displayComments(postComments);
     }
     
-    /*private void applySorting(List<Comment> comments) {
+    private void applySorting(List<Comment> comments) {
         String sortOption = sortCommentsComboBox.getValue();
         if (sortOption == null) return;
         
@@ -152,7 +152,7 @@ public class CommentViewController implements Initializable {
                 comments.sort((c1, c2) -> c1.getDateCreation().compareTo(c2.getDateCreation()));
                 break;
         }
-    }*/
+    }
     
     private void displayComments(List<Comment> comments) {
         commentsContainer.getChildren().clear();
@@ -264,7 +264,6 @@ public class CommentViewController implements Initializable {
                 if (currentPost.getNbComment() > 0) {
                     currentPost.setNbComment(currentPost.getNbComment() - 1);
                 }
-                
                 loadComments();
             }
         });
