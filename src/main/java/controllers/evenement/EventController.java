@@ -1,5 +1,8 @@
 package controllers.evenement;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import entities.Event;
 import entities.EventGenre;
 import entities.Sponsors;
@@ -18,14 +21,21 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import services.EventService;
+import com.google.zxing.client.j2se.*;
+
 import utils.CurrencyUtil;
 
 import javafx.stage.FileChooser;
+import utils.TelegraphUploader;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.stream.Collectors;
 import java.util.Locale;
@@ -174,6 +184,7 @@ public class EventController implements Initializable {
         return param -> new TableCell<>() {
             private final Button editButton = new Button("Modifier");
             private final Button deleteButton = new Button("Supprimer");
+            private final Button qrCodeButton = new Button("QR Code");
 
             {
                 editButton.setOnAction(event -> {
@@ -185,6 +196,11 @@ public class EventController implements Initializable {
                     Event selectedEvent = getTableView().getItems().get(getIndex());
                     deleteEvent(selectedEvent);
                 });
+
+                qrCodeButton.setOnAction(event -> {
+                    Event selectedEvent = getTableView().getItems().get(getIndex());
+                    exportEventAsQRCode(selectedEvent);
+                });
             }
 
             @Override
@@ -193,12 +209,48 @@ public class EventController implements Initializable {
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox buttons = new HBox(5, editButton, deleteButton);
+                    HBox buttons = new HBox(5, editButton, deleteButton, qrCodeButton);
                     setGraphic(buttons);
                 }
             }
         };
     }
+
+    private void exportEventAsQRCode(Event event) {
+        try {
+            // Combine the event's name and description into a single string
+            String eventInfo = "Description: " + event.getDescription()+"\nDate: "+event.getDateEvent();
+
+
+            String url = TelegraphUploader.createTelegraphPage(event.getNomEvent(), eventInfo);
+            System.out.println("Event URL: " + url);
+
+
+            // Generate QR code from event information
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, 200, 200); // You can adjust the size
+
+            // Convert BitMatrix to BufferedImage
+            BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+            // Show the QR code to the user (you can save it to a file or show it in a dialog)
+            File qrCodeFile = new File(System.getProperty("user.home") + "/Documents/EventQRCode.png");
+            ImageIO.write(bufferedImage, "PNG", qrCodeFile);
+            System.out.println("QR Code saved to: " + qrCodeFile.getAbsolutePath());
+
+            // Optionally, show the QR code in a new window
+            ImageView qrCodeImageView = new ImageView(new Image(qrCodeFile.toURI().toString()));
+            Stage qrCodeStage = new Stage();
+            qrCodeStage.setTitle("QR Code de l'Événement");
+            qrCodeStage.setScene(new Scene(new StackPane(qrCodeImageView), 250, 250)); // Size can be adjusted
+            qrCodeStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle error, e.g., display an alert to the user
+        }
+    }
+
 
     private void loadEvents() {
         List<Event> events = eventService.listEvenets();
