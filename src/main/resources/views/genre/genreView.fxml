@@ -17,6 +17,8 @@
         <TextField fx:id="searchField" promptText="Rechercher un genre..." />
         <Region HBox.hgrow="ALWAYS"/>
         <Button text="Ajouter Genre" styleClass="primary-button" fx:id="addGenre" onAction="#handleAjouter"/>
+        <Button text="Retour aux Événements" styleClass="secondary-button" onAction="#handleRetour"/>
+
     </HBox>
 
 

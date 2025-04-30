@@ -16,7 +16,9 @@
         <Region HBox.hgrow="ALWAYS"/>
         <TextField fx:id="searchField" promptText="Rechercher..." />
         <Button text="Ajouter Sponsor" styleClass="primary-button" fx:id="addGenre" onAction="#handleAjouter"/>
+        <Button text="Retour aux Événements" styleClass="secondary-button" onAction="#handleRetour"/>
     </HBox>
+
 
 
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS" styleClass="table-scroll-pane">

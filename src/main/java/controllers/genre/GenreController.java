@@ -174,6 +174,13 @@ public class GenreController implements javafx.fxml.Initializable {
     }
 
     @FXML
+    private void handleRetour() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/evenement/eventView.fxml"));
+        Parent root = loader.load();
+        searchField.getScene().setRoot(root);
+    }
+
+    @FXML
     private void handleAjouter(javafx.event.ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/genre/addGenreView.fxml"));

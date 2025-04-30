@@ -19,7 +19,10 @@
         <Region HBox.hgrow="ALWAYS"/>
         <Button text="Ajouter Événement" styleClass="primary-button" fx:id="addEvent" onAction="#handleAjouter"/>
         <Button text="Exporter" styleClass="secondary-button" fx:id="exportButton" onAction="#handleExport"/>
+        <Button text="Voir Sponsors" styleClass="secondary-button" onAction="#navigateToSponsors"/>
+        <Button text="Voir Genres" styleClass="secondary-button" onAction="#navigateToGenres"/>
     </HBox>
+
 
 
     <!-- Devise Label Section -->

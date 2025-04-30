@@ -14,6 +14,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -22,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -34,13 +36,14 @@ import javafx.stage.FileChooser;
 import utils.TelegraphUploader;
 
 import javax.imageio.ImageIO;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.nio.file.StandardCopyOption;
+import java.util.Currency;
 import java.util.stream.Collectors;
 import java.util.Locale;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -80,8 +83,11 @@ public class EventController implements Initializable {
     }
 
     private void setCurrency() {
-        String currencySymbol = String.valueOf(CurrencyUtil.getCurrencyFromIP());
-        deviseLabel.setText("Devise: " + currencySymbol);
+        Currency currency = CurrencyUtil.getCurrencyFromIP();
+        String currencySymbol = currency.getSymbol();
+        deviseLabel.setText("Devise: " + currencySymbol + " (1 TND = " +
+                String.format("%.2f", CurrencyUtil.convertFromTND(1.0, currency)) + " " +
+                currency.getCurrencyCode() + ")");
 
         if (eventTable != null) {
             eventTable.refresh();
@@ -133,7 +139,7 @@ public class EventController implements Initializable {
                 } else {
                     // Get the currency symbol from the label
                     String currencySymbol = deviseLabel.getText().replace("Devise: ", "");
-                    setText(String.format("%.2f %s", price.doubleValue(), currencySymbol));
+                    setText(String.format("%.2f %s", CurrencyUtil.convertFromTND(price.doubleValue(), CurrencyUtil.getCurrencyFromIP()), currencySymbol));
                 }
             }
         });
@@ -216,7 +222,7 @@ public class EventController implements Initializable {
         };
     }
 
-    private void exportEventAsQRCode(Event event) {
+    /*private void exportEventAsQRCode(Event event) {
         try {
             // Combine the event's name and description into a single string
             String eventInfo = "Description: " + event.getDescription()+"\nDate: "+event.getDateEvent();
@@ -249,7 +255,95 @@ public class EventController implements Initializable {
             e.printStackTrace();
             // Handle error, e.g., display an alert to the user
         }
+    }*/
+
+
+    private void exportEventAsQRCode(Event event) {
+        try {
+            // Combine the event's name and description into a single string
+            String eventInfo = "Description: " + event.getDescription() + "\nDate: " + event.getDateEvent();
+            String url = TelegraphUploader.createTelegraphPage(event.getNomEvent(), eventInfo);
+            System.out.println("Event URL: " + url);
+
+            // Generate QR code
+            QRCodeWriter qrCodeWriter = new QRCodeWriter();
+            BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, 200, 200);
+            BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+            // Show the QR code in the UI
+            // Convert BufferedImage to JavaFX Image
+            ByteArrayOutputStream os = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", os);
+            ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
+            Image fxImage = new Image(is);
+
+            ImageView qrCodeImageView = new ImageView(fxImage);
+            qrCodeImageView.setFitWidth(200);
+            qrCodeImageView.setFitHeight(200);
+
+            // Download button
+            Button downloadButton = new Button("Télécharger");
+            downloadButton.setOnAction(e -> {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Sauvegarder le QR Code");
+                fileChooser.setInitialFileName("EventQRCode_" + event.getId() + ".png");
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image PNG", "*.png"));
+                File selectedFile = fileChooser.showSaveDialog(null);
+                if (selectedFile != null) {
+                    try {
+                        ImageIO.write(bufferedImage, "PNG", selectedFile);
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "QR Code téléchargé avec succès !");
+                        alert.show();
+                        openFileLocation(selectedFile.getAbsolutePath());
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
+
+            VBox vbox = new VBox(10, qrCodeImageView, downloadButton);
+            vbox.setAlignment(Pos.CENTER);
+            Scene scene = new Scene(vbox, 250, 300);
+
+            Stage qrCodeStage = new Stage();
+            qrCodeStage.setTitle("QR Code de l'Événement");
+            qrCodeStage.setScene(scene);
+            qrCodeStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+
+
+
+    public void openFileLocation(String path) {
+        try {
+            File file = new File(path);
+            if (file.exists()) {
+                // Open the folder and highlight the file (Windows only)
+                if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                    new ProcessBuilder("explorer.exe", "/select,", file.getAbsolutePath()).start();
+                }
+                // For macOS
+                else if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                    new ProcessBuilder("open", "-R", file.getAbsolutePath()).start();
+                }
+                // For Linux (open the folder only)
+                else {
+                    new ProcessBuilder("xdg-open", file.getParent()).start();
+                }
+            } else {
+                System.err.println("File does not exist: " + path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     private void loadEvents() {
@@ -330,6 +424,21 @@ public class EventController implements Initializable {
     }
 
     @FXML
+    private void navigateToSponsors() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/sponsor/sponsorView.fxml"));
+        Parent root = loader.load();
+        searchField.getScene().setRoot(root);
+    }
+
+    @FXML
+    private void navigateToGenres() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/genre/genreView.fxml"));
+        Parent root = loader.load();
+        searchField.getScene().setRoot(root);
+    }
+
+
+    @FXML
     private void handleExport() {
         // Create a simple Choice Dialog
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Excel", "Excel", "PDF");
@@ -350,7 +459,7 @@ public class EventController implements Initializable {
         try {
             com.itextpdf.text.Document document = new com.itextpdf.text.Document();
 
-            // Define the file path (e.g., "Documents/evenements.pdf")
+
             java.io.File file = new java.io.File(System.getProperty("user.home") + "/Documents/evenements.pdf");
 
             // Create PDF writer instance
@@ -395,6 +504,7 @@ public class EventController implements Initializable {
             
 
             System.out.println("PDF file has been saved to: " + file.getAbsolutePath());
+            openFileLocation(file.getAbsolutePath());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -442,6 +552,8 @@ public class EventController implements Initializable {
             }
 
             System.out.println("Excel file has been saved to: " + file.getAbsolutePath());
+            openFileLocation(file.getAbsolutePath());
+
 
         } catch (Exception e) {
             e.printStackTrace();
