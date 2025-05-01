@@ -92,6 +92,7 @@ public class CompetitionCardController {
                 fichier = new File(competition.getFichier());
             }
 
+
             controller.setCompetitionDetails(
                     competition,
                     competition.getNomComp(),

@@ -5,18 +5,25 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="controllers.addOrganisationFormController"
+      fx:controller="controllers.addOrganisationFormController" style="-fx-background-color: linear-gradient(to bottom right, #5533ff, #00dcff);"
       spacing="10" alignment="CENTER">
 
     <padding>
         <Insets top="20" right="20" bottom="20" left="20"/>
     </padding>
 
-    <Label text="Gestion Organisation" style="-fx-font-size: 18px;"/>
+    <Label text="Ajouter Organisation" style="-fx-font-size: 19px;-fx-font-weight: bold;
+    -fx-text-fill: white;"/>
     <TextField fx:id="nomField" promptText="Nom de l'organisation"/>
     <TextField fx:id="domaineField" promptText="Domaine d'activité"/>
 
     <Label fx:id="errorLabel" textFill="red" visible="false" wrapText="true"/>
 
-    <Button fx:id="actionButton" text="Ajouter" onAction="#handleAction"/>
+    <Button fx:id="actionButton" text="Ajouter" onAction="#handleAction" style=" -fx-background-color: white;
+    -fx-text-fill: #1e3799;
+    -fx-font-weight: bold;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-padding: 8px 20px;
+    "/>
 </VBox>

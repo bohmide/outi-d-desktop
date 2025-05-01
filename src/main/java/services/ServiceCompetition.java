@@ -6,10 +6,15 @@ import interfaces.IServiceCompetition;
 import utils.MyConnection;
 import entities.Equipe;
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.TreeMap;
+
 import javafx.collections.FXCollections; // Ajoutez cette ligne
+import entities.OrganisationStats;
+
+import java.time.YearMonth; // Pour la classe YearMonth
 
 
 public class ServiceCompetition implements IServiceCompetition {
@@ -197,4 +202,44 @@ public class ServiceCompetition implements IServiceCompetition {
         }
     }
 
+    @Override
+    public List<OrganisationStats> getTopOrganisationsWithTeamCount(int limit) {
+        List<OrganisationStats> stats = new ArrayList<>();
+        String sql = "SELECT o.id, o.nom_organisation, o.domaine, COUNT(ce.equipe_id) as team_count "
+                + "FROM organisation o "
+                + "JOIN competition c ON o.id = c.organisation_id "
+                + "JOIN competition_equipe ce ON c.id = ce.competition_id "
+                + "GROUP BY o.id, o.nom_organisation, o.domaine "
+                + "ORDER BY team_count DESC "
+                + "LIMIT ?";
+
+        try (PreparedStatement ps = cnx.prepareStatement(sql)) {
+            ps.setInt(1, limit);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Organisation org = new Organisation(
+                        rs.getInt("id"),
+                        rs.getString("nom_organisation"),
+                        rs.getString("domaine")
+                );
+                stats.add(new OrganisationStats(org, rs.getInt("team_count")));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des stats: " + e.getMessage());
+        }
+        return stats;
+    }
+
+    public Map<YearMonth, Integer> getCompetitionDensity() throws SQLException {
+        List<Competition> competitions = afficherCompetitions();
+        Map<YearMonth, Integer> densityMap = new TreeMap<>();
+
+        for (Competition comp : competitions) {
+            LocalDate start = comp.getDateDebut();
+            YearMonth startYM = YearMonth.from(start);
+            densityMap.put(startYM, densityMap.getOrDefault(startYM, 0) + 1);
+        }
+        return densityMap;
+    }
 }

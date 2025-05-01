@@ -23,7 +23,7 @@
             <!-- Carte de détails -->
             <VBox styleClass="competition-card"
                   spacing="15"
-                  style="-fx-padding: 20; -fx-max-width: 600;">
+                  style="-fx-padding: 20; -fx-max-width: 600;-fx-max-height: 800; -fx-min-height: 600;">
 
                 <!-- En-tête -->
                 <Label fx:id="titleLabel"

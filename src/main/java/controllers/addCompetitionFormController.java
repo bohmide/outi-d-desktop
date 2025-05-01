@@ -58,33 +58,51 @@ public class addCompetitionFormController {
         }
     private void initMap() {
         if (mapView != null) {
-            mapView.setPrefHeight(400); // Définir une hauteur fixe
-
             webEngine = mapView.getEngine();
+
+            // Réinitialiser le contexte JavaScript
+            webEngine.loadContent("");
             webEngine.setJavaScriptEnabled(true);
+            webEngine.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
 
-            // Activer les logs de la console
-            webEngine.setOnAlert(event -> System.out.println("JS Alert: " + event.getData()));
+            // Écouteur pour les erreurs de chargement
+            webEngine.getLoadWorker().exceptionProperty().addListener((obs, oldEx, newEx) -> {
+                System.err.println("Erreur WebEngine: " + newEx);
+            });
 
-            // Charger depuis les ressources
+            webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+                if (newState == Worker.State.SUCCEEDED) {
+                    JSObject window = (JSObject) webEngine.executeScript("window");
+                    window.setMember("javaConnector", new JavaConnector());
+
+                    // Injection d'un keep-alive pour le connecteur
+                    webEngine.executeScript(
+                            "setInterval(function() { " +
+                                    "   if (!window.javaConnector) console.log('En attente du connecteur...'); " +
+                                    "}, 1000);"
+                    );
+                }
+            });
+
+            // Charger la carte après configuration
             URL mapHtml = getClass().getResource("/views/leafletMap.html");
             if (mapHtml != null) {
                 webEngine.load(mapHtml.toExternalForm());
-
-                webEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
-                    if (newState == Worker.State.SUCCEEDED) {
-                        // Initialiser la communication
-                        JSObject window = (JSObject) webEngine.executeScript("window");
-                        window.setMember("javaConnector", new JavaConnector());
-
-                        // Vérifier le chargement de Leaflet
-                        Boolean leafletLoaded = (Boolean) webEngine.executeScript("typeof L !== 'undefined'");
-                        if (leafletLoaded != null && leafletLoaded) {
-                            System.out.println("Leaflet chargé avec succès");
-                        }
-                    }
-                });
             }
+        }
+    }
+
+    public class JavaConnector {
+        public void updateLocation(String lat, String lng, String address) {
+            Platform.runLater(() -> {
+                System.out.println("[DEBUG] Reçu -> Lat: " + lat + ", Lng: " + lng + ", Adresse: " + address);
+                if (localisationField != null) {
+                    localisationField.setText(address);
+                    localisationField.setStyle("-fx-text-fill: green;");
+                } else {
+                    System.err.println("Champ 'localisationField' non initialisé !");
+                }
+            });
         }
     }
 
@@ -97,15 +115,7 @@ public class addCompetitionFormController {
             );
         }
     }
-    public class JavaConnector {
-        public void updateLocation(double lat, double lng, String address) {
-            Platform.runLater(() -> {
 
-                if (localisationField != null) {
-                    localisationField.setText(address);
-                }
-            });
-        }}
     @FXML
     private void handleFileSelection(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();

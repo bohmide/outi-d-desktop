@@ -4,15 +4,22 @@ import entities.Organisation;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.control.Button;
+import javafx.event.ActionEvent;
 
 public class OrganisationCardController {
+
+    @FXML
+    private Button btnModifier;
+
+    @FXML
+    private Button btnSupprimer;
 
     @FXML
     private Label nomLabel;
     @FXML
     private Label domaineLabel;
-    @FXML
-    private HBox actionMenu;
+
 
     private Organisation organisation;
     private OrganisationController parentController;
@@ -27,21 +34,18 @@ public class OrganisationCardController {
         this.parentController = parentController;
     }
 
-    @FXML
-    private void toggleMenu() {
-        actionMenu.setVisible(!actionMenu.isVisible());
-    }
+
 
 
         @FXML
-        private void modifier() {
+        private void modifier(ActionEvent event) {
             parentController.modifierOrganisation(organisation);
-            actionMenu.setVisible(false);
+
         }
 
         @FXML
-        private void supprimer() {
+        private void supprimer(ActionEvent event) {
             parentController.supprimerOrganisation(organisation);
-            actionMenu.setVisible(false);
+
         }
     }

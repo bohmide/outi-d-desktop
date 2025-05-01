@@ -8,20 +8,28 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="controllers.OrganisationController"
       spacing="20"
+      alignment="CENTER"
       style="-fx-padding: 15px; -fx-background-color: transparent;">
+
     <Label text="Gestion des Organisations"
            style="-fx-font-size: 30px; -fx-font-weight: bold;-fx-text-fill: white;"/>
-    <Button text="Ajouter une organisation" onAction="#ajouterOrganisation"
-            styleClass="action-button"/>
 
-    <!-- Conteneur pour les cartes d'organisations -->
+    <HBox alignment="TOP_RIGHT" maxWidth="Infinity">
+        <Button text="Ajouter une organisation"
+                onAction="#ajouterOrganisation"
+                styleClass="action-button"
+                HBox.hgrow="NEVER"/>
+    </HBox>
+
+
+    <!-- Modification du TilePane pour correspondre à Competition -->
     <TilePane fx:id="cardsContainer"
-              hgap="15" vgap="15"
+              hgap="1" vgap="12"
               prefColumns="3"
               style="-fx-background-color: transparent;"
-              prefTileWidth="300"
-              prefTileHeight="150"
-              alignment="TOP_CENTER">
-        <!-- Les cartes seront ajoutées dynamiquement ici -->
+              prefTileWidth="350"
+              prefTileHeight="280"
+              alignment="CENTER"
+              maxWidth="1200">
     </TilePane>
 </VBox>

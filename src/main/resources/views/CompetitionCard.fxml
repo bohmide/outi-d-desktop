@@ -8,14 +8,30 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="controllers.CompetitionCardController"
       styleClass="competition-card"
-      spacing="60"
-      maxWidth="300">
+      spacing="20"
+      maxWidth="300"
+      alignment="TOP_CENTER">
 
     <!-- En-tête -->
-    <Label fx:id="nomLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;-fx-text-fill: white;"/>
+    <!-- En-tête avec boutons en haut à droite -->
+    <HBox alignment="CENTER_RIGHT" spacing="10" maxWidth="Infinity">
+        <StackPane>
+            <Button text="⋮" onAction="#toggleMenu" styleClass="menu-button"/>
+            <HBox fx:id="actionMenu" spacing="2"
+                  style="-fx-background-color: rgba(255, 255, 255, 0.9); -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);-fx-border-radius: 5px;"
+                  visible="false"
+                  alignment="CENTER_RIGHT"
+                  onMouseExited="#toggleMenu">
+                <Button text="Modifier" onAction="#modifier" styleClass="pastel-edit-button"/>
+                <Button text="Supprimer" onAction="#supprimer" styleClass="pastel-delete-button"/>
+                <Button text="Réserver" onAction="#reserver" styleClass="pastel-reserve-button"/>
+            </HBox>
+        </StackPane>
+    </HBox>
+    <Label fx:id="nomLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
 
     <!-- Contenu -->
-    <VBox spacing="5">
+    <VBox spacing="5" VBox.vgrow="ALWAYS" >
         <HBox spacing="5">
             <Label text="Organisation:" style="-fx-font-weight: bold;-fx-text-fill: #e5e5e8;"/>
             <Label fx:id="organisationLabel" style="-fx-text-fill: #e5e5e8;"/>
@@ -33,21 +49,11 @@
             <Label text="Fichier:" style="-fx-font-weight: bold; -fx-text-fill: #e5e5e8;"/>
             <Label fx:id="fichierLabel"  style="-fx-text-fill: #e5e5e8;" />
         </HBox>
+        <Region VBox.vgrow="ALWAYS"/> <!-- Espaceur pour pousser le bouton vers le bas -->
+        <Button text="Détails" onAction="#showDetailsPage" styleClass="details-button"/>
 
     </VBox>
 
-    <!-- Boutons -->
-    <StackPane>
-        <!-- Bouton menu (3 points) -->
-        <Button text="⋮" onAction="#toggleMenu" styleClass="menu-button"/>
 
-        <!-- Menu caché par défaut -->
-        <HBox fx:id="actionMenu" spacing="2" style="-fx-background-color: rgba(255, 255, 255, 0.9); -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);-fx-border-radius: 5px;" visible="false">
-            <Button text="Modifier" onAction="#modifier" styleClass="pastel-edit-button"/>
-            <Button text="Supprimer" onAction="#supprimer" styleClass="pastel-delete-button"/>
-            <Button text="Réserver" onAction="#reserver" styleClass="pastel-reserve-button"/>
-        </HBox>
-        <Button text="Détails" onAction="#showDetailsPage" styleClass="details-button"/>
-    </StackPane>
 
 </VBox>

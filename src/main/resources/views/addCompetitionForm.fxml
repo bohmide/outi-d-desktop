@@ -6,40 +6,75 @@
 <?import java.time.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.web.WebView?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="controllers.addCompetitionFormController"
-      spacing="10" alignment="CENTER">
-
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
-
-    <Label text="Ajouter une compétition" style="-fx-font-size: 18px;"/>
-    <TextField fx:id="nomCompField" promptText="Nom de la compétition"/>
-   <!-- <TextField fx:id="nomEntrepriseField" promptText="Nom de l'entreprise"/>-->
-    <DatePicker fx:id="dateDebutPicker" promptText="Date début "/>
-    <DatePicker fx:id="dateFinPicker" promptText="Date fin "/>
-    <TextArea fx:id="descriptionArea" promptText="Description"/>
-    <ComboBox fx:id="organisationComboBox" promptText="votre organisation "/>
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="Fichier (PDF/PNG):"/>
-        <TextField fx:id="fichierField" editable="false" prefWidth="200"/>
-        <Button text="Parcourir" onAction="#handleFileSelection"/>
-        
-    </HBox>
-
-    <WebView fx:id="mapView" prefHeight="600" prefWidth="400"/>
-
-    <HBox spacing="10">
-        <Label text="Localisation:"/>
-        <TextField fx:id="localisationField" promptText="Adresse" editable="false" prefWidth="300"/>
-    </HBox>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="controllers.addCompetitionFormController"
+           style="-fx-background-color: linear-gradient(to bottom right, #5533ff, #00dcff);" stylesheets="@/styles/main.css">
 
 
-    <!-- hedha el  message d'erreur -->
-    <Label fx:id="errorLabel" textFill="red" visible="false" wrapText="true"/>
+    <ScrollPane fitToWidth="true" style=" -fx-background-color: transparent;">
+    <VBox alignment="CENTER" spacing="20" style="-fx-padding: 20 0;">
+        <Label text="Ajouter une compétition" styleClass="title-label"/>
 
-    <Button fx:id="actionButton" text="Ajouter" onAction="#handleAction"/>
-</VBox>
+        <!-- Card Container -->
+        <VBox spacing="20" maxWidth="600"
+              style="-fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 15; -fx-padding: 30;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.5, 0, 5);">
+            <GridPane hgap="15" vgap="15" >
+                <columnConstraints>
+                    <ColumnConstraints halignment="LEFT" prefWidth="150"/>
+                    <ColumnConstraints prefWidth="400"/>
+                </columnConstraints>
+
+                <Label text="Nom :" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="nomCompField" promptText="Nom de la compétition"
+                           GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="rounded-field"/>
+
+                <Label text="Date début :" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <DatePicker fx:id="dateDebutPicker" promptText="Date début"
+                            GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                <Label text="Date fin :" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <DatePicker fx:id="dateFinPicker" promptText="Date fin"
+                            GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+                <Label text="Description :" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextArea fx:id="descriptionArea" promptText="Description"
+                          GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="rounded-field"/>
+
+                <Label text="Organisation :" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="organisationComboBox" promptText="Votre organisation"
+                          GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="rounded-field"/>
+
+                <Label text="Fichier :" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <HBox spacing="10" GridPane.rowIndex="5" GridPane.columnIndex="1">
+                    <TextField fx:id="fichierField" editable="false" prefWidth="200" styleClass="rounded-field"/>
+                    <Button text="Parcourir" onAction="#handleFileSelection" styleClass="modern-button"/>
+                </HBox>
+
+                <Label text="Carte :" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <WebView fx:id="mapView" prefHeight="300" prefWidth="300"
+                         GridPane.rowIndex="6" GridPane.columnIndex="1" style="-fx-background-radius: 10;"/>
+
+                <Label text="Localisation :" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <TextField fx:id="localisationField" promptText="Adresse" editable="false"
+                           GridPane.rowIndex="7" GridPane.columnIndex="1" styleClass="rounded-field"/>
+            </GridPane>
+
+
+            <Label fx:id="errorLabel" textFill="red" visible="false" wrapText="true" styleClass="error-label"/>
+
+            <!-- Bouton centré avec nouveau style -->
+            <HBox alignment="CENTER">
+                <Button fx:id="actionButton" text="Ajouter" onAction="#handleAction"
+                        styleClass="pastel-button" maxWidth="150"/>
+            </HBox>
+        </VBox>
+    </VBox>
+    </ScrollPane>
+</StackPane>

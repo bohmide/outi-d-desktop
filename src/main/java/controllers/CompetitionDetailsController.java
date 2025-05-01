@@ -124,6 +124,17 @@ public class CompetitionDetailsController {
                     alert.setHeaderText(null);
                     alert.setContentText("Le fichier a été téléchargé avec succès !");
                     alert.showAndWait();
+                }  if (Desktop.isDesktopSupported()) {
+                    try {
+                        Desktop.getDesktop().open(destination);
+                    } catch (IOException e) {
+                        showAlert("Ouverture automatique échouée",
+                                "Le PDF a été généré avec succès mais n'a pas pu être ouvert.\n" +
+                                        "Chemin d'accès : " + destination.getAbsolutePath());
+                    }
+                } else {
+
+                    showAlert("PDF généré avec succès!", "Le fichier a été enregistré ici:\n" + destination.getAbsolutePath());
                 }
             } catch (IOException e) {
                 e.printStackTrace();

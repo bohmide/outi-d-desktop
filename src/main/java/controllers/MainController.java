@@ -28,6 +28,8 @@ public class MainController {
     private void showEquipes() {
         loadView("/views/EquipeView.fxml");
     }
+    @FXML
+    public void showTopOrganisations(){loadView("/views/TopOrganisationsView.fxml");}
 
     private void loadView(String fxmlPath) {
         try {

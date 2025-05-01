@@ -21,45 +21,87 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import javafx.scene.layout.TilePane; // Ajoutez cet import
-
+import javafx.scene.control.TextField;
+import javafx.collections.transformation.FilteredList;
+import javafx.stage.StageStyle; // <-- Ajoutez cette ligne
 
 public class CompetitionController {
 
     @FXML private TilePane cardsContainer;
+    @FXML private TextField searchField;
 
     private final ServiceCompetition sc = new ServiceCompetition();
     private final ServiceOrganisation serviceOrganisation = new ServiceOrganisation();
     private ObservableList<Competition> compList;
     private EquipeController equipeController;
+    private FilteredList<Competition> filteredComps;
+
 
     @FXML
     public void initialize() {
         compList = FXCollections.observableArrayList();
+        filteredComps = new FilteredList<>(compList);
+
+        // Configuration de la recherche
+        setupSearchFilter();
         rafraichirListeCompetitions();
     }
+    private void setupSearchFilter() {
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+            filteredComps.setPredicate(competition -> {
+                if (newVal == null || newVal.isEmpty()) return true;
+
+                String lowerCaseFilter = newVal.toLowerCase();
+
+                return matchesField(competition.getNomComp(), lowerCaseFilter) ||
+                        matchesField(competition.getNomOrganisation(), lowerCaseFilter) ||
+                        matchesField(competition.getDescription(), lowerCaseFilter) ||
+                        matchesDate(competition.getDateDebut(), lowerCaseFilter) ||
+                        matchesDate(competition.getDateFin(), lowerCaseFilter) ||
+                        matchesField(competition.getFichier(), lowerCaseFilter);
+            });
+            updateCompetitionCards();
+        });
+    }
+
+    private boolean matchesField(String value, String filter) {
+        return value != null && value.toLowerCase().contains(filter);
+    }
+
+    private boolean matchesDate(LocalDate date, String filter) {
+        return date != null && date.toString().contains(filter);
+    }
+
 
     public void rafraichirListeCompetitions() {
         try {
             List<Competition> competitions = sc.afficherCompetitions();
-            cardsContainer.getChildren().clear();
+            compList.setAll(competitions); // Mise à jour de la liste observable
+            updateCompetitionCards(); // Appel unique pour la mise à jour des cartes
+        } catch (Exception e) {
+            showAlert("Erreur", "Impossible de charger les compétitions");
+            e.printStackTrace();
+        }
+    }
 
-            // Dans la méthode rafraichirListeCompetitions()
-            for (Competition comp : competitions) {
+    private void updateCompetitionCards() {
+        cardsContainer.getChildren().clear();
+        for (Competition comp : filteredComps) {
+            try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/CompetitionCard.fxml"));
                 VBox card = loader.load();
                 CompetitionCardController cardController = loader.getController();
                 cardController.setCompetition(comp, this);
-
-                // Appliquez le style CSS directement ou via une classe
                 card.getStyleClass().add("competition-card");
-                card.setMaxWidth(300); // Limitez la largeur maximale
+                card.setMaxWidth(300);
                 cardsContainer.getChildren().add(card);
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert("Erreur", "Erreur lors du chargement d'une carte");
             }
-        } catch (IOException e) {
-            showAlert("Erreur", "Impossible de charger les cartes de compétition");
-            e.printStackTrace();
         }
     }
+
 
     @FXML
     private void ajouterCompetition() {
@@ -69,7 +111,8 @@ public class CompetitionController {
 
             Stage stage = new Stage();
             stage.setTitle("Ajouter une compétition");
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root, 900, 700); // Augmentez 600 et réduisez 400 selon vos besoins
+            stage.setScene(scene);
             stage.setOnHiding(event -> rafraichirListeCompetitions());
             stage.show();
 
@@ -166,4 +209,37 @@ public class CompetitionController {
     public void setEquipeController(EquipeController equipeController) {
         this.equipeController = equipeController;
     }
+
+    public void showTopOrganisations() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/TopOrganisationsView.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Statistiques des organisations");
+            stage.setScene(new Scene(root));
+            stage.initStyle(StageStyle.UTILITY);
+            stage.setResizable(false);
+            stage.show();
+
+        } catch (IOException e) {
+            showAlert("Erreur", "Impossible d'afficher les statistiques");
+        }
+    }
+
+    @FXML
+    private void showCompetitionCalendar() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/CalendarView.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("Météo des Compétitions");
+            stage.setScene(new Scene(root, 800, 600));
+            stage.show();
+        } catch (IOException e) {
+            showAlert("Erreur", "Impossible d'ouvrir le calendrier");
+        }
+    }
+
 }

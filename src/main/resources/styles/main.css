@@ -147,6 +147,8 @@
 /* Style pour le conteneur principal */
 .competition-view {
     -fx-background-color: transparent;
+    -fx-alignment: center;
+
 }
 
 /* Style pour le conteneur des cartes */
@@ -154,6 +156,8 @@
     -fx-background-color: transparent;
     -fx-padding: 10px;
     -fx-alignment: center;
+    -fx-spacing: 25px; /* Espace entre les éléments */
+    -fx-padding: 15px;
 }
 
 /* Style pour chaque carte de compétition */
@@ -161,22 +165,38 @@
     -fx-background-color: #4CAF50;
     -fx-text-fill: white;
     -fx-font-weight: bold;
+
 }
+
+.actioninvisible {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: transparent;
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+
 .action-button:hover {
     -fx-background-color:#4CAF50 ; /* Garde la même couleur au survol */
 }
 .competition-card {
     -fx-background-color:  rgba(255, 255, 255, 0.2);
-    -fx-background-radius: 10;
+    -fx-background-radius: 20;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
     -fx-padding: 15;
-    -fx-spacing: 10;
-    -fx-max-width: 300px; /* Largeur fixe */
-    -fx-min-width: 280px; /* Largeur minimale */
+    -fx-spacing: 15;
+    -fx-min-width: 350px;
+    -fx-max-width: 350px; /* Largeur fixe */
+     /* Largeur minimale */
+    -fx-min-height: 280px;
+    -fx-pref-height: 280px;
 
+    -fx-margin: 30px 20px;
 }
 .competition-card:hover {
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 15, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 15, 0, 5, 5);
 }
 .content-view {
     -fx-background-color: linear-gradient(to bottom right, #5533ff, #00dcff);
@@ -184,9 +204,11 @@
 }
 /* Style pour le TilePane */
 .tile-pane {
-    -fx-padding: 10px;
+    -fx-padding: 20px;
     -fx-background-color: transparent;
     -fx-alignment: center;
+    -fx-hgap: 25px; /* Espace horizontal entre les cartes */
+    -fx-vgap: 25px;
 }
 .menu-button {
     -fx-font-size: 18px;
@@ -194,20 +216,22 @@
     -fx-background-color: rgba(255, 255, 255, 0.9);
     -fx-border-radius: 5px;
     -fx-padding: 5;
-    -fx-translate-x: -60px; /* déplace le bouton de 10px vers la gauche */
+    -fx-translate-x: 120px; /* déplace le bouton de 10px vers la gauche */
 }
 
 .details-button {
-    -fx-background-color: #4CAF50; /* Couleur verte */
-    -fx-text-fill: white; /* Couleur du texte */
+    -fx-background-color:#cbe5f2; /* Couleur verte */
+    -fx-text-fill: #017995; /* Couleur du texte */
     -fx-font-weight: bold; /* Texte en gras */
-
+    -fx-max-width: Infinity;
     /* Pour le positionner en bas */
-    -fx-translate-y: 50; /* Déplace le bouton vers le bas de 100 pixels */
-    -fx-padding: 50px;
+    -fx-padding: 20px 30px;
+    -fx-alignment: CENTER;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
     /* Autres styles optionnels */
     -fx-padding: 10 20; /* Rembourrage interne */
     -fx-border-radius: 5; /* Coins arrondis */
+
 }
 .menu-button:hover {
     -fx-background-color: rgba(0,0,0,0.1);
@@ -226,6 +250,15 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);
     -fx-spacing: 5;
     -fx-padding: 5;
+    -fx-cursor: default;
+}
+.action-menu .button {
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s;
+}
+.action-menu .button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
 }
 /* Boutons pastel plus foncés */
 .pastel-edit-button {
@@ -267,7 +300,49 @@
     -fx-background-color: #7ac798;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1);
 }
+/* Ajoutez ces styles à la fin de votre fichier CSS */
 
+/* Style du bouton pastel */
+.pastel-button {
+    -fx-background-color: rgba(255, 255, 255, 0.9); /* Bleu pastel */
+    -fx-text-fill: #2c3e50;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-padding: 12 30;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 0, 0, 0, 1);
+
+}
+
+.pastel-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+
+.pastel-button:pressed {
+    -fx-background-color: rgba(111, 163, 179, 1.0);
+}
+
+/* Ajustements pour le défilement */
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255,255,255,0.3);
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar:vertical .increment-button,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 5;
+}
 /*organisation*/
 
 /* Organisation Card Styles */
@@ -319,7 +394,225 @@
     -fx-font-weight: bold;
     -fx-background-radius: 5;
 }
+#searchField {
+    -fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #cccccc;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 20px; /* Coins arrondis */
+    -fx-border-radius: 20px; /* Coins arrondis pour la bordure */
+    -fx-background-color: rgba(255, 255, 255, 1); /* Opacité réduite */
+    -fx-border-color: #d0d0d0; /* Couleur de bordure neutre */
+    -fx-border-width: 1px;
+    -fx-pref-height: 40px; /* Hauteur réduite */
+    -fx-min-height: 40px;
+    -fx-max-height: 40px;
+    -fx-font-size: 12px; /* Taille de texte réduite */
+    -fx-padding: 0 10px; /* Padding horizontal */
+    -fx-transition: all 0.3s ease;
+}
+
+
+#searchField:focused {
+    -fx-border-color: #0093ff;
+    -fx-background-color: rgba(255, 255, 255, 0.9); /* Légère augmentation d'opacité au focus */
+}
 
 .text-field:disabled {
     -fx-opacity: 1.0;
+}
+VBox {
+    -fx-spacing: 13px; /* Espacement global accru */
+}
+/* Dans votre fichier CSS principal */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color: rgba(255,255,255,0.2);
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(255,255,255,0.5);
+    -fx-background-radius: 5px;
+}
+.title-label {
+     -fx-font-size: 30px;
+     -fx-font-weight: bold;
+     -fx-text-fill: white;
+     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 0, 0, 0, 2);
+ }
+
+.rounded-field {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-padding: 6 8;
+    -fx-background-color: rgba(255,255,255,0.9);
+    -fx-border-color:rgba(255,255,255,0.9) ;
+    -fx-border-width: 0.5;
+    -fx-font-size: 14px;
+}
+
+.rounded-field:hover {
+    -fx-background-color: white;
+    -fx-border-color: #1e3c72;
+}
+
+.rounded-field:focused {
+    -fx-border-color: #1e3c72;
+    -fx-effect: innershadow(gaussian, rgba(42,82,152,0.2), 10, 0, 0, 0);
+}
+
+.modern-button {
+    -fx-background-color: linear-gradient(to bottom, #3a62a8, #2a5298);
+    -fx-text-fill: white;
+    -fx-background-radius: 10;
+    -fx-padding: 10 25;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 0, 0, 0, 2);
+}
+
+.modern-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #4a72b8, #3a62a8);
+}
+
+.error-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #ff4444;
+    -fx-background-color: rgba(255,255,255,0.8);
+    -fx-background-radius: 5;
+    -fx-padding: 8px;
+}
+
+/* Styles spécifiques pour DatePicker et ComboBox */
+.date-picker > .text-field {
+    -fx-background-radius: 10;
+
+}
+
+.combo-box > .list-cell {
+    -fx-background-radius: 10;
+}
+.anchor-pane {
+    -fx-background-color: #f5f6fa;
+}
+
+.chart {
+    -fx-background-color: transparent;
+    -fx-padding: 20px;
+}
+
+.axis {
+    -fx-tick-label-fill: #2d3436;
+    -fx-font-size: 12px;
+    -fx-font-family: 'Segoe UI';
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.title-label {
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 2, 0.5, 0, 1);
+}
+
+.background-line {
+    -fx-stroke: linear-gradient(to bottom right, #4CAF50 0%, #2196F3 100%);
+    -fx-stroke-width: 8;
+    -fx-opacity: 0.15;
+}
+
+.chart-bar {
+    -fx-background-radius: 5 5 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+.stats-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-padding: 10 20;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);
+}
+
+.stats-button:hover {
+    -fx-background-color: #45a049;
+    -fx-cursor: hand;
+}
+
+/* Couleur pour les périodes normales */
+.default-color0.chart-bar {
+    -fx-bar-fill: #4CAF50; /* Vert */
+}
+
+/* Couleur pour les périodes de surcharge */
+.default-color1.chart-bar {
+    -fx-bar-fill: #FF5252; /* Rouge */
+}
+
+/* Couleur pour les périodes creuses */
+.default-color2.chart-bar {
+    -fx-bar-fill: #2196F3; /* Bleu */
+}
+/* Ajouter dans main.css */
+.hbox-container {
+    -fx-background-color: #f5f6fa;
+}
+
+.vbox-section {
+    -fx-background-color:  rgba(255,255,255,1);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-background-radius: 10;
+}
+/* Remplacer les styles d'organisation existants par : */
+.organisation-card {
+    -fx-background-color: rgba(255, 255, 255, 0.2);
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);
+    -fx-padding: 15;
+    -fx-spacing: 15;
+    -fx-min-width: 320px;
+    -fx-max-width: 320px;
+    -fx-min-height: 220px;
+    -fx-pref-height: 220px;
+    -fx-margin: 30px 20px;
+
+
+}
+
+.organisation-card:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 15, 0, 5, 5);
+}
+
+/* Conserver les styles spécifiques aux textes d'organisation */
+.organisation-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.organisation-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #666666;
+    -fx-font-weight: bold;
+
+}
+
+.organisation-value {
+    -fx-font-size: 13px;
+    -fx-text-fill: #444444;
+}
+
+.organisation-card > .h-box {
+    -fx-padding: 10px 0 0 0;
+    -fx-border-insets: 10px 0 0 0;
+    -fx-background-insets: 10px 0 0 0;
 }

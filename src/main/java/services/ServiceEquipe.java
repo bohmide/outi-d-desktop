@@ -6,6 +6,8 @@ import entities.Competition_Equipe;
 import utils.MyConnection;
 import java.sql.*;
 import java.util.ArrayList;
+import com.fasterxml.jackson.databind.ObjectMapper;  // Ajout de la bibliothèque Jackson pour la conversion JSON
+
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,11 +16,47 @@ import entities.Competition;  // Ajoutez cette ligne
 
 public class ServiceEquipe implements IServiceEquipe {
     private Connection cnx = MyConnection.getInstance().getCnx();
+    private ObjectMapper objectMapper;  // Déclaration de l'ObjectMapper pour convertir en JSON
+
+    public ServiceEquipe() {
+        this.objectMapper = new ObjectMapper();  // Initialisation de l'ObjectMapper
+    }
 
     @Override
     public int ajouterEquipe(Equipe equipe) {
         PreparedStatement pst = null;
         ResultSet rs = null;
+
+        // Vérifier si les membres sont valides
+        String membresInput = equipe.getMembres();
+        if (membresInput == null || membresInput.trim().isEmpty()) {
+            throw new IllegalArgumentException("Aucun membre n'a été fourni.");
+        }
+
+        // Convertir la chaîne des membres en liste
+        String[] membresArray = membresInput.split(",");
+        List<String> membresList = new ArrayList<>();
+
+        for (String m : membresArray) {
+            String trimmed = m.trim();
+            if (!trimmed.isEmpty()) {
+                membresList.add(trimmed);
+            }
+        }
+
+        // Vérifier que l'équipe contient au moins 4 membres
+        if (membresList.size() < 4) {
+            throw new IllegalArgumentException("L'équipe doit contenir 4 membres ou plus.");
+        }
+
+        // Convertir la liste des membres en JSON
+        String membresJson = null;
+        try {
+            membresJson = objectMapper.writeValueAsString(membresList);  // Convertir en JSON
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Erreur lors de la conversion des membres en JSON.", e);
+        }
+
         String query = "INSERT INTO equipe (travail, nom_equipe, ambassadeur, membres) VALUES (?, ?, ?, ?)";
 
         try {
@@ -26,9 +64,7 @@ public class ServiceEquipe implements IServiceEquipe {
             pst.setString(1, equipe.getTravail());
             pst.setString(2, equipe.getNomEquipe());
             pst.setString(3, equipe.getAmbassadeur());
-            pst.setString(4, equipe.getMembres() == null || equipe.getMembres().trim().isEmpty()
-                    ? "Membres non spécifiés"
-                    : equipe.getMembres());
+            pst.setString(4, membresJson);  // Insérer la chaîne JSON dans la base de données
 
             if (pst.executeUpdate() == 0) {
                 return -1;
@@ -38,6 +74,7 @@ public class ServiceEquipe implements IServiceEquipe {
             return rs.next() ? rs.getInt(1) : -1;
 
         } catch (SQLException ex) {
+            System.err.println("Erreur SQL lors de l'ajout d'une équipe : " + ex.getMessage());
             ex.printStackTrace();
             return -1;
         } finally {
@@ -49,6 +86,9 @@ public class ServiceEquipe implements IServiceEquipe {
             }
         }
     }
+
+
+
 
     @Override
     public List<Equipe> afficherToutesEquipes() {
@@ -74,6 +114,7 @@ public class ServiceEquipe implements IServiceEquipe {
                 equipes.add(equipe);
             }
         } catch (SQLException e) {
+
             e.printStackTrace();
         }
         return equipes;

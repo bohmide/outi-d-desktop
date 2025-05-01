@@ -58,15 +58,15 @@ public class OrganisationController {
 
     @FXML
     public void ajouterOrganisation() {
+        System.out.println("orgqnisqtion");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/addOrganisationForm.fxml"));
             Parent root = loader.load();
-
             Stage stage = new Stage();
             stage.setTitle("Ajouter Organisation");
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
+            stage.setScene(new Scene(root,400,400));
 
+            stage.showAndWait();
             rafraichirListeOrganisations();
         } catch (IOException e) {
             e.printStackTrace();

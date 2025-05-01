@@ -19,10 +19,14 @@
                 style="-fx-background-color: white ; -fx-text-fill: #4a90e2; -fx-padding: 8px 16px;"/>
         <Button text="Équipes" onAction="#showEquipes"
                 style="-fx-background-color: white ; -fx-text-fill: #4a90e2 ; -fx-padding: 8px 16px;"/>
+        <Button text="Voir les stats" styleClass="stats-button" onAction="#showTopOrganisations" />
     </HBox>
 
 
     <!-- Conteneur pour les vues -->
-    <StackPane fx:id="contentPane" VBox.vgrow="ALWAYS"/>
-
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+        <StackPane fx:id="contentPane"
+                   minHeight="-Infinity"
+                   style="-fx-background-color: transparent;"/>
+    </ScrollPane>
 </VBox>

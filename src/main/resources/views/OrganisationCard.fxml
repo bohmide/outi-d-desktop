@@ -7,30 +7,43 @@
 <VBox xmlns="http://javafx.com/javafx/8.0.171"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="controllers.OrganisationCardController"
-      styleClass="competition-card"
-      spacing="10"
-      maxWidth="300">
+      styleClass="organisation-card"
+      spacing="20"
+      alignment="CENTER"
+      maxWidth="300"
+      style="-fx-padding: 20 15 15 15;">
 
     <!-- En-tête -->
-    <Label fx:id="nomLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+    <Label fx:id="nomLabel"
+           style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-padding: 0 0 10 0; -fx-text-fill: white;"
+           alignment="CENTER"/>
 
-    <!-- Contenu -->
-    <VBox spacing="5">
-        <HBox spacing="5">
-            <Label text="Domaine:" style="-fx-font-weight: bold;"/>
-            <Label fx:id="domaineLabel"/>
+    <!-- Contenu principal -->
+    <VBox spacing="8" alignment="CENTER">
+        <HBox spacing="5" alignment="CENTER">
+            <Label text="Domaine:" style="-fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label fx:id="domaineLabel" style=" -fx-text-fill: white;"/>
         </HBox>
     </VBox>
 
-    <!-- Boutons -->
-    <StackPane>
-        <!-- Bouton menu (3 points) -->
-        <Button text="⋮" onAction="#toggleMenu" styleClass="menu-button"/>
+    <!-- Espace vide pour pousser les boutons vers le bas -->
+    <Region maxHeight="30" VBox.vgrow="ALWAYS"/>
 
-        <!-- Menu caché par défaut -->
-        <HBox fx:id="actionMenu" spacing="2" style="-fx-background-color: rgba(255, 255, 255, 0.9); -fx-padding: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);-fx-border-radius: 5px;" visible="false">
-            <Button text="Modifier" onAction="#modifier" styleClass="pastel-edit-button"/>
-            <Button text="Supprimer" onAction="#supprimer" styleClass="pastel-delete-button"/>
-        </HBox>
-    </StackPane>
+    <!-- Boutons en bas avec marge supérieure -->
+    <HBox spacing="10" alignment="CENTER" maxWidth="Infinity" style="-fx-padding: 15 0 0 0;">
+        <Button  fx:id="btnSupprimer" text="Supprimer" onAction="#supprimer"
+                styleClass="pastel-delete-button"
+                HBox.hgrow="NEVER"/>
+
+        <Region HBox.hgrow="ALWAYS"/> <!-- Espaceur horizontal -->
+
+        <Button  fx:id="btnModifier"  text="Modifier" onAction="#modifier"
+               style="-fx-background-color: #ede7f5;
+    -fx-text-fill: #2c3e50;
+    -fx-background-radius: 5;
+    -fx-padding: 5 15;
+    -fx-font-weight: bold;"
+                HBox.hgrow="NEVER"/>
+    </HBox>
+
 </VBox>
