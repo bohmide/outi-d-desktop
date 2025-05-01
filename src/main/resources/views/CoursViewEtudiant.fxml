@@ -4,7 +4,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.CoursControllerEtudiant"
@@ -26,19 +25,44 @@
 
             <Label text="Espace Étudiant"
                    style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <ComboBox fx:id="languageCombo"
+                      promptText="Langue"
+                      style="-fx-pref-width: 120; -fx-pref-height: 35;"
+                      HBox.hgrow="NEVER"/>
         </HBox>
 
         <Label text="Liste des cours disponibles"
                style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+
+        <!-- Barre de recherche et filtres -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <TextField fx:id="searchField" promptText="Rechercher un cours..."
+                       style="-fx-pref-width: 250; -fx-pref-height: 35;"/>
+            <ComboBox fx:id="difficultyFilter" promptText="Filtrer par difficulté"
+                      style="-fx-pref-width: 150; -fx-pref-height: 35;"/>
+            <ComboBox fx:id="sortComboBox" promptText="Trier par"
+                      style="-fx-pref-width: 180; -fx-pref-height: 35;"/>
+        </HBox>
     </VBox>
 
-    <!-- Scrollable GridPane OUTSIDE VBox -->
-    <ScrollPane fitToWidth="true" pannable="true"
-                AnchorPane.topAnchor="100" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
-                style="-fx-background-color: transparent;">
-        <GridPane fx:id="gridCours" hgap="20" vgap="20" alignment="TOP_CENTER">
-            <padding><Insets bottom="20" left="10" right="10"/></padding>
+    <ScrollPane fitToWidth="true" fitToHeight="true"
+                AnchorPane.topAnchor="200"
+                AnchorPane.bottomAnchor="20"
+                AnchorPane.leftAnchor="20"
+                AnchorPane.rightAnchor="20">
+        <GridPane fx:id="gridCours" hgap="20" vgap="20">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
         </GridPane>
     </ScrollPane>
 
+
+    <!-- Pagination -->
+    <Pagination fx:id="pagination"
+                AnchorPane.topAnchor="150"
+                AnchorPane.bottomAnchor="20"
+                AnchorPane.leftAnchor="20"
+                AnchorPane.rightAnchor="20"
+                style="-fx-page-information-visible: false;"/>
 </AnchorPane>

@@ -10,26 +10,26 @@
             prefHeight="700.0" prefWidth="1000.0"
             style="-fx-background-color: #f5f7fa;">
 
-    <!-- Header -->
     <VBox spacing="10" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-        <HBox alignment="CENTER_LEFT" spacing="10">
-            <Button text="← Retour"
-                    onAction="#retourAccueil"
-                    style="-fx-background-color: #4a6baf;
-                           -fx-text-fill: white;
-                           -fx-font-weight: bold;
-                           -fx-background-radius: 5;
-                           -fx-padding: 6 12;
-                           -fx-cursor: hand;"
-                    fx:id="btnRetour"/>
-            <Label fx:id="lblCoursTitle"
-                   style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-        </HBox>
+        <HBox spacing="30" alignment="CENTER_LEFT"
+              style="-fx-background-color: #ffffff; -fx-padding: 15 25 15 25; -fx-border-color: #dfe6ed; -fx-border-width: 0 0 1 0;">
 
-        <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #34495e;"/>
+            <Button fx:id="btnRetour" onAction="#retourAccueil"
+                    style="-fx-background-color: #4a6baf; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 8 14;"/>
+
+            <VBox spacing="4">
+                <Label fx:id="lblCoursTitle"
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                <Label fx:id="lblProgression"
+                       style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+            </VBox>
+
+            <ComboBox fx:id="languageCombo"
+                      style="-fx-background-color: white; -fx-border-color: #dfe6ed; -fx-border-radius: 4;"
+                      prefWidth="100"/>
+        </HBox>
     </VBox>
 
-    <!-- Scrollable list of chapters as cards -->
     <ScrollPane fitToWidth="true"
                 AnchorPane.topAnchor="100" AnchorPane.bottomAnchor="20"
                 AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"

@@ -17,6 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class QuestionControllerProf {
 
@@ -170,7 +172,7 @@ public class QuestionControllerProf {
             scene.setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Erreur lors du chargement de la vue des réponses");
+            showAlert("Erreur","Erreur lors du chargement de la vue des réponses");
         }
     }
 
@@ -180,17 +182,17 @@ public class QuestionControllerProf {
         String type = cbType.getValue();
 
         if (questionText.isEmpty()) {
-            showAlert("Veuillez saisir l'intitulé de la question.");
+            showAlert("Erreur","Veuillez saisir l'intitulé de la question.");
             return;
         }
 
         if (questionText.length() < 5 || questionText.length() > 50) {
-            showAlert("La question doit contenir entre 5 et 50 caractères.");
+            showAlert("Erreur","La question doit contenir entre 5 et 50 caractères.");
             return;
         }
 
         if (type == null || type.isEmpty()) {
-            showAlert("Veuillez sélectionner un type de question.");
+            showAlert("Erreur","Veuillez sélectionner un type de question.");
             return;
         }
 
@@ -207,7 +209,7 @@ public class QuestionControllerProf {
     @FXML
     private void modifierQuestion() {
         if (selectedQuestion == null) {
-            showAlert("Veuillez sélectionner une question à modifier.");
+            showAlert("Erreur","Veuillez sélectionner une question à modifier.");
             return;
         }
 
@@ -215,17 +217,17 @@ public class QuestionControllerProf {
         String type = cbType.getValue();
 
         if (questionText.isEmpty()) {
-            showAlert("La question ne peut pas être vide.");
+            showAlert("Erreur","La question ne peut pas être vide.");
             return;
         }
 
         if (questionText.length() < 5 || questionText.length() > 50) {
-            showAlert("La question doit contenir entre 5 et 200 caractères.");
+            showAlert("Erreur","La question doit contenir entre 5 et 200 caractères.");
             return;
         }
 
         if (type == null || type.isEmpty()) {
-            showAlert("Veuillez sélectionner un type de question.");
+            showAlert("Erreur","Veuillez sélectionner un type de question.");
             return;
         }
         selectedQuestion.setQuestion(taQuestion.getText());
@@ -264,17 +266,21 @@ public class QuestionControllerProf {
 
     @FXML
     private void retourAuxQuiz() {
+        ResourceBundle bundle = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuizProfView.fxml"));
-            Parent root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuizViewEtudiant.fxml"));
 
-            QuizControllerProf controller = loader.getController();
-            controller.initData(currentChapitre, currentCours);
+            bundle = ResourceBundle.getBundle("Lang.messages", Locale.ENGLISH);
+            loader.setResources(bundle);
+            Parent root = loader.load();
+            QuizControllerEtudiant controller = loader.getController();
+            controller.initData(currentChapitre, currentCours, bundle);
 
             Scene scene = btnRetour.getScene();
             scene.setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
+            showAlert(bundle.getString("error.returning"), "");
         }
     }
 
@@ -298,9 +304,10 @@ public class QuestionControllerProf {
         selectedQuestion = null;
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Attention");
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }

@@ -1,5 +1,6 @@
 package controllers;
 
+import Services.CertificationService;
 import Services.QuestionService;
 import Services.ReponseService;
 import entities.Chapitres;
@@ -22,6 +23,8 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class QuestionControllerEtudiant {
 
@@ -46,7 +49,7 @@ public class QuestionControllerEtudiant {
     private Chapitres currentChapitre;
     private Cours currentCours;
 
-    private List<Question> questions; // Liste de toutes les questions
+    private List<Question> questions;
 
     public void initData(Quiz quiz, Chapitres chapitre, Cours cours) {
         this.currentQuiz = quiz;
@@ -141,30 +144,42 @@ public class QuestionControllerEtudiant {
 
                 List<Reponse> reponses = reponseService.getReponsesByQuestion(question.getId());
 
-                if (question.getType().equalsIgnoreCase("QCU")) {
-                    // Pour QCU, on doit avoir UNE seule réponse sélectionnée, et elle doit être correcte
-                    Reponse selected = null;
-                    for (var child : box.getChildren()) {
-                        if (child instanceof RadioButton radioButton && radioButton.isSelected()) {
-                            selected = (Reponse) radioButton.getUserData();
-                            break;
-                        }
-                    }
-                    if (selected == null || !selected.isCorrect()) {
-                        correct = false;
-                    }
-                } else { // QCM
-                    for (var child : box.getChildren()) {
-                        if (child instanceof CheckBox checkBox) {
-                            Reponse reponse = (Reponse) checkBox.getUserData();
-                            if (checkBox.isSelected() && !reponse.isCorrect()) {
-                                correct = false;
-                            }
-                            if (!checkBox.isSelected() && reponse.isCorrect()) {
-                                correct = false;
+                if (box.getChildren().size() >= 3) {
+                    VBox answersBox = (VBox) box.getChildren().get(2); // Le VBox qui contient les réponses
+
+                    if (question.getType().equalsIgnoreCase("CHOIX_UNIQUE")) {
+                        Reponse selected = null;
+                        for (var child : answersBox.getChildren()) {
+                            if (child instanceof HBox hbox) {
+                                for (var element : hbox.getChildren()) {
+                                    if (element instanceof RadioButton radioButton && radioButton.isSelected()) {
+                                        selected = (Reponse) radioButton.getUserData();
+                                    }
+                                }
                             }
                         }
+                        if (selected == null || !selected.isCorrect()) {
+                            correct = false;
+                        }
+                    } else { // QCM
+                        for (var child : answersBox.getChildren()) {
+                            if (child instanceof HBox hbox) {
+                                for (var element : hbox.getChildren()) {
+                                    if (element instanceof CheckBox checkBox) {
+                                        Reponse reponse = (Reponse) checkBox.getUserData();
+                                        if (checkBox.isSelected() && !reponse.isCorrect()) {
+                                            correct = false;
+                                        }
+                                        if (!checkBox.isSelected() && reponse.isCorrect()) {
+                                            correct = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
+                } else {
+                    correct = false;
                 }
 
                 if (correct) {
@@ -174,17 +189,40 @@ public class QuestionControllerEtudiant {
             }
         }
 
+        // Résultat final
         showAlert("Résultat", "Vous avez obtenu " + bonnesReponses + " bonnes réponses sur " + totalQuestions + " !");
+
+        if (bonnesReponses == totalQuestions) {
+            try {
+                // Use the public method that handles both generation and email sending
+                CertificationService.genererEtEnvoyerCertification(
+                        "Nom_Etudiant",
+                        "mejria742@gmail.com",
+                        currentCours.getNom(),
+                        currentCours.getId(),
+                        bonnesReponses,
+                        totalQuestions
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Erreur", "Une erreur est survenue lors de la génération de la certification");
+            }
+            showAlert("Félicitations !", "Certification générée et envoyée par email !");
+        } else {
+            showAlert("Dommage", "Vous n'avez pas réussi le quiz, essayez encore !");
+        }
     }
 
     @FXML
     private void retourAuxQuiz() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuizViewEtudiant.fxml"));
-            Parent root = loader.load();
 
+            ResourceBundle bundle = ResourceBundle.getBundle("Lang.messages", Locale.ENGLISH);
+            loader.setResources(bundle);
+            Parent root = loader.load();
             QuizControllerEtudiant controller = loader.getController();
-            controller.initData(currentChapitre, currentCours);
+            controller.initData(currentChapitre, currentCours, bundle);
 
             Scene scene = btnRetour.getScene();
             scene.setRoot(root);

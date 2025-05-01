@@ -14,10 +14,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class QuizControllerEtudiant {
 
@@ -34,11 +37,13 @@ public class QuizControllerEtudiant {
     private ObservableList<Quiz> quizList;
     private Chapitres currentChapitre;
     private Cours currentCours;
+    private ResourceBundle bundle;
 
-    public void initData(Chapitres chapitre, Cours cours) {
+    public void initData(Chapitres chapitre, Cours cours, ResourceBundle bundle) {
         this.currentChapitre = chapitre;
         this.currentCours = cours;
-        lblChapitreInfo.setText("Quiz disponibles - Chapitre : " + chapitre.getNomChapitre());
+        this.bundle = bundle;
+        lblChapitreInfo.setText(bundle.getString("quiz.available") + " - " + chapitre.getNomChapitre());
         loadQuiz();
     }
 
@@ -59,7 +64,7 @@ public class QuizControllerEtudiant {
                 updateQuizDisplay();
             }
         } catch (SQLException e) {
-            showErrorAlert("Erreur lors du chargement des quizzes", e);
+            showErrorAlert(bundle.getString("error.load.quizzes"), e);
         }
     }
 
@@ -67,7 +72,7 @@ public class QuizControllerEtudiant {
         vboxQuiz.getChildren().clear();
 
         if (quizList.isEmpty()) {
-            lblNoQuizMessage.setText("Aucun quiz disponible pour ce chapitre.");
+            lblNoQuizMessage.setText(bundle.getString("quiz.none.available"));
             lblNoQuizMessage.setVisible(true);
             return;
         }
@@ -96,7 +101,7 @@ public class QuizControllerEtudiant {
         Label scoreLabel = new Label();
         scoreLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #7f8c8d;");
 
-        Button btnVoirQuiz = new Button("Lancer Quiz");
+        Button btnVoirQuiz = new Button(bundle.getString("quiz.start"));
         btnVoirQuiz.setStyle("-fx-background-color: #4a6baf; " +
                 "-fx-text-fill: white; " +
                 "-fx-font-weight: bold; " +
@@ -112,15 +117,16 @@ public class QuizControllerEtudiant {
     private void navigateToQuestions(Quiz quiz) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuestionViewEtudiant.fxml"));
+            loader.setResources(bundle);
             Parent root = loader.load();
 
             QuestionControllerEtudiant controller = loader.getController();
             controller.initData(quiz, currentChapitre, currentCours);
 
-            Scene scene = btnRetour.getScene();
-            scene.setRoot(root);
+            Stage stage = (Stage) btnRetour.getScene().getWindow();
+            stage.setScene(new Scene(root));
         } catch (IOException e) {
-            showErrorAlert("Erreur lors du chargement des questions", e);
+            showErrorAlert(bundle.getString("error.load.questions"), e);
         }
     }
 
@@ -128,29 +134,22 @@ public class QuizControllerEtudiant {
     private void retourAuxChapitres() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ChapitreEtudiantView.fxml"));
+            loader.setResources(bundle);
             Parent root = loader.load();
 
             ChapitreControllerEtudiant controller = loader.getController();
-            controller.initData(currentCours);
+            controller.initData(currentCours, bundle);
 
-            Scene scene = btnRetour.getScene();
-            scene.setRoot(root);
+            Stage stage = (Stage) btnRetour.getScene().getWindow();
+            stage.setScene(new Scene(root));
         } catch (IOException e) {
-            showErrorAlert("Erreur lors du retour aux chapitres", e);
+            showErrorAlert(bundle.getString("error.back.chapters"), e);
         }
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     private void showErrorAlert(String message, Exception e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
+        alert.setTitle(bundle.getString("error.title"));
         alert.setHeaderText(message);
         alert.setContentText(e.getMessage());
         alert.showAndWait();
