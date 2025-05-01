@@ -21,8 +21,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import Services.CoursService;
+import org.json.JSONObject;
+
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.text.MessageFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -44,6 +50,9 @@ public class CoursControllerEtudiant {
     private FilteredList<Cours> filteredCourses;
     private SortedList<Cours> sortedCourses;
     private static final int ITEMS_PER_PAGE = 6;
+    @FXML private Button backButton;
+
+
 
     @FXML
     public void initialize() {
@@ -55,11 +64,13 @@ public class CoursControllerEtudiant {
         languageCombo.setValue("Français");
         languageCombo.setOnAction(this::changeLanguage);
 
+
         // Initialize UI
         loadCourses();
         setupFilters();
         setupSorting();
         updatePagination();
+
     }
 
     private void setupFilters() {
@@ -95,16 +106,22 @@ public class CoursControllerEtudiant {
     }
 
     private void refreshUI() {
-        // Refresh filters
+
+        // Champs de recherche/filtre
+        searchField.setPromptText(bundle.getString("search.prompt"));
+        difficultyFilter.setPromptText(bundle.getString("filter.prompt"));
+        sortComboBox.setPromptText(bundle.getString("sort.prompt"));
+        backButton.setText(bundle.getString("back.button"));
+
+        // Filtres existants
         difficultyFilter.getItems().setAll(
                 bundle.getString("filter.all"),
                 bundle.getString("filter.easy"),
                 bundle.getString("filter.medium"),
                 bundle.getString("filter.advanced")
         );
-        difficultyFilter.setValue(bundle.getString("filter.all"));
 
-        // Refresh sorting
+        // Tris existants
         sortComboBox.getItems().setAll(
                 bundle.getString("sort.default"),
                 bundle.getString("sort.name.asc"),
@@ -113,11 +130,7 @@ public class CoursControllerEtudiant {
                 bundle.getString("sort.difficulty.desc")
         );
 
-        // Update pagination to refresh course cards
         updatePagination();
-        sortComboBox.setValue(bundle.getString("sort.default"));
-        difficultyFilter.setValue(bundle.getString("filter.all"));
-
     }
 
     private void loadCourses() {

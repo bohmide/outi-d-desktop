@@ -7,15 +7,16 @@
       xmlns:fx="http://javafx.com/fxml/1"
       alignment="CENTER"
       spacing="30"
-      style="-fx-background-color: linear-gradient(to bottom, #f5faff, #dceeff); -fx-padding: 60;">
+      stylesheets="@/styles/applicationCours.css"
+      styleClass="background-gradient padding-60">
 
     <Button fx:id="btnProf"
             text="👨‍🏫 Connexion Professeur"
-            style="-fx-font-size: 16px; -fx-background-color: #4A90E2; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 12 24;">
-    </Button>
+            styleClass="button-exact"
+            style="-fx-background-color: #4A90E2;"/>
 
     <Button fx:id="btnEtudiant"
             text="🎓 Connexion Étudiant"
-            style="-fx-font-size: 16px; -fx-background-color: #34A853; -fx-text-fill: white; -fx-background-radius: 12; -fx-padding: 12 24;">
-    </Button>
+            styleClass="button-exact"
+            style="-fx-background-color: #34A853"  />
 </VBox>

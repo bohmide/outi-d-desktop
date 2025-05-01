@@ -32,6 +32,8 @@ public class QuizControllerEtudiant {
     private VBox vboxQuiz;
     @FXML
     private Label lblNoQuizMessage;
+    @FXML
+    private ComboBox<String> languageCombo;
 
     private final QuizService quizService = new QuizService();
     private ObservableList<Quiz> quizList;
@@ -39,18 +41,35 @@ public class QuizControllerEtudiant {
     private Cours currentCours;
     private ResourceBundle bundle;
 
-    public void initData(Chapitres chapitre, Cours cours, ResourceBundle bundle) {
-        this.currentChapitre = chapitre;
-        this.currentCours = cours;
-        this.bundle = bundle;
-        lblChapitreInfo.setText(bundle.getString("quiz.available") + " - " + chapitre.getNomChapitre());
-        loadQuiz();
-    }
-
     @FXML
     public void initialize() {
         lblNoQuizMessage.setVisible(false);
         lblNoQuizMessage.setTextFill(Color.GRAY);
+
+        // Initialisation des langues
+        languageCombo.getItems().addAll("Français", "English");
+        languageCombo.setValue("Français"); // Valeur par défaut
+        languageCombo.setOnAction(e -> changeLanguage());
+    }
+
+    public void initData(Chapitres chapitre, Cours cours, ResourceBundle bundle) {
+        this.currentChapitre = chapitre;
+        this.currentCours = cours;
+        this.bundle = bundle;
+        refreshUI();
+        loadQuiz();
+    }
+
+    private void refreshUI() {
+        lblChapitreInfo.setText(bundle.getString("quiz.available") + " - " + currentChapitre.getNomChapitre());
+        btnRetour.setText(bundle.getString("back.button"));
+        updateQuizDisplay(); // Recharge les éléments avec les bons textes
+    }
+
+    private void changeLanguage() {
+        Locale locale = languageCombo.getValue().equals("Français") ? Locale.FRENCH : Locale.ENGLISH;
+        this.bundle = ResourceBundle.getBundle("lang/messages", locale);
+        refreshUI();
     }
 
     private void loadQuiz() {
@@ -71,7 +90,7 @@ public class QuizControllerEtudiant {
     private void updateQuizDisplay() {
         vboxQuiz.getChildren().clear();
 
-        if (quizList.isEmpty()) {
+        if (quizList == null || quizList.isEmpty()) {
             lblNoQuizMessage.setText(bundle.getString("quiz.none.available"));
             lblNoQuizMessage.setVisible(true);
             return;
@@ -98,7 +117,7 @@ public class QuizControllerEtudiant {
         Label titreQuiz = new Label(quiz.getTitre());
         titreQuiz.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-        Label scoreLabel = new Label();
+        Label scoreLabel = new Label(); // Tu peux plus tard afficher un score si besoin
         scoreLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #7f8c8d;");
 
         Button btnVoirQuiz = new Button(bundle.getString("quiz.start"));
@@ -121,7 +140,7 @@ public class QuizControllerEtudiant {
             Parent root = loader.load();
 
             QuestionControllerEtudiant controller = loader.getController();
-            controller.initData(quiz, currentChapitre, currentCours);
+            controller.initData(quiz, currentChapitre, currentCours,bundle);
 
             Stage stage = (Stage) btnRetour.getScene().getWindow();
             stage.setScene(new Scene(root));

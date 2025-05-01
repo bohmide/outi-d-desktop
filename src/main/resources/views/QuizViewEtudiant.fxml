@@ -7,38 +7,51 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.QuizControllerEtudiant"
-            prefHeight="700.0" prefWidth="1000.0"
-            style="-fx-background-color: #f5f7fa;">
+            stylesheets="@/styles/applicationCours.css"
+            prefHeight="700.0" prefWidth="1000.0">
 
-    <!-- Header -->
-    <VBox spacing="15" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-        <HBox alignment="CENTER_LEFT" spacing="10">
+    <!-- En-tête du quiz -->
+    <VBox spacing="15"
+          AnchorPane.topAnchor="20"
+          AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20"
+          styleClass="header-container">
+
+        <HBox alignment="CENTER_LEFT"
+              spacing="10"
+              styleClass="header-top-bar">
+
             <Button text="← Retour"
-                    onAction="#retourAuxChapitres"
                     fx:id="btnRetour"
-                    style="-fx-background-color: #4a6baf;
-                           -fx-text-fill: white;
-                           -fx-font-weight: bold;
-                           -fx-background-radius: 8;
-                           -fx-padding: 6 14;
-                           -fx-cursor: hand;"/>
-            <Label fx:id="lblChapitreInfo"
-                   style="-fx-font-size: 22px;
-                          -fx-font-weight: bold;
-                          -fx-text-fill: #2c3e50;"/>
-            <Label fx:id="lblNoQuizMessage" text="Aucun quiz disponible" visible="false" />
+                    onAction="#retourAuxChapitres"
+                    styleClass="button-back"/>
 
+            <Label fx:id="lblChapitreInfo"
+                   styleClass="main-title"/>
+
+            <Label fx:id="lblNoQuizMessage"
+                   text="Aucun quiz disponible"
+                   visible="false"
+                   styleClass="subtitle-label"/>
         </HBox>
+        <Separator styleClass="thick-separator"/>
+        <ComboBox fx:id="languageCombo"
+                  promptText="Langue"
+                  styleClass="input-control combo-box-small"/>
     </VBox>
 
-    <!-- Scrollable List of Quiz Cards -->
+    <!-- Contenu scrollable des questions -->
     <ScrollPane fitToWidth="true"
-                AnchorPane.topAnchor="100" AnchorPane.bottomAnchor="20"
-                AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
-                style="-fx-background-color: transparent;">
-        <VBox fx:id="vboxQuiz" spacing="20" alignment="TOP_CENTER"
-              style="-fx-padding: 10;">
-        </VBox>
+                AnchorPane.topAnchor="140"
+                AnchorPane.bottomAnchor="20"
+                AnchorPane.leftAnchor="20"
+                AnchorPane.rightAnchor="20"
+                styleClass="courses-scroll">
+
+        <VBox fx:id="vboxQuiz"
+              spacing="20"
+              alignment="TOP_CENTER"
+              styleClass="courses-list"/>
     </ScrollPane>
 
 </AnchorPane>

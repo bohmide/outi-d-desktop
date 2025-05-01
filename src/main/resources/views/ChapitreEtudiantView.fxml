@@ -7,36 +7,50 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.ChapitreControllerEtudiant"
-            prefHeight="700.0" prefWidth="1000.0"
-            style="-fx-background-color: #f5f7fa;">
+            stylesheets="@/styles/applicationCours.css"
+            prefHeight="700.0" prefWidth="1000.0">
 
-    <VBox spacing="10" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
-        <HBox spacing="30" alignment="CENTER_LEFT"
-              style="-fx-background-color: #ffffff; -fx-padding: 15 25 15 25; -fx-border-color: #dfe6ed; -fx-border-width: 0 0 1 0;">
+    <!-- En-tête des chapitres -->
+    <VBox spacing="10"
+          AnchorPane.topAnchor="20"
+          AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20"
+          styleClass="header-container">
 
-            <Button fx:id="btnRetour" onAction="#retourAccueil"
-                    style="-fx-background-color: #4a6baf; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 8 14;"/>
+        <!-- Ligne du haut : retour + langue -->
+        <HBox spacing="30"
+              alignment="CENTER_LEFT"
+              styleClass="header-top-bar">
+
+            <Button fx:id="btnRetour"
+                    text="← Retour"
+                    onAction="#retourAccueil"
+                    styleClass="button-back"/>
 
             <VBox spacing="4">
-                <Label fx:id="lblCoursTitle"
-                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-                <Label fx:id="lblProgression"
-                       style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+                <Label fx:id="lblCoursTitle" styleClass="main-title"/>
+                <Label fx:id="lblProgression" styleClass="subtitle-label"/>
             </VBox>
 
             <ComboBox fx:id="languageCombo"
-                      style="-fx-background-color: white; -fx-border-color: #dfe6ed; -fx-border-radius: 4;"
-                      prefWidth="100"/>
+                      promptText="Langue"
+                      styleClass="input-control combo-box-small"/>
         </HBox>
+        <Label text="Chapitres du cours" styleClass="main-title"/>
     </VBox>
 
+    <!-- Contenu des chapitres -->
     <ScrollPane fitToWidth="true"
-                AnchorPane.topAnchor="100" AnchorPane.bottomAnchor="20"
-                AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20"
-                style="-fx-background-color: transparent;">
-        <VBox fx:id="vboxChapitres" spacing="15"
+                AnchorPane.topAnchor="140"
+                AnchorPane.bottomAnchor="20"
+                AnchorPane.leftAnchor="20"
+                AnchorPane.rightAnchor="20"
+                styleClass="courses-scroll">
+
+        <VBox fx:id="vboxChapitres"
+              spacing="15"
               alignment="TOP_CENTER"
-              style="-fx-padding: 10;">
-        </VBox>
+              styleClass="courses-list"/>
     </ScrollPane>
+
 </AnchorPane>
