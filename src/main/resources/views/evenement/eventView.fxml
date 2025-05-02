@@ -1,50 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.geometry.Insets?>
 
-<?import javafx.scene.control.ProgressIndicator?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.evenement.EventController" spacing="10" stylesheets="@/css/Event/EventStyle.css">
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.evenement.EventController"
+      spacing="20" styleClass="vbox" stylesheets="@/css/Event/EventStyle.css">
+
     <!-- Header Section -->
-    <HBox styleClass="header-box">
-        <Label text="Gestion des Événements" styleClass="header-label"/>
-        <TextField fx:id="searchField" promptText="Rechercher..." />
+    <HBox styleClass="hbox header-box" spacing="15" alignment="CENTER_LEFT">
+        <Label text="📅 Gestion des Événements" styleClass="header-label"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <Button text="Ajouter Événement" styleClass="primary-button" fx:id="addEvent" onAction="#handleAjouter"/>
-        <Button text="Exporter" styleClass="secondary-button" fx:id="exportButton" onAction="#handleExport"/>
-        <Button text="Voir Sponsors" styleClass="secondary-button" onAction="#navigateToSponsors"/>
-        <Button text="Voir Genres" styleClass="secondary-button" onAction="#navigateToGenres"/>
+        <TextField fx:id="searchField" promptText="🔍 Rechercher un événement..." styleClass="text-field"/>
+        <Button text="➕ Ajouter" fx:id="addEvent" onAction="#handleAjouter" styleClass="primary-button"/>
+        <Button text="📁 Exporter" fx:id="exportButton" onAction="#handleExport" styleClass="secondary-button"/>
     </HBox>
 
+    <!-- Navigation Buttons -->
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="👥 Voir Sponsors" onAction="#navigateToSponsors" styleClass="secondary-button"/>
+        <Button text="🎭 Voir Genres" onAction="#navigateToGenres" styleClass="secondary-button"/>
+    </HBox>
 
-
-    <!-- Devise Label Section -->
-    <HBox styleClass="devise-box" spacing="10">
-        <Label text="Devise: " fx:id="deviseLabel" />
+    <!-- Devise Display -->
+    <HBox styleClass="devise-box" spacing="10" alignment="CENTER_LEFT">
+        <Label text="Devise :" styleClass="header-label-small"/>
+        <Label fx:id="deviseLabel" styleClass="status-active"/>
     </HBox>
 
     <!-- Table Section -->
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS" styleClass="table-scroll-pane">
-        <TableView fx:id="eventTable" styleClass="compact-table">
+        <TableView fx:id="eventTable" styleClass="table-view compact-table">
             <columns>
-                <TableColumn fx:id="nomEvent" text="Nom" styleClass="table-column" prefWidth="150"/>
-                <TableColumn fx:id="description" text="Description" styleClass="table-column" prefWidth="250"/>
-                <TableColumn fx:id="imageColumn" text="Image" styleClass="table-column" prefWidth="150"/>
-                <TableColumn fx:id="genre" text="Genre" styleClass="table-column" prefWidth="120"/>
-                <TableColumn fx:id="sponsor" text="Sponsor" styleClass="table-column" prefWidth="150"/>
-                <TableColumn fx:id="nbrMemeber" text="Places" styleClass="table-column" prefWidth="80"/>
-                <TableColumn fx:id="prix" text="Prix" styleClass="table-column" prefWidth="80"/>
-                <TableColumn fx:id="dateCreation" text="Date Création" styleClass="table-column" prefWidth="120"/>
-                <TableColumn fx:id="eventDate" text="Date Événement" styleClass="table-column" prefWidth="120"/>
-                <TableColumn fx:id="actionColumn" text="Actions" styleClass="table-column" prefWidth="180"/>
+                <TableColumn fx:id="nomEvent" text="Nom" prefWidth="150"/>
+                <TableColumn fx:id="description" text="Description" prefWidth="250"/>
+                <TableColumn fx:id="imageColumn" text="Image" prefWidth="150"/>
+                <TableColumn fx:id="genre" text="Genre" prefWidth="120"/>
+                <TableColumn fx:id="sponsor" text="Sponsor" prefWidth="150"/>
+                <TableColumn fx:id="nbrMemeber" text="Places" prefWidth="80"/>
+                <TableColumn fx:id="prix" text="Prix" prefWidth="80"/>
+                <TableColumn fx:id="dateCreation" text="Date Création" prefWidth="120"/>
+                <TableColumn fx:id="eventDate" text="Date Événement" prefWidth="120"/>
+                <TableColumn fx:id="actionColumn" text="Actions" prefWidth="180"/>
             </columns>
         </TableView>
     </ScrollPane>
+
 </VBox>

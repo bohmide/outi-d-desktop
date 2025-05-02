@@ -53,7 +53,7 @@ public class MailUtil {
                     "</head>" +
                     "<body>" +
                     "<div class='container'>" +
-                    "<h1>🎟️ Réservation Confirmée !</h1>" +
+                    "<h1>Réservation Confirmée !</h1>" +
                     "<p>Bonjour,</p>" +
                     "<p>Merci d'avoir réservé votre place pour <strong>" + eventName + "</strong> !</p>" +
                     "<p><strong>Date :</strong> " + eventDate + "<br>" +

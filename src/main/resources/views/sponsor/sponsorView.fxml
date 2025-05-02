@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.geometry.Insets?>
 
-<?import javafx.scene.control.TextField?>
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.sponsor.SponsorController" spacing="10" stylesheets="@/css/Event/EventStyle.css">
-    <HBox styleClass="header-box">
-        <Label text="Gestion des Sponsors" styleClass="header-label"/>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.sponsor.SponsorController"
+      spacing="20" stylesheets="@/css/Event/EventStyle.css" styleClass="vbox">
+
+    <!-- Header Section -->
+    <HBox styleClass="hbox header-box" spacing="15" alignment="CENTER_LEFT">
+        <Label text="👥 Gestion des Sponsors" styleClass="header-label"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <TextField fx:id="searchField" promptText="Rechercher..." />
-        <Button text="Ajouter Sponsor" styleClass="primary-button" fx:id="addGenre" onAction="#handleAjouter"/>
-        <Button text="Retour aux Événements" styleClass="secondary-button" onAction="#handleRetour"/>
+        <TextField fx:id="searchField" promptText="🔍 Rechercher un sponsor..." styleClass="text-field"/>
+        <Button text="➕ Ajouter Sponsor" fx:id="addSponsor" onAction="#handleAjouter" styleClass="primary-button"/>
+        <Button text="↩ Retour aux Événements" onAction="#handleRetour" styleClass="secondary-button"/>
     </HBox>
 
-
-
+    <!-- Table Section -->
     <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS" styleClass="table-scroll-pane">
-        <TableView fx:id="sponsorTable" styleClass="compact-table">
+        <TableView fx:id="sponsorTable" styleClass="table-view compact-table">
             <columns>
-                <TableColumn fx:id="sponsorName" text="Nom" styleClass="table-column" prefWidth="200"/>
-                <TableColumn fx:id="description" text="Description" styleClass="table-column" prefWidth="300"/>
-                <TableColumn fx:id="imageColumn" text="Image" styleClass="table-column" prefWidth="200"/>
-                <TableColumn fx:id="dateCreation" text="Date Création" styleClass="table-column" prefWidth="150"/>
-                <TableColumn fx:id="actionColumn" text="Actions" styleClass="table-column" prefWidth="180"/>
+                <TableColumn fx:id="sponsorName" text="Nom" prefWidth="200"/>
+                <TableColumn fx:id="description" text="Description" prefWidth="300"/>
+                <TableColumn fx:id="imageColumn" text="Image" prefWidth="200"/>
+                <TableColumn fx:id="dateCreation" text="Date Création" prefWidth="150"/>
+                <TableColumn fx:id="actionColumn" text="Actions" prefWidth="180"/>
             </columns>
         </TableView>
     </ScrollPane>
+
 </VBox>

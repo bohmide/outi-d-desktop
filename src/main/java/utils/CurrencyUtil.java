@@ -1,36 +1,28 @@
 package utils;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Currency;
-import java.util.*;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Scanner;
 import org.json.JSONObject;
 
 public class CurrencyUtil {
     private static final String EXCHANGE_RATE_API = "https://api.exchangerate-api.com/v4/latest/TND";
+    private static final String RATE_FILE_PATH = "src/main/resources/exchange_rates.json";
     private static Map<String, Double> exchangeRates = new HashMap<>();
 
     static {
-        // Initialize with default rates in case API fails
+
+        fetchLiveExchangeRates(); // This also saves to file
         exchangeRates.put("USD", 0.34);
-        //exchangeRates.put("EUR", 0.31);
         exchangeRates.put("GBP", 0.27);
         exchangeRates.put("CAD", 0.46);
         exchangeRates.put("JPY", 38.0);
 
-        // Try to fetch live rates
-        fetchLiveExchangeRates();
     }
 
     public static Currency getCurrencyFromIP() {
@@ -69,6 +61,8 @@ public class CurrencyUtil {
         try {
             return Currency.getInstance(defaultLocale);
         } catch (IllegalArgumentException e) {
+            // If locale is unknown, try to load exchange rates from file
+            loadExchangeRatesFromFile();
             return Currency.getInstance("USD");
         }
     }
@@ -103,14 +97,41 @@ public class CurrencyUtil {
             JSONObject jsonResponse = new JSONObject(response.toString());
             JSONObject rates = jsonResponse.getJSONObject("rates");
 
-            // Update our exchange rates map
             for (String currency : rates.keySet()) {
                 exchangeRates.put(currency, rates.getDouble(currency));
             }
 
             System.out.println("Successfully fetched live exchange rates");
+            saveExchangeRatesToFile(); // Save rates to file after fetching
         } catch (Exception e) {
-            System.err.println("Failed to fetch live exchange rates. Using default rates.");
+            System.err.println("Failed to fetch live exchange rates. Using default or cached rates.");
+            loadExchangeRatesFromFile(); // Try loading from file
+        }
+    }
+
+    private static void saveExchangeRatesToFile() {
+        try (FileWriter writer = new FileWriter(RATE_FILE_PATH)) {
+            JSONObject json = new JSONObject(exchangeRates);
+            writer.write(json.toString(4)); // Pretty print
+            System.out.println("Exchange rates saved to file.");
+        } catch (IOException e) {
+            System.err.println("Failed to save exchange rates to file.");
+        }
+    }
+
+    private static void loadExchangeRatesFromFile() {
+        try (Scanner scanner = new Scanner(new File(RATE_FILE_PATH))) {
+            StringBuilder jsonBuilder = new StringBuilder();
+            while (scanner.hasNextLine()) {
+                jsonBuilder.append(scanner.nextLine());
+            }
+            JSONObject json = new JSONObject(jsonBuilder.toString());
+            for (String currency : json.keySet()) {
+                exchangeRates.put(currency, json.getDouble(currency));
+            }
+            System.out.println("Exchange rates loaded from file.");
+        } catch (IOException e) {
+            System.err.println("Could not load exchange rates from file.");
         }
     }
 

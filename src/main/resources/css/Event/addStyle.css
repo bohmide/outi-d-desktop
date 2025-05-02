@@ -1,16 +1,25 @@
+/* Root Layout */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: linear-gradient(to bottom, #f0f4f8, #ffffff);
+    -fx-padding: 40;
+}
+
 /* VBox layout */
 .vbox {
-    -fx-padding: 20;
-    -fx-background-color: #f0f4fc; /* Light blue background */
+    -fx-padding: 30;
     -fx-spacing: 20;
+    -fx-alignment: center;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 15, 0, 0, 4);
 }
 
 /* Label */
 .label {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1976D2; /* Blue text */
-    -fx-padding: 10;
+    -fx-font-size: 28px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #0D47A1;
 }
 
 /* TextField and TextArea */
@@ -18,50 +27,108 @@
     -fx-font-size: 14px;
     -fx-background-color: #ffffff;
     -fx-border-radius: 8;
-    -fx-border-color: #e0e0e0;
-    -fx-padding: 8;
+    -fx-border-color: #B0BEC5;
+    -fx-background-radius: 8;
+    -fx-padding: 10 14;
     -fx-pref-width: 300px;
 }
 
 /* Focused effect for TextFields */
 .text-field:focused, .text-area:focused, .combo-box:focused {
-    -fx-border-color: #1976D2; /* Blue border when focused */
+    -fx-border-color: #64B5F6;
+    -fx-effect: dropshadow(gaussian, rgba(100, 181, 246, 0.4), 6, 0, 0, 2);
 }
 
 /* Buttons */
-.button {
+.button, .primary-button, .secondary-button, .action-button {
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
+    -fx-font-weight: 600;
     -fx-text-fill: white;
-    -fx-background-color: #1976D2; /* Blue button */
-    -fx-background-radius: 12;
-    -fx-padding: 12 24;
-    -fx-effect: dropshadow(gaussian, #888, 8, 0.8, 0, 4);
-    -fx-transition: all 0.3s ease-in-out;
-}
-
-/* HBox container for buttons (centered alignment) */
-.button-container {
-    -fx-padding: 10 0;
-    -fx-alignment: center;
-    -fx-spacing: 20; /* Space between buttons */
-}
-
-/* Button style */
-.button {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-    -fx-background-color: #1976D2; /* Blue button */
-    -fx-background-radius: 12;
-    -fx-padding: 12 24;
-    -fx-effect: dropshadow(gaussian, #888, 8, 0.8, 0, 4);
-    -fx-transition: all 0.3s ease-in-out;
+    -fx-background-color: #42A5F5;
+    -fx-background-radius: 10;
+    -fx-padding: 10 24;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 5, 0, 0, 2);
 }
 
 /* Button hover effect */
-.button:hover {
-    -fx-background-color: #1E88E5; /* Lighter blue on hover */
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
+.button:hover, .primary-button:hover, .secondary-button:hover, .action-button:hover {
+    -fx-background-color: #64B5F6;
+}
+
+/* Button pressed effect */
+.button:pressed, .primary-button:pressed, .secondary-button:pressed, .action-button:pressed {
+    -fx-background-color: #1E88E5;
+}
+
+/* HBox container for buttons */
+.button-container {
+    -fx-padding: 10 0;
+    -fx-alignment: center;
+    -fx-spacing: 20;
+}
+
+/* Table View */
+.table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.06), 10, 0, 0, 3);
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #e0e0e0;
+    -fx-background-radius: 12 12 0 0;
+}
+
+.table-view .column-header {
+    -fx-padding: 10 16;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #444;
+}
+
+.table-view .table-cell {
+    -fx-padding: 10 16;
+    -fx-font-size: 13px;
+    -fx-text-fill: #444;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #f7f9fb;
+}
+
+.table-view .table-row-cell:even {
+    -fx-background-color: #ffffff;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #E3F2FD;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #BBDEFB;
+    -fx-text-fill: #0D47A1;
+}
+
+/* ScrollPane */
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+/* Status Text */
+.status-active {
+    -fx-text-fill: #388E3C;
+    -fx-font-weight: bold;
+}
+
+.status-inactive {
+    -fx-text-fill: #D32F2F;
+    -fx-font-weight: bold;
+}
+
+/* Image Cell */
+.image-cell {
+    -fx-alignment: center;
+    -fx-padding: 8;
 }
