@@ -69,7 +69,7 @@ public class ChapitreControllerEtudiant {
             ));
             btnRetour.setText(bundle.getString("back.button"));
             updateProgressionLabel();
-            loadChapitresAsCards(); // Cette méthode utilisera aussi le bundle
+            loadChapitresAsCards();
         }
     }
 
