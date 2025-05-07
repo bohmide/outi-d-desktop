@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.Controllers.user.AdminUsersController"
+            style="-fx-background-color: #f5f5f5;" fx:id="rootPane">
+
+    <!-- En-tête -->
+    <HBox spacing="20" alignment="CENTER_LEFT" layoutX="0" layoutY="0" prefHeight="60" prefWidth="800"
+          style="-fx-background-color: #2c3e50; -fx-padding: 0 20;">
+        <Label text="User Management" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+        <Pane HBox.hgrow="ALWAYS" />
+        <Button text="Export PDF" onAction="#exportUsersToPDF"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8 16;" />
+    </HBox>
+
+    <!-- Contenu principal -->
+    <VBox spacing="15" alignment="TOP_CENTER"
+          AnchorPane.topAnchor="60.0" AnchorPane.leftAnchor="20.0"
+          AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0">
+
+        <!-- Onglets -->
+        <TabPane prefWidth="760" prefHeight="500">
+            <Tab text="Liste des utilisateurs">
+                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                    <VBox fx:id="userListContainer" spacing="20" alignment="TOP_CENTER" style="-fx-padding: 10;" />
+                </ScrollPane>
+            </Tab>
+            <Tab text="Statistiques">
+                <VBox fx:id="statistiquesPane" spacing="10" alignment="CENTER" style="-fx-padding: 20;" />
+            </Tab>
+        </TabPane>
+    </VBox>
+</AnchorPane>

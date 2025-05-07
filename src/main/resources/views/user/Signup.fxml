@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="12" alignment="CENTER" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.Controllers.user.SignupController"
+      style="-fx-padding: 40; -fx-background-color: white; -fx-alignment: center;">
+
+    <Label text="Inscription" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <TextField fx:id="firstNameField" promptText="Entrez votre prénom" />
+    <TextField fx:id="lastNameField" promptText="Entrez votre nom" />
+    <TextField fx:id="numTelField" promptText="Entrez votre numéro" />
+    <TextField fx:id="emailField" promptText="Entrez votre email" />
+    <PasswordField fx:id="passwordField" promptText="Créez un mot de passe" />
+
+    <Label text="Force du mot de passe" />
+    <ProgressBar fx:id="strengthBar" prefWidth="250" />
+    <Label fx:id="strengthLabel" />
+
+    <ComboBox fx:id="typeComboBox" promptText="Rôle" prefWidth="250" />
+
+    <!-- Student fields -->
+    <VBox fx:id="studentFields" spacing="6">
+        <DatePicker fx:id="birthDatePicker" promptText="Date de naissance" />
+        <ComboBox fx:id="sexeComboBox" promptText="Genre" prefWidth="250" />
+    </VBox>
+
+    <!-- Prof fields -->
+    <VBox fx:id="profFields" spacing="6">
+        <DatePicker fx:id="interDatePicker" promptText="Date d'intervention" />
+        <ComboBox fx:id="interModeComboBox" promptText="Mode d'intervention" prefWidth="250" />
+    </VBox>
+
+    <!-- Parent fields -->
+    <VBox fx:id="parentFields" spacing="6">
+        <TextField fx:id="firstNameChildField" promptText="Prénom de l'enfant" />
+        <TextField fx:id="lastNameChildField" promptText="Nom de l'enfant" />
+        <DatePicker fx:id="birthdayPicker" promptText="Date de naissance de l'enfant" />
+        <ComboBox fx:id="childGenderComboBox" promptText="Genre de l'enfant" prefWidth="250" />
+        <ComboBox fx:id="learningDiffComboBox" promptText="Difficultés d'apprentissage ?" prefWidth="250" />
+    </VBox>
+
+    <!-- Collaborator fields -->
+    <VBox fx:id="collabFields" spacing="6">
+        <TextField fx:id="nomColField" promptText="Nom du collaborateur" />
+    </VBox>
+
+    <Label fx:id="messageLabel" textFill="red" wrapText="true" />
+
+    <Button text="Créer un compte" onAction="#handleSignup" prefWidth="250"
+            style="-fx-background-color: #3498db; -fx-text-fill: white;" />
+
+    <Hyperlink text="Déjà un compte ? Se connecter" onAction="#goToLogin" />
+
+</VBox>
