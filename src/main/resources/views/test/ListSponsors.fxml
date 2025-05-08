@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.tests.ListSponsorController"
+            prefWidth="800" prefHeight="500">
+
+    <TableView fx:id="sponsorTable" layoutX="20" layoutY="20" prefWidth="760" prefHeight="460" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10">
+        <columns>
+            <TableColumn fx:id="idCol" text="ID" prefWidth="60"/>
+            <TableColumn fx:id="nameCol" text="Name" prefWidth="120"/>
+            <TableColumn fx:id="descCol" text="Description" prefWidth="180"/>
+            <TableColumn fx:id="imageCol" text="Image Path" prefWidth="180"/>
+            <TableColumn fx:id="dateCol" text="Date" prefWidth="100"/>
+            <TableColumn fx:id="actionCol" text="Actions" prefWidth="120"/>
+        </columns>
+    </TableView>
+</AnchorPane>

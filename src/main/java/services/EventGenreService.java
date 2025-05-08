@@ -129,7 +129,7 @@ public class EventGenreService {
             System.out.println("Evenet genre not found");
         }else{
             try {
-                String querry ="update event_genre set nom_genre = ? and nbr = ? and image_path = ? and date_creation = ? where id = ?";
+                String querry ="update event_genre set nom_genre = ?, nbr = ?, image_path = ?, date_creation = ? where id = ?";
 
                 PreparedStatement prestate = MyConnection.getInstance().getCnx().prepareStatement(querry);
 

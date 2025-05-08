@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.time.LocalDate?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.tests.EventAddController">
+    <children>
+        <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+            <Label text="Add New Event" style="-fx-font-size: 18px;"/>
+            <TextField fx:id="eventNameField" promptText="Event Name"/>
+            <TextArea fx:id="descriptionArea" promptText="Description"/>
+            <DatePicker fx:id="eventDatePicker" promptText="Event Date"/>
+            <TextField fx:id="membersField" promptText="Number of Members"/>
+            <TextField fx:id="imagePathField" promptText="Image Path"/>
+            <DatePicker fx:id="creationDatePicker" promptText="Creation Date"/>
+            <TextField fx:id="priceField" promptText="Price"/>
+            <ComboBox fx:id="genreComboBox" promptText="Select Genre"/>
+            <ComboBox fx:id="sponsorComboBox" promptText="Select Sponsor"/>
+            <Button text="Add Event" onAction="#handleAddEvent"/>
+        </VBox>
+    </children>
+</AnchorPane>

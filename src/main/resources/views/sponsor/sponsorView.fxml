@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.sponsor.SponsorController"
+      spacing="20" stylesheets="@/css/Event/EventStyle.css" styleClass="vbox">
+
+    <!-- Header Section -->
+    <HBox styleClass="hbox header-box" spacing="15" alignment="CENTER_LEFT">
+        <Label text="👥 Gestion des Sponsors" styleClass="header-label"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="searchField" promptText="🔍 Rechercher un sponsor..." styleClass="text-field"/>
+        <Button text="➕ Ajouter Sponsor" fx:id="addSponsor" onAction="#handleAjouter" styleClass="primary-button"/>
+        <Button text="↩ Retour aux Événements" onAction="#handleRetour" styleClass="secondary-button"/>
+    </HBox>
+
+    <!-- Table Section -->
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS" styleClass="table-scroll-pane">
+        <TableView fx:id="sponsorTable" styleClass="table-view compact-table">
+            <columns>
+                <TableColumn fx:id="sponsorName" text="Nom" prefWidth="200"/>
+                <TableColumn fx:id="description" text="Description" prefWidth="300"/>
+                <TableColumn fx:id="imageColumn" text="Image" prefWidth="200"/>
+                <TableColumn fx:id="dateCreation" text="Date Création" prefWidth="150"/>
+                <TableColumn fx:id="actionColumn" text="Actions" prefWidth="180"/>
+            </columns>
+        </TableView>
+    </ScrollPane>
+
+</VBox>
