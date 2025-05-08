@@ -67,18 +67,20 @@ public class LoginController {
         User authenticatedUser = userService.authenticate(email, password);
         if (authenticatedUser != null) {
             Session.setCurrentUser(authenticatedUser);
-            if (authenticatedUser.getRoles().equals("Student")) {
+            redirectToHome();
+
+            /*if (authenticatedUser.getRoles().equals("Student")) {
                 redirectToStudent();
             } else  {
                 redirectToProf();
-            }
+            }*/
         } else {
             errorLabel.setText("Invalid email or password.");
             generateCaptcha();
         }
     }
     
-    private void redirectToProf() {
+    /*private void redirectToProf() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/cours/CoursProfView.fxml"));
             Scene scene = new Scene(loader.load());
@@ -88,9 +90,9 @@ public class LoginController {
             errorLabel.setText("Login successful but failed to load home.");
             e.printStackTrace();
         }
-    }
+    }*/
 
-    private void redirectToStudent() {
+    /*private void redirectToStudent() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/cours/CoursProfEtudiant.fxml"));
             Scene scene = new Scene(loader.load());
@@ -100,11 +102,11 @@ public class LoginController {
             errorLabel.setText("Login successful but failed to load home.");
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void redirectToHome() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/cours/CoursProfEtudiant.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Home.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(scene);
@@ -117,7 +119,7 @@ public class LoginController {
     @FXML
     private void goToSignup() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Viewss/Signup.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Signup.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(scene);

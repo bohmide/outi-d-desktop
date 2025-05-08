@@ -27,7 +27,7 @@ public class Main extends Application {
 
         // Load the login UI
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Viewss/Login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Views/Login.fxml"));
             Scene scene = new Scene(loader.load());
             primaryStage.setTitle("Login");
             primaryStage.setScene(scene);
