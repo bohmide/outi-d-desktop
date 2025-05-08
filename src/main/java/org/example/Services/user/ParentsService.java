@@ -1,7 +1,7 @@
 package org.example.Services.user;
 
 import org.example.Models.user.Parents;
-import org.example.Utils.user.MyConnection;
+import org.example.Utils.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;

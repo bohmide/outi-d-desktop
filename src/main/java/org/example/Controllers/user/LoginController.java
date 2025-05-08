@@ -47,67 +47,6 @@ public class LoginController {
         generateCaptcha();
     }
 
-    /*private void playIntroVideo() {
-        try {
-            AnchorPane videoPane = new AnchorPane();
-            videoPane.setStyle("-fx-background-color: black;");
-
-            // Configurer le MediaView
-            String videoPath = "/videos/0303.mp4";
-            Media media = new Media(getClass().getResource(videoPath).toExternalForm());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            MediaView mediaView = new MediaView(mediaPlayer);
-
-            mediaView.setFitWidth(1980);
-            mediaView.setFitHeight(1080);
-            mediaView.setPreserveRatio(false);
-
-            Label skipLabel = new Label("Appuyez sur ÉCHAP pour passer l'introduction");
-            skipLabel.setStyle("-fx-text-fill: white; -fx-font-size: 14px;");
-            AnchorPane.setBottomAnchor(skipLabel, 20.0);
-            AnchorPane.setRightAnchor(skipLabel, 20.0);
-
-            videoPane.getChildren().addAll(mediaView, skipLabel);
-
-            videoPane.setPrefWidth(1980);
-            videoPane.setPrefHeight(1080);
-            videoPane.setMaxWidth(1980);
-            videoPane.setMaxHeight(1080);
-
-            videoPane.setOnKeyPressed(event -> {
-                if (event.getCode() == KeyCode.ESCAPE) {
-                    skipVideo();
-                }
-            });
-
-            videoPane.setFocusTraversable(true);
-            Platform.runLater(() -> videoPane.requestFocus());
-
-            home_page.getChildren().add(videoPane);
-            mediaPlayer.play();
-
-            // Gérer la fin de la vidéo
-            mediaPlayer.setOnEndOfMedia(() -> {
-                skipVideo();
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            String nextPage;
-            nextPage = "/views/CompleteParentSignup.fxml";
-        }
-    }
-
-    private void skipVideo() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.dispose();
-        }
-        home_page.getChildren().remove(home_page.getChildren().size() - 1);
-        videoPlayed = true;
-        String nextPage;
-        nextPage = "/views/CompleteParentSignup.fxml";
-    }*/
 
     @FXML
     private void handleLogin() {
@@ -129,16 +68,44 @@ public class LoginController {
         User authenticatedUser = userService.authenticate(email, password);
         if (authenticatedUser != null) {
             Session.setCurrentUser(authenticatedUser);
-            redirectToHome();
+            if (authenticatedUser.getRoles().equals("Student")) {
+                redirectToStudent();
+            } else  {
+                redirectToProf();
+            }
         } else {
             errorLabel.setText("Invalid email or password.");
             generateCaptcha();
         }
     }
+    
+    private void redirectToProf() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/cours/CoursProfView.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (Exception e) {
+            errorLabel.setText("Login successful but failed to load home.");
+            e.printStackTrace();
+        }
+    }
+
+    private void redirectToStudent() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/cours/CoursProfEtudiant.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) emailField.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (Exception e) {
+            errorLabel.setText("Login successful but failed to load home.");
+            e.printStackTrace();
+        }
+    }
 
     private void redirectToHome() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/user/home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/cours/CoursProfEtudiant.fxml"));
             Scene scene = new Scene(loader.load());
             Stage stage = (Stage) emailField.getScene().getWindow();
             stage.setScene(scene);

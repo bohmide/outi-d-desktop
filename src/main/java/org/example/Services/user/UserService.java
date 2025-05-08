@@ -1,7 +1,7 @@
 package org.example.Services.user;
 
 import org.example.Models.user.*;
-import org.example.Utils.user.MyConnection;
+import org.example.Utils.MyConnection;
 import org.example.Utils.user.PasswordHasher;
 
 import java.sql.*;

@@ -62,6 +62,12 @@ public class SignupController {
             checkPasswordStrength();
         });
 
+        // Populate dropdowns
+        sexeComboBox.getItems().addAll("Homme", "Femme");
+        interModeComboBox.getItems().addAll("online", "face to face");
+        childGenderComboBox.getItems().addAll("Male", "Female", "Other");
+        learningDiffComboBox.getItems().addAll("yes", "no");
+
         // Gérer l'affichage dynamique des blocs en fonction du rôle
         typeComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
             boolean isStudent = "student".equalsIgnoreCase(newVal);
