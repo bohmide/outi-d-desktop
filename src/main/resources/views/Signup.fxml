@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.SignupController">
+    <children>
+        <VBox alignment="CENTER" spacing="12" layoutX="150" layoutY="50" prefWidth="400" prefHeight="500">
+
+            <!-- Title -->
+            <Label text="Sign Up" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+            <!-- Input Fields -->
+            <TextField fx:id="firstNameField" promptText="First Name" />
+            <TextField fx:id="lastNameField" promptText="Last Name" />
+            <TextField fx:id="numTelField" promptText="Phone Number" />
+            <TextField fx:id="emailField" promptText="Email" />
+            <PasswordField fx:id="passwordField" promptText="Password" />
+            <ComboBox fx:id="typeComboBox" promptText="Select Role" prefWidth="200" />
+
+            <!-- Message Display -->
+            <Label fx:id="messageLabel" textFill="red" wrapText="true" />
+
+            <!-- Buttons -->
+            <Button text="Create Account" onAction="#handleSignup" prefWidth="200" />
+            <Hyperlink text="Already have an account? Login" onAction="#goToLogin" />
+
+        </VBox>
+    </children>
+</AnchorPane>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.sponsor.AddSponsor" spacing="10"
+      stylesheets="@/css/Event/addStyle.css">
+
+    <Label text="Ajouter un Sponsor"/>
+
+    <TextField fx:id="nameField" promptText="Nom du sponsor"/>
+    <TextField fx:id="descriptionField" promptText="Description"/>
+    <HBox spacing="10">
+        <TextField fx:id="imageField" promptText="Chemin de l'image" prefWidth="300"/>
+        <Button fx:id="browseButton" text="Parcourir" onAction="#handleBrowseImage"/>
+    </HBox>
+    <HBox styleClass="button-container" alignment="CENTER" spacing="20">
+        <Button fx:id="saveButton" text="Save" onAction="#handleSave"/>
+        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel"/>
+    </HBox>
+</VBox>

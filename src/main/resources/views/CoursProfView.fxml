@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.CoursControllerProf">
+    <center>
+        <HBox spacing="20" style="-fx-padding: 10;">
+            <!-- Section formulaire et table -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                <HBox spacing="10">
+                    <Button text="← Retour" onAction="#retourAccueil"
+                            style="-fx-background-color: #ccc; -fx-text-fill: black;"/>
+                </HBox>
+
+                <!-- Formulaire -->
+                <VBox spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+                    <Label text="Gestion des cours" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+                    <TextField fx:id="tfNom" promptText="Nom du cours"/>
+                    <ComboBox fx:id="comboEtat" promptText="État du cours">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="Facile"/>
+                                <String fx:value="Moyen"/>
+                                <String fx:value="Avancé"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                    <DatePicker fx:id="dpDate" editable="false" promptText="Date de Création"/>
+
+                    <HBox spacing="10">
+                        <Button text="Ajouter" onAction="#ajouterCours"
+                                style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                        <Button text="Modifier" onAction="#modifierCours"
+                                style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                        <Button text="Supprimer" onAction="#supprimerCours"
+                                style="-fx-background-color: #f44336; -fx-text-fill: white;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- TableView -->
+                <TableView fx:id="tableCours" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn text="Nom" fx:id="colNom" prefWidth="200"/>
+                        <TableColumn text="Date de Création" fx:id="colDate" prefWidth="150"/>
+                        <TableColumn text="État" fx:id="colEtat" prefWidth="100"/>
+                        <TableColumn text="Actions" fx:id="colAction" prefWidth="150"/>
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Chatbot à droite -->
+            <VBox fx:id="chatbotContainer" spacing="10" prefWidth="300"
+                  maxWidth="300" minWidth="300" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #cccccc;">
+                <fx:include source="chatBot.fxml"/>
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane>

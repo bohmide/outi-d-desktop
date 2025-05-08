@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.ChatBotController"
+      fx:id="chatBotBox"
+      spacing="10"
+      alignment="TOP_LEFT"
+      styleClass="chatbot-wrapper"
+      VBox.vgrow="ALWAYS">
+
+    <Label text="Pose ta question à l'assistant IA :"
+           styleClass="chatbot-title"/>
+
+    <TextArea fx:id="userQuestion"
+              promptText="Écris ta question ici..."
+              prefRowCount="3"
+              wrapText="true"
+              styleClass="chatbot-textarea"/>
+
+    <Button text="Envoyer"
+            fx:id="sendButton"
+            onAction="#handleEnvoyerQuestion"
+            styleClass="chatbot-button"/>
+
+    <Label text="Réponse de l'assistant :"
+           styleClass="chatbot-title"/>
+
+    <TextArea fx:id="chatResponse"
+              editable="false"
+              wrapText="true"
+              prefRowCount="10"
+              prefHeight="200"
+              styleClass="chatbot-response"/>
+</VBox>

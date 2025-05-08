@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.CompleteParentController">
+    <children>
+        <VBox alignment="CENTER" spacing="12" layoutX="150" layoutY="40" prefWidth="500" prefHeight="500">
+
+            <Label text="Complete Parent Signup" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+            <!-- Correspond aux noms de variables dans le contrôleur -->
+            <TextField fx:id="firstNameField" promptText="Child's First Name" />
+            <TextField fx:id="lastNameField" promptText="Child's Last Name" />
+            <DatePicker fx:id="birthdayPicker" promptText="Child's Birthday" />
+
+            <ComboBox fx:id="sexeComboBox" promptText="Child's Gender" />
+            <ComboBox fx:id="learningDiffComboBox" promptText="Learning Difficulties (yes/no)" />
+
+            <Label fx:id="messageLabel" textFill="red" />
+
+            <Button text="Finish Signup" onAction="#handleFinishSignup" />
+        </VBox>
+    </children>
+</AnchorPane>

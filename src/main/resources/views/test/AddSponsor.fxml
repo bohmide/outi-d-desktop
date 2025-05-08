@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.tests.AddSponsorController"
+      alignment="CENTER" spacing="10">
+
+    <Label text="Add New Sponsor" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+
+    <TextField fx:id="idField" promptText="ID"/>
+    <TextField fx:id="nameField" promptText="Name"/>
+    <TextField fx:id="descriptionField" promptText="Description"/>
+    <TextField fx:id="imagePathField" promptText="Image Path"/>
+    <DatePicker fx:id="datePicker"/>
+
+    <Button text="Add Sponsor" onAction="#handleAddSponsor" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+</VBox>

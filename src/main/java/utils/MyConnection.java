@@ -20,7 +20,7 @@ public class MyConnection {
     private MyConnection() {
         try {
             cnx = DriverManager.getConnection(url,login,pwd);
-            System.out.println("connection estaplished");
+            // System.out.println("connection estaplished");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
