@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.shape.Rectangle?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="controllers.CalendarViewController" stylesheets="/styles/main.css" spacing="10"
+      prefWidth="500"
+      alignment="TOP_CENTER"
+      styleClass="vbox-section" >
+
+    <BarChart fx:id="densityChart"  >
+        <xAxis><CategoryAxis label="Mois" /></xAxis>
+        <yAxis><NumberAxis label="Nombre de compétitions" /></yAxis>
+    </BarChart>
+    <HBox spacing="10" alignment="CENTER">
+        <HBox spacing="5" alignment="CENTER">
+            <Rectangle width="15" height="15" fill="#f85c5c"/>
+            <Label text="Surcharge" />
+        </HBox>
+        <HBox spacing="5" alignment="CENTER">
+            <Rectangle width="15" height="15" fill="#2fc4dc"/>
+            <Label text="Normal" />
+        </HBox>
+        <HBox spacing="5" alignment="CENTER">
+            <Rectangle width="15" height="15" fill="#78e76d"/>
+            <Label text="Creux" />
+        </HBox>
+    </HBox>
+    <Label fx:id="suggestionLabel" wrapText="true" />
+</VBox>
