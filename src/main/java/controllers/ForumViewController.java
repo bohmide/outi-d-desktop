@@ -63,7 +63,7 @@ public class ForumViewController implements Initializable {
     private ForumService forumService;
     private ObservableList<Forum> forumsList;
     private int currentPage = 1;
-    private int itemsPerPage = 5;
+    private int itemsPerPage = 6;
     private int totalPages = 1;
     private final String UPLOAD_DIR = "src/main/resources/uploads/forums/";
 
@@ -91,16 +91,14 @@ public class ForumViewController implements Initializable {
     }
     
     private void setupButtons() {
-        searchButton.setOnAction(event -> {
-            String searchQuery = searchField.getText().trim();
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            String searchQuery = newValue.trim();
             if (!searchQuery.isEmpty()) {
                 searchForums(searchQuery);
             } else {
                 loadForums();
             }
         });
-        searchField.setOnAction(event -> searchButton.fire());
-
         prevButton.setOnAction(event -> {
             if (currentPage > 1) {
                 currentPage--;
@@ -182,23 +180,19 @@ public class ForumViewController implements Initializable {
             Image defaultImage = new Image("/assets/default/forum-icon.png");
             imageView.setImage(defaultImage);
         }
-        
-        // Create title label
+
         Label nameLabel = new Label(forum.getNom());
         nameLabel.getStyleClass().add("forum-name");
         nameLabel.setWrapText(true);
-        
-        // Create theme label
+
         Label themeLabel = new Label("Theme: " + forum.getTheme());
         themeLabel.getStyleClass().add("forum-theme");
         themeLabel.setWrapText(true);
-        
-        // Create date label
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
         Label dateLabel = new Label("Created: " + forum.getDateCreation().format(formatter));
         dateLabel.getStyleClass().add("forum-date");
-        
-        // Create action buttons
+
         Button viewButton = new Button("View Posts");
         viewButton.getStyleClass().add("view-button");
         viewButton.setMaxWidth(Double.MAX_VALUE);

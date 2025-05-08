@@ -42,13 +42,13 @@
                 <TextArea fx:id="postContentArea" wrapText="true" editable="false" styleClass="post-content"/>
             </VBox>
             
-            <!-- Comments Section Title
+            <!-- Comments Section Title-->
             <HBox alignment="CENTER_LEFT">
                 <Label text="Comments" styleClass="section-title"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <ComboBox fx:id="sortCommentsComboBox" promptText="Sort by"/>
             </HBox>
-            -->
+
             <!-- Comments List -->
             <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
                 <VBox fx:id="commentsContainer" spacing="10"/>

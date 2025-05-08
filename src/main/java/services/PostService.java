@@ -221,4 +221,21 @@ public class PostService implements Iservice<Post> {
             System.out.println("Error updating comment count: " + e.getMessage());
         }
     }
+        public void updateLikeCount(int postId) {
+            try {
+                String updateQuery = "UPDATE post SET nb_like = nb_like + 1 WHERE id = ?";
+                PreparedStatement updateStmt = MyConnection.getInstance().getCnx().prepareStatement(updateQuery);
+                updateStmt.setInt(1, postId);
+
+                int rowsUpdated = updateStmt.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    System.out.println("Like count updated in database for post ID: " + postId);
+                } else {
+                    System.out.println("No rows updated, check if the post exists.");
+                }
+            } catch (SQLException e) {
+                System.out.println("Error updating like count: " + e.getMessage());
+            }
+        }
 }

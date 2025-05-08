@@ -113,6 +113,17 @@
             <artifactId>AnimateFX</artifactId>
             <version>1.2.4</version>
         </dependency>
+        <!--twilio-->
+            <dependency>
+                <groupId>com.twilio.sdk</groupId>
+                <artifactId>twilio</artifactId>
+                <version>8.31.1</version> <!-- C'est une version stable et bien disponible sur Maven Central -->
+            </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
+        </dependency>
     </dependencies>
 
     <build>
