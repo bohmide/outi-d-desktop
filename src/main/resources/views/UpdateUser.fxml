@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.UpdateUserController"
+            prefWidth="600" prefHeight="400"
+            style="-fx-background-color: #f9f9f9;">
+    <VBox alignment="CENTER" spacing="15" prefWidth="400" layoutX="100" layoutY="30">
+
+        <Label text="Update User" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+        <TextField fx:id="firstNameField" promptText="First Name" />
+        <TextField fx:id="lastNameField" promptText="Last Name" />
+        <TextField fx:id="emailField" promptText="Email" />
+        <PasswordField fx:id="passwordField" promptText="Password" />
+        <TextField fx:id="numTelField" promptText="Phone Number" />
+
+
+
+        <Label fx:id="statusLabel" style="-fx-text-fill: red;" />
+
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Save" onAction="#handleUpdate"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white;" />
+            <Button text="Cancel" onAction="#handleCancel"
+                    style="-fx-background-color: #bdc3c7; -fx-text-fill: black;" />
+        </HBox>
+    </VBox>
+</AnchorPane>
