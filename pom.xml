@@ -17,45 +17,68 @@
         <kotlin.version>1.9.23</kotlin.version>
     </properties>
 
-
     <dependencies>
-        <!-- JavaFX Modules -->
+        <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>17</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>17</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>17</version>
+            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
-            <version>17</version>
+            <version>${javafx.version}</version>
         </dependency>
+
+        <!-- MySQL JDBC -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.30</version>
         </dependency>
+
+        <!-- Jakarta Persistence API -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-        <!-- iText 7 Kernel-->
+
+        <!-- iText PDF -->
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>kernel</artifactId>
             <version>7.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>layout</artifactId>
+            <version>7.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>barcodes</artifactId>
+            <version>7.1.15</version>
+        </dependency>
+
+        <!-- JSON -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20240303</version>
+        </dependency>
+
+        <!-- Google API -->
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client</artifactId>
@@ -71,35 +94,26 @@
             <artifactId>google-api-services-gmail</artifactId>
             <version>v1-rev20220404-2.0.0</version>
         </dependency>
+
+        <!-- Mail -->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
-        <!-- iText 7 Layout -->
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>layout</artifactId>
-            <version>7.2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>layout</artifactId>
-            <version>7.2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.itextpdf</groupId>
-            <artifactId>barcodes</artifactId>
-            <version>7.1.15</version>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20240303</version>
-        </dependency>
 
+        <!-- Icons and Animations -->
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-fontawesome</artifactId>
+            <version>4.7.0-9.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.typhon0</groupId>
+            <artifactId>AnimateFX</artifactId>
+            <version>1.2.4</version>
+        </dependency>
     </dependencies>
-
 
     <build>
         <resources>
@@ -108,13 +122,25 @@
             </resource>
         </resources>
         <plugins>
+            <!-- Java Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
 
-            <!-- Plugin Maven pour JavaFX -->
+            <!-- JavaFX Plugin -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
-                <configuration><mainClass>tests.MainApp</mainClass> </configuration>
+                <configuration>
+                    <mainClass>tests.MainApp</mainClass>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -123,6 +149,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- Kotlin Plugin (if used) -->
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -153,40 +181,6 @@
                     <jvmTarget>${maven.compiler.target}</jvmTarget>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <executions>
-                    <execution>
-                        <id>default-compile</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>default-testCompile</id>
-                        <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>testCompile</id>
-                        <phase>test-compile</phase>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-
 </project>
