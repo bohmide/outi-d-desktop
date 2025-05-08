@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.QuizControllerEtudiant"
+            stylesheets="@/styles/applicationCours.css"
+            prefHeight="700.0" prefWidth="1000.0">
+
+    <!-- En-tête du quiz -->
+    <VBox spacing="15"
+          AnchorPane.topAnchor="20"
+          AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20"
+          styleClass="header-container">
+
+        <HBox alignment="CENTER_LEFT"
+              spacing="10"
+              styleClass="header-top-bar">
+
+            <Button text="← Retour"
+                    fx:id="btnRetour"
+                    onAction="#retourAuxChapitres"
+                    styleClass="button-back"/>
+
+            <Label fx:id="lblChapitreInfo"
+                   styleClass="main-title"/>
+
+            <Label fx:id="lblNoQuizMessage"
+                   text="Aucun quiz disponible"
+                   visible="false"
+                   styleClass="subtitle-label"/>
+        </HBox>
+        <Separator styleClass="thick-separator"/>
+        <ComboBox fx:id="languageCombo"
+                  promptText="Langue"
+                  styleClass="input-control combo-box-small"/>
+    </VBox>
+
+    <!-- Contenu scrollable des questions -->
+    <ScrollPane fitToWidth="true"
+                AnchorPane.topAnchor="140"
+                AnchorPane.bottomAnchor="20"
+                AnchorPane.leftAnchor="20"
+                AnchorPane.rightAnchor="20"
+                styleClass="courses-scroll">
+
+        <VBox fx:id="vboxQuiz"
+              spacing="20"
+              alignment="TOP_CENTER"
+              styleClass="courses-list"/>
+    </ScrollPane>
+
+</AnchorPane>

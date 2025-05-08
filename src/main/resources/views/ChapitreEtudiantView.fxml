@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ChapitreControllerEtudiant"
+            stylesheets="@/styles/applicationCours.css"
+            prefHeight="700.0" prefWidth="1000.0">
+
+    <!-- En-tête des chapitres -->
+    <VBox spacing="10"
+          AnchorPane.topAnchor="20"
+          AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20"
+          styleClass="header-container">
+
+        <!-- Ligne du haut : retour + langue -->
+        <HBox spacing="30"
+              alignment="CENTER_LEFT"
+              styleClass="header-top-bar">
+
+            <Button fx:id="btnRetour"
+                    text="← Retour"
+                    onAction="#retourAccueil"
+                    styleClass="button-back"/>
+
+            <VBox spacing="4">
+                <Label fx:id="lblCoursTitle" styleClass="main-title"/>
+                <Label fx:id="lblProgression" styleClass="subtitle-label"/>
+            </VBox>
+
+            <ComboBox fx:id="languageCombo"
+                      promptText="Langue"
+                      styleClass="input-control combo-box-small"/>
+        </HBox>
+        <Label text="Chapitres du cours" styleClass="main-title"/>
+    </VBox>
+
+    <!-- Contenu des chapitres -->
+    <ScrollPane fitToWidth="true"
+                AnchorPane.topAnchor="140"
+                AnchorPane.bottomAnchor="20"
+                AnchorPane.leftAnchor="20"
+                AnchorPane.rightAnchor="20"
+                styleClass="courses-scroll">
+
+        <VBox fx:id="vboxChapitres"
+              spacing="15"
+              alignment="TOP_CENTER"
+              styleClass="courses-list"/>
+    </ScrollPane>
+
+</AnchorPane>

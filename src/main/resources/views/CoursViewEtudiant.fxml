@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Line?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.CoursControllerEtudiant"
+            stylesheets="@/styles/applicationCours.css">
+
+    <!-- Top Header -->
+    <!-- Top Header -->
+    <top>
+        <VBox styleClass="header-container">
+            <!-- Première ligne : Retour et langue -->
+            <HBox styleClass="header-top-bar">
+                <Button text="← Retour" onAction="#retourAccueil"
+                        styleClass="button-back" fx:id="backButton"/>
+                <Label text="|" styleClass="header-separator"/>
+                <Label text="Espace Étudiant" styleClass="header-bold-text"/>
+                <Label text="|" styleClass="header-separator"/>
+                <ComboBox fx:id="languageCombo" promptText="Langue"
+                          styleClass="input-control combo-box-small"/>
+            </HBox>
+
+            <!-- Barre de séparation épaisse -->
+            <Separator styleClass="thick-separator"/>
+
+            <!-- Titre principal -->
+            <Label text="Liste des cours disponibles" styleClass="main-title"/>
+
+            <!-- Barre de séparation épaisse -->
+            <Separator styleClass="thick-separator"/>
+
+            <!-- Barre de recherche -->
+            <HBox styleClass="search-bar">
+                <TextField fx:id="searchField" promptText="Rechercher un cours..."
+                           styleClass="input-control text-field"/>
+                <ComboBox fx:id="difficultyFilter" promptText="Filtrer par difficulté"
+                          styleClass="input-control combo-box-medium"/>
+                <ComboBox fx:id="sortComboBox" promptText="Trier par"
+                          styleClass="input-control combo-box-large"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <HBox styleClass="main-content">
+            <!-- Courses Section -->
+            <VBox styleClass="courses-section">
+                <ScrollPane styleClass="courses-scroll">
+                    <VBox fx:id="coursesContainer" styleClass="courses-list"/>
+                    <content>
+                        <GridPane fx:id="gridCours"/>
+                    </content>
+                </ScrollPane>
+                <Pagination fx:id="pagination" styleClass="courses-pagination"/>
+            </VBox>
+
+            <!-- Vertical Separator -->
+            <!--            <Line startY="0" endY="1000" styleClass="vertical-separator"/>-->
+
+            <!-- Chatbot fixed on the right -->
+            <VBox fx:id="chatbotContainer"
+                  spacing="10"
+                  prefWidth="300"
+                  maxWidth="300"
+                  minWidth="300"
+                  styleClass="chatbot-container"
+                  style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #cccccc;">
+                <fx:include source="chatBot.fxml"/>
+            </VBox>
+        </HBox>
+    </center>
+
+
+
+    <!--    &lt;!&ndash; Bottom: Pagination &ndash;&gt;-->
+    <!--    <bottom>-->
+    <!--        <Pagination fx:id="pagination" styleClass="pagination"/>-->
+    <!--    </bottom>-->
+</BorderPane>
