@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controllers.CompetitionController"
+      spacing="20"
+      alignment="CENTER"
+      style="-fx-padding: 15px; -fx-background-color: transparent;">
+    <Label text="Gestion des Compétitions"
+           style="-fx-font-size: 30px; -fx-font-weight: bold;-fx-text-fill: white;"/>
+    <HBox alignment="TOP_RIGHT" maxWidth="Infinity">
+        <Button text="Ajouter une compétition"
+                onAction="#ajouterCompetition"
+                styleClass="action-button"
+                HBox.hgrow="NEVER"/>
+    </HBox>
+    <TextField fx:id="searchField"
+               promptText="Rechercher par nom, organisation, date..."
+               style="-fx-pref-width: 300px;-fx-pref-height: 40px;-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 5, 0, 0, 1);"/>
+
+    <!-- Remplacez le VBox par un TilePane pour afficher les cartes en grille -->
+    <TilePane fx:id="cardsContainer"
+              hgap="15" vgap="25"
+              prefColumns="3"
+              style="-fx-background-color: transparent;"
+              prefTileWidth="350"
+              prefTileHeight="280"
+              alignment="CENTER"
+              maxWidth="1200">
+
+    <!-- Largeur fixe pour chaque carte -->
+        <!-- Les cartes seront ajoutées dynamiquement ici -->
+    </TilePane>
+</VBox>

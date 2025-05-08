@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaflet Map</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+    <style>
+        #map {
+            height: 1000px;
+            width: 100%;
+            background-color: #e8e8e8;
+        }
+        .custom-marker {
+            background-color: red;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+    var map;
+    var marker;
+
+    // Initialisation de la carte sans attendre DOMContentLoaded
+    function initialize() {
+        map = L.map('map').setView([36.8065, 10.1815], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        marker = L.marker([36.8065, 10.1815], {
+            draggable: true,
+            icon: L.divIcon({
+                className: 'custom-marker',
+                iconSize: [20, 20]
+            })
+        }).addTo(map);
+
+        // Gestion des clics et déplacements
+        map.on('click', function(e) {
+            marker.setLatLng(e.latlng);
+            getAddress(e.latlng);
+        });
+
+        marker.on('dragend', function(e) {
+            getAddress(marker.getLatLng());
+        });
+    }
+
+    function getAddress(latlng) {
+        var url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' + latlng.lat + '&lon=' + latlng.lng;
+        fetch(url)
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Erreur HTTP ' + response.status);
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                var address = data.display_name || "Adresse inconnue";
+                alert('Adresse trouvée : ' + address); // Log pour débogage
+                if (window.javaConnector) {
+                    window.javaConnector.updateLocation(
+                        latlng.lat,
+                        latlng.lng,
+                        address
+                    );
+                } else {
+                    alert('javaConnector non défini !');
+                }
+            })
+            .catch(function(error) {
+                console.error('Erreur de géocodage:', error);
+                alert('Erreur : ' + error.message);
+                if (window.javaConnector) {
+                    window.javaConnector.updateLocation(
+                        latlng.lat,
+                        latlng.lng,
+                        "Impossible de récupérer l'adresse"
+                    );
+                }
+            });
+    }
+
+    // Appeler initialize() directement
+    initialize();
+</script>
+</body>
+</html>
