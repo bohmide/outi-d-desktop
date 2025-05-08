@@ -244,3 +244,34 @@
     -fx-font-size: 18px;
     -fx-background-color: #4CAF50;
 }
+/* styleKids.css */
+.answer-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+}
+
+.selected {
+    -fx-background-color: #2196F3;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+}
+
+.correct {
+    -fx-background-color: #8BC34A !important;
+}
+
+.incorrect {
+    -fx-background-color: #FF5722 !important;
+}
+.leaflet-popup-content button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.leaflet-popup-content button:hover {
+    background: #45a049;
+}

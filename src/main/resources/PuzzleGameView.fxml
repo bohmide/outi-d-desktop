@@ -13,8 +13,12 @@
     </center>
 
     <bottom>
-        <Button fx:id="checkButton" text="Vérifier le Puzzle" onAction="#handleCheckSolution"
-                styleClass="menu-button" BorderPane.alignment="CENTER"/>
+        <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
+            <Button fx:id="checkButton" text="Vérifier le Puzzle" onAction="#handleCheckSolution"
+                    styleClass="menu-button"/>
+            <Button text="Retour" onAction="#handleReturnToMainMenu"
+                    styleClass="menu-button"
+                    style="-fx-background-color: #4a148c; -fx-text-fill: white;"/>
+        </HBox>
     </bottom>
-
 </BorderPane>

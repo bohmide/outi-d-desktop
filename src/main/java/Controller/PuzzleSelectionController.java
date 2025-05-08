@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import entities.Games;
 import entities.Puzzle;
@@ -24,6 +25,7 @@ public class PuzzleSelectionController implements Initializable {
 
     @FXML
     private VBox puzzleList;
+
 
     private final PuzzleDAO puzzleDAO = new PuzzleDAO();
     private final GamesDAO gameDAO = new GamesDAO();
@@ -93,6 +95,30 @@ public class PuzzleSelectionController implements Initializable {
         Stage stage = (Stage) puzzleList.getScene().getWindow();
         stage.show();
     }
+
+    @FXML
+    private void handleReturnToMainMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainGamification_View.fxml"));
+            Parent root = loader.load();
+
+            // Charger la scène du menu principal
+            Stage stage = (Stage) puzzleList.getScene().getWindow();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styleKids.css").toExternalForm());
+            stage.setScene(scene);
+            stage.show();
+
+            // Optionnel : Ajouter un message vocal
+            VoiceAssistant.speak("Retour au menu principal. Choisissez une nouvelle aventure!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
 
 }

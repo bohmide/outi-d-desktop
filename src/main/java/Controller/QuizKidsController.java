@@ -74,7 +74,7 @@ public class QuizKidsController {
         countries = FXCollections.observableArrayList(
                 "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Australia", "Austria",
                 "Belgium", "Brazil", "Canada", "China", "France", "Germany", "India", "Italy", "Japan", "Mexico",
-                "Netherlands", "Russia", "South Korea", "Spain", "United Kingdom", "United States", "Zimbabwe"
+                "Netherlands", "Russia", "South Korea", "Spain", "United Kingdom", "United States", "Zimbabwe","Tunisia"
         );
         countries.remove("Israel");
         countryComboBox.setItems(countries);

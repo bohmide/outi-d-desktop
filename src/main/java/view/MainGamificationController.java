@@ -1,8 +1,5 @@
 package view;
 
-import com.sun.speech.freetts.Voice;
-import com.sun.speech.freetts.VoiceManager;
-import dao.QuizKidsDAO;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -12,8 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -21,7 +17,6 @@ import utils.VoiceAssistant;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Set;
 
 public class MainGamificationController extends Application {
 
@@ -76,11 +71,11 @@ public class MainGamificationController extends Application {
 
     @FXML
     private void handleGlobtrotter() {
-        loadScene("/QuizSelectionView.fxml", (Stage) gameMenu.getScene().getWindow());
+        loadScene("/GlobetrotterMapView.fxml", (Stage) gameMenu.getScene().getWindow());
     }
     @FXML
     private void handleDrawingGame() {
-        loadScene("/QuizSelectionView.fxml", (Stage) gameMenu.getScene().getWindow());
+        loadScene("/DrawingGameView.fxml", (Stage) gameMenu.getScene().getWindow());
     }
 
     private void loadScene(String fxmlPath, Stage stage) {

@@ -3,13 +3,18 @@ package Controller;
 import entities.Badge;
 import entities.QuizKids;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import services.BadgeService;
 import services.EmailService;
 import services.FreeAIImageService;
 import utils.VoiceAssistant;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
@@ -184,5 +189,24 @@ public class QuizKidsPageController {
                 score,
                 badge.getRequiredScore()
         );
+    }
+    @FXML
+    private void handleReturnToMainMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainGamification_View.fxml"));
+            Parent root = loader.load();
+
+            // Charger la scène du menu principal
+            Stage stage = (Stage) questionsContainer.getScene().getWindow();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styleKids.css").toExternalForm());
+            stage.setScene(scene);
+            stage.show();
+
+            // Optionnel : Ajouter un message vocal
+            VoiceAssistant.speak("Retour au menu principal. Choisissez une nouvelle aventure!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

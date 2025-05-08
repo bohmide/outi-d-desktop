@@ -88,5 +88,20 @@ public class QuizSelectionController {
             e.printStackTrace();
         }
     }
+    @FXML
+    private void handleReturnToMainMenu() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/MainGamification_View.fxml"));
+            Stage stage = (Stage) genreComboBox.getScene().getWindow();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styleKids.css").toExternalForm());
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            VoiceAssistant.speak("Retour au menu principal. Choisissez une nouvelle aventure!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

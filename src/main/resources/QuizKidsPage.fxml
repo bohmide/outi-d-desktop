@@ -34,4 +34,5 @@
     <Button text="Soumettre les réponses"
             onAction="#handleSubmitQuiz"
             styleClass="menu-button"/>
+    <Button text="Retour" onAction="#handleReturnToMainMenu" styleClass="menu-button" style="-fx-background-color: #4a148c; -fx-text-fill: white;" />
 </VBox>

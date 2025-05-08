@@ -14,5 +14,7 @@
     <Label text="Choisis une MemoryCard !" styleClass="title-label"/>
 
     <VBox fx:id="memoryCardList" alignment="CENTER" spacing="10"/>
+    <Button text="Retour" onAction="#handleReturnToMainMenu" styleClass="menu-button" style="-fx-background-color: #4a148c; -fx-text-fill: white;" />
+
 
 </VBox>

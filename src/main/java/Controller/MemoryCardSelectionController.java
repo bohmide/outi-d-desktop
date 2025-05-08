@@ -87,4 +87,23 @@ public class MemoryCardSelectionController implements Initializable {
             loadMemoryCards(); // Rafraîchir la liste si nécessaire
         }
     }
+    @FXML
+    private void handleReturnToMainMenu() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainGamification_View.fxml"));
+            Parent root = loader.load();
+
+            // Charger la scène du menu principal
+            Stage stage = (Stage) memoryCardList.getScene().getWindow();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styleKids.css").toExternalForm());
+            stage.setScene(scene);
+            stage.show();
+
+            // Optionnel : Ajouter un message vocal
+            VoiceAssistant.speak("Retour au menu principal. Choisissez une nouvelle aventure!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

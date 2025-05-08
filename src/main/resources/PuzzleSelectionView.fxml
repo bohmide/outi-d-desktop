@@ -14,5 +14,6 @@
     <Label text="Choisis un puzzle !" styleClass="title-label"/>
 
     <VBox fx:id="puzzleList" alignment="CENTER" spacing="10"/>
+    <Button text="Retour" onAction="#handleReturnToMainMenu" styleClass="menu-button" style="-fx-background-color: #4a148c; -fx-text-fill: white;" />
 
 </VBox>
