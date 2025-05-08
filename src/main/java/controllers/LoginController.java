@@ -13,7 +13,6 @@ import entities.Session;
 
 import javafx.event.ActionEvent;
 import utils.user.FaceAuthenticator;
-import utils.GoogleLogin;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -243,7 +242,7 @@ public class LoginController {
     }
 
 
-    @FXML
+    /*@FXML
     private void handleGoogleLogin(ActionEvent event) {
         try {
             String googleEmail = GoogleLogin.loginWithGoogle();
@@ -262,7 +261,7 @@ public class LoginController {
             e.printStackTrace();
             errorLabel.setText("Google login failed: " + e.getMessage());
         }
-    }
+    }*/
 
 
 
