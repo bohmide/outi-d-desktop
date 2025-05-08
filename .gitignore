@@ -42,7 +42,7 @@
 tokens/
 *.secret
 credentials.json
-src/main/resources/credentials.json
+
 
 # Logs
 *.log
