@@ -27,6 +27,9 @@
             <Button text="Cours"
                     style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18;" />
 
+            <Button text="etudiant"
+                    style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18;" />
+
             <Button text="Compétition"
                     style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18;" />
 
