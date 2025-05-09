@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane fx:controller="Controller.PuzzleGameController"
+            xmlns:fx="http://javafx.com/fxml"
+            styleClass="main-container"
+            prefWidth="800" prefHeight="600">
+
+    <center>
+        <GridPane fx:id="puzzleGrid" hgap="5" vgap="5"
+                  style="-fx-padding: 20;" alignment="CENTER"/>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
+            <Button fx:id="checkButton" text="Vérifier le Puzzle" onAction="#handleCheckSolution"
+                    styleClass="menu-button"/>
+            <Button text="Retour" onAction="#handleReturnToMainMenu"
+                    styleClass="menu-button"
+                    style="-fx-background-color: #4a148c; -fx-text-fill: white;"/>
+        </HBox>
+    </bottom>
+</BorderPane>

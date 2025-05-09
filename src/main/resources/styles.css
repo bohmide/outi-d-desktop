@@ -1,0 +1,57 @@
+/* General Styling */
+.root {
+    -fx-font-family: 'Comic Sans MS';
+    -fx-background-color: #f0f8ff;
+}
+
+.label {
+    -fx-font-size: 24px;
+    -fx-text-fill: #FF6347;
+    -fx-padding: 10px;
+}
+
+.button {
+    -fx-background-color: #FF6347;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px 10px;
+}
+
+.combo-box {
+    -fx-background-color: #fff8dc;
+    -fx-border-color: #ff4500;
+    -fx-border-radius: 5px;
+}
+
+/* Table Styling */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #ff4500;
+    -fx-border-width: 2px;
+}
+
+.table-column {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ff6347;
+    -fx-font-weight: bold;
+}
+
+.table-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+
+/* Row Hover Effect */
+.table-row-cell:hover {
+    -fx-background-color: #ffebcd; /* Light orange */
+}
+
+/* Actions Column Buttons */
+.table-view .button {
+    -fx-background-color: #271ea8;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-padding: 2px 5px;
+}

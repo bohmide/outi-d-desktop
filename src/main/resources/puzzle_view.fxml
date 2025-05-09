@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.net.URL?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controller.PuzzleController">
+
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+
+    <top>
+        <Label text="Gestion des Puzzles" styleClass="header" BorderPane.alignment="CENTER"
+               style="-fx-font-size: 24px; -fx-font-family: 'Comic Sans MS'; -fx-text-fill: #c800ff; -fx-padding: 10px;" />
+    </top>
+
+    <center>
+        <VBox spacing="20" style="-fx-background-color: #f0f8ff; -fx-padding: 20px;">
+            <!-- Formulaire -->
+            <HBox spacing="15">
+                <Label text="Jeu :" style="-fx-font-size: 14px;" />
+                <ComboBox fx:id="gameComboBox" promptText="Sélectionner un jeu"
+                          style="-fx-font-size: 14px; -fx-background-color: #fff8dc;
+                          -fx-border-color: #c800ff; -fx-border-radius: 5px;" prefWidth="200"/>
+
+                <Label text="Image Finale :" style="-fx-font-size: 14px;"/>
+                <TextField fx:id="finalImageField" editable="false" prefWidth="200"
+                           style="-fx-font-size: 14px; -fx-background-color: #fff;"/>
+                <Button text="Choisir Image" onAction="#handleSelectFinalImage"
+                        style="-fx-background-color: #c800ff; -fx-text-fill: white;
+                        -fx-font-size: 14px; -fx-border-radius: 5px;"/>
+            </HBox>
+
+
+
+
+            <!-- Boutons -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button text="Ajouter" onAction="#handleAddPuzzle"
+                        style="-fx-background-color: #32cd32; -fx-text-fill: white;
+                        -fx-font-size: 14px; -fx-border-radius: 5px;"/>
+                <Button text="Modifier" onAction="#handleUpdatePuzzle"
+                        style="-fx-background-color: #c800ff; -fx-text-fill: white;
+                        -fx-font-size: 14px; -fx-border-radius: 5px;"/>
+            </HBox>
+
+            <!-- Table -->
+            <TableView fx:id="puzzleTable" prefHeight="300" prefWidth="600"
+                       style="-fx-background-color: #fff; -fx-border-color: #c800ff;">
+                <columns>
+                    <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="gameColumn" text="Nom du Jeu" prefWidth="150"/>
+                    <TableColumn fx:id="finalImageColumn" text="Image Finale" prefWidth="200"/>
+                    <TableColumn fx:id="piecesColumn" text="Pièces" prefWidth="200"/>
+                    <TableColumn fx:id="actionColumn" text="Action"/>
+
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

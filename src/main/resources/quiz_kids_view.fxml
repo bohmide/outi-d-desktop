@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.paint.Color?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controller.QuizKidsController">
+    <stylesheets>
+        <URL value="@styles.css"/>
+    </stylesheets>
+
+
+    <top>
+        <Label text="Gestion QuizKids" styleClass="header" BorderPane.alignment="CENTER"
+               style="-fx-font-size: 24px; -fx-font-family: 'Comic Sans MS'; -fx-text-fill: #c800ff; -fx-padding: 10px;"/>
+    </top>
+
+    <center>
+        <VBox spacing="20" style="-fx-background-color: #f0f8ff; -fx-padding: 20px;">
+            <HBox spacing="15">
+                <TextField fx:id="questionField" promptText="Question" style="-fx-font-size: 14px; -fx-background-color: #fff8dc; -fx-border-color: #c800ff; -fx-border-radius: 5px;" />
+                <TextField fx:id="optionsField" promptText="Options séparées par des virgules" style="-fx-font-size: 14px; -fx-background-color: #fff8dc; -fx-border-color: #c800ff; -fx-border-radius: 5px;"/>
+            </HBox>
+            <HBox spacing="15">
+                <TextField fx:id="correctAnswerField" promptText="Bonne réponse" style="-fx-font-size: 14px; -fx-background-color: #fff8dc; -fx-border-color: #c800ff; -fx-border-radius: 5px;" />
+                <TextField fx:id="mediaField" promptText="Media" editable="false" style="-fx-font-size: 14px; -fx-background-color: #dcdcdc; -fx-border-color: #c800ff; -fx-border-radius: 5px;"/>
+                <Button text="Choose file" onAction="#handleChooseFile" style="-fx-background-color: #c800ff; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5px;"/>
+            </HBox>
+            <HBox spacing="15">
+                <ComboBox fx:id="levelComboBox" onAction="#handleLevelChange" style="-fx-font-size: 14px; -fx-background-color: #fff8dc; -fx-border-color: #c800ff; -fx-border-radius: 5px;">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Easy"/>
+                            <String fx:value="Medium"/>
+                            <String fx:value="Hard"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <TextField fx:id="scoreField" promptText="Score" style="-fx-font-size: 14px; -fx-background-color: #fff8dc; -fx-border-color: #c800ff; -fx-border-radius: 5px;" />
+            </HBox>
+            <HBox spacing="15">
+                <ComboBox fx:id="genreComboBox" onAction="#handleGenreChange" style="-fx-font-size: 14px; -fx-background-color: #fff8dc; -fx-border-color: #c800ff; -fx-border-radius: 5px;">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Science"/>
+                            <String fx:value="Math"/>
+                            <String fx:value="Animaux"/>
+                            <String fx:value="Sport"/>
+                            <String fx:value="Culture"/>
+                            <String fx:value="Geographie"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+                <ComboBox fx:id="countryComboBox" promptText="Select a country" style="-fx-font-size: 14px; -fx-background-color: #fff8dc; -fx-border-color: #c800ff; -fx-border-radius: 5px;"/>
+            </HBox>
+            <HBox spacing="15" alignment="center">
+                <Button text="Ajouter" onAction="#handleAddQuiz" style="-fx-background-color: #32cd32; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5px;"/>
+                <Button text="Modifier" onAction="#handleUpdateQuiz" style="-fx-background-color: #c800ff; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 5px;"/>
+            </HBox>
+
+            <!-- Table -->
+            <TableView fx:id="quizTableView" prefHeight="300" prefWidth="600" style="-fx-background-color: #fff; -fx-border-color: #c800ff;">
+                <columns>
+                    <TableColumn fx:id="questionColumn" text="Question" prefWidth="200" />
+                    <TableColumn fx:id="scoreColumn" text="Score" prefWidth="100" />
+                    <TableColumn fx:id="countryColumn" text="Country" prefWidth="150" />
+                    <TableColumn fx:id="genreColumn" text="Genre" prefWidth="150" />
+                    <TableColumn fx:id="actionColumn" text="Actions" prefWidth="150" />
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<?import java.net.URL?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="Controller.QuizKidsPageController"
+      alignment="CENTER"
+      spacing="20"
+      styleClass="main-container"
+      prefWidth="600" prefHeight="400">
+    <stylesheets>
+        <URL value="@styleKids.css"/>
+    </stylesheets>
+
+    <Label text="Sélectionne les réponses" styleClass="title-label" />
+
+    <!-- Ajout du ScrollPane -->
+    <ScrollPane fitToWidth="true"
+                hbarPolicy="NEVER"
+                vbarPolicy="AS_NEEDED"
+                styleClass="transparent-scroll"
+                VBox.vgrow="ALWAYS">
+        <content>
+            <VBox fx:id="questionsContainer"
+                  spacing="10"
+                  alignment="TOP_CENTER"
+                  styleClass="answers-container"/>
+        </content>
+    </ScrollPane>
+
+    <Button text="Soumettre les réponses"
+            onAction="#handleSubmitQuiz"
+            styleClass="menu-button"/>
+    <Button text="Retour" onAction="#handleReturnToMainMenu" styleClass="menu-button" style="-fx-background-color: #4a148c; -fx-text-fill: white;" />
+</VBox>

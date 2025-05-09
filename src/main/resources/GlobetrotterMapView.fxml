@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane fx:id="mainPane" xmlns:fx="http://javafx.com/fxml" fx:controller="Controller.GlobetrotterController" stylesheets="@styleKids.css">
+    <VBox alignment="TOP_CENTER" spacing="10" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" styleClass="main-container">
+
+        <Label text="Carte des Pays" styleClass="title-label"/>
+
+        <!-- Le WebView va prendre tout l’espace restant -->
+        <WebView fx:id="webView" VBox.vgrow="ALWAYS"/>
+        <Button text="Retour" onAction="#handleReturnToMainMenu"
+                styleClass="menu-button"
+                style="-fx-background-color: #4a148c; -fx-text-fill: white;"/>
+
+    </VBox>
+</AnchorPane>
+                

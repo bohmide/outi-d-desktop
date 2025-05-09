@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Carte Globetrotter</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        html, body, #map { height: 100%; margin: 0; padding: 0; }
+        .popup-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .popup-buttons button {
+            padding: 5px;
+            background-color: #ffc107;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .popup-buttons button:hover {
+            background-color: #ff9800;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([20, 0], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    async function getCountryCodes() {
+        let codes = {};
+        try {
+            let response = await fetch("https://restcountries.com/v3.1/all");
+            let countries = await response.json();
+            countries.forEach(c => {
+                if (c.name.common && c.cca2) {
+                    codes[c.name.common] = c.cca2;
+                }
+            });
+        } catch (e) {
+            console.error("Error loading country codes", e);
+        }
+        return codes;
+    }
+
+    async function setupMap() {
+        const countryCodes = await getCountryCodes();
+
+        fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+            .then(r => r.json())
+            .then(data => {
+                L.geoJson(data, {
+                    style: {
+                        color: "#007bff",
+                        weight: 1,
+                        fillOpacity: 0.2
+                    },
+                    onEachFeature: function(feature, layer) {
+                        const countryName = feature.properties.name;
+                        const iso2 = countryCodes[countryName];
+
+                        if (!iso2) return;
+
+                        const flagUrl = `https://flagcdn.com/w40/${iso2.toLowerCase()}.png`;
+
+                        const flagIcon = L.icon({
+                            iconUrl: flagUrl,
+                            iconSize: [30, 20],
+                            iconAnchor: [15, 10]
+                        });
+
+                        const center = layer.getBounds().getCenter();
+                        const marker = L.marker(center, { icon: flagIcon }).addTo(map);
+
+                        const popupContent = `
+                            <div><strong>${countryName}</strong></div>
+                            <div class="popup-buttons">
+                                <button onclick="launchQuiz('${countryName}')">Lancer le Quiz</button>
+                                <button onclick="launchVoice('${countryName}')">Présentation Vocale</button>
+                            </div>
+                        `;
+
+                        marker.bindPopup(popupContent);
+                        marker.bindTooltip(countryName);
+
+                        marker.on('click', () => marker.openPopup());
+                        layer.on('click', () => marker.openPopup());
+                    }
+                }).addTo(map);
+            })
+            .catch(err => console.error("Erreur chargement GeoJSON", err));
+    }
+
+    function launchQuiz(countryName) {
+        console.warn(countryName);
+        if (window.javaConnector && typeof window.javaConnector.showQuizzes === 'function') {
+            window.javaConnector.showQuizzes(countryName);
+        } else {
+            console.warn("javaConnector ou showQuizzes non défini");
+        }
+    }
+
+    function launchVoice(countryName) {
+        console.warn(countryName);
+        if (window.javaConnector && typeof window.javaConnector.speak === 'function') {
+            window.javaConnector.speak(countryName);
+        } else {
+            console.warn("javaConnector ou speak non défini");
+        }
+    }
+
+    setupMap();
+</script>
+</body>
+</html>
