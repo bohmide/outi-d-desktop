@@ -12,7 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.application.Platform;
-import utils.EmailService; // Cet import est crucial
+import services.EmailService; // Cet import est crucial
 import javax.mail.MessagingException;
 
 public class ReserverEquipeController {

@@ -62,8 +62,8 @@ public class Forum {
         if (theme == null || theme.trim().isEmpty()) {
             throw new IllegalArgumentException("Forum theme cannot be empty");
         }
-        if (theme.length() > 10) {
-            throw new IllegalArgumentException("Forum theme cannot exceed 10 characters");
+        if (theme.length() > 20) {
+            throw new IllegalArgumentException("Forum theme cannot exceed 20 characters");
         }
         this.theme = theme;
     }

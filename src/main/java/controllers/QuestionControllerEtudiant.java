@@ -1,8 +1,8 @@
 package controllers;
 
 import services.CertificationService;
-import Services.QuestionService;
-import Services.ReponseService;
+import services.QuestionService;
+import services.ReponseService;
 import entities.Chapitres;
 import entities.Cours;
 import entities.Question;

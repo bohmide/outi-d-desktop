@@ -1,6 +1,6 @@
 package controllers;
 
-import Services.CoursService;
+import services.CoursService;
 import entities.Cours;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

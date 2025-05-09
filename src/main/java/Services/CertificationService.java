@@ -44,6 +44,15 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.Session;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.InternetAddress;
+
 
 public class CertificationService {
     private static final String CERTIFICATION_DIRECTORY = "D:/3emeA42/JavaSem1/outi-d-desktop/src/main/resources/certifications";

@@ -14,8 +14,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>3.2.0</spring-boot.version>
         <java.version>17</java.version>
-       <javafx.version>17</javafx.version>
-
+        <javafx.version>17</javafx.version>
+        <fontawesomefx.version>9.1.2</fontawesomefx.version>
     </properties>
 
     <dependencies>
@@ -120,12 +120,6 @@
         <!-- Mail -->
         <dependency>
             <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>1.6.2</version>
-
-        </dependency>
-        <dependency>
-            <groupId>com.sun.mail</groupId>
             <artifactId>jakarta.mail</artifactId>
             <version>2.0.1</version>
         </dependency>
@@ -142,12 +136,29 @@
             <version>2.13.1</version>
         </dependency>
 
-        <!-- Additional Utilities -->
+        <!-- FontAwesomeFX - Updated to modular version -->
         <dependency>
             <groupId>de.jensd</groupId>
-            <artifactId>fontawesomefx</artifactId>
-            <version>8.9</version>
+            <artifactId>fontawesomefx-commons</artifactId>
+            <version>${fontawesomefx.version}</version>
         </dependency>
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-fontawesome</artifactId>
+            <version>4.7.0-${fontawesomefx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-materialicons</artifactId>
+            <version>2.2.0-${fontawesomefx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>de.jensd</groupId>
+            <artifactId>fontawesomefx-materialdesignfont</artifactId>
+            <version>2.0.26-${fontawesomefx.version}</version>
+        </dependency>
+
+        <!-- Additional Utilities -->
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>leaflet</artifactId>
@@ -215,6 +226,25 @@
             <artifactId>google-api-services-gmail</artifactId>
             <version>v1-rev20250331-2.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <!-- JavaBeans Activation Framework (DataHandler, FileDataSource) -->
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <!-- SLF4J Simple implementation to silence warnings -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -234,18 +264,53 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-            <!-- JavaFX Maven plugin -->
+            <!-- JavaFX Maven plugin with updated configuration -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>tests.MainTest</mainClass>
+                    <mainClass>tests.MainCours</mainClass>
+                    <options>
+                        <option>--add-exports</option>
+                        <option>javafx.graphics/com.sun.javafx.css=ALL-UNNAMED</option>
+                        <option>--add-exports</option>
+                        <option>javafx.base/com.sun.javafx=ALL-UNNAMED</option>
+                        <option>--add-exports</option>
+                        <option>javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED</option>
+                        <option>--add-exports</option>
+                        <option>javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED</option>
+                    </options>
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Assembly plugin to create executable jar with dependencies -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>tests.MainCours</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -258,9 +323,14 @@
             <id>org.openjfx</id>
             <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
-            <repository>
-                <id>bintray-jerady</id>
-                <url>https://dl.bintray.com/jerady/maven</url>
-            </repository>
+        <!-- Update the bintray repository since it's been deprecated -->
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
     </repositories>
 </project>

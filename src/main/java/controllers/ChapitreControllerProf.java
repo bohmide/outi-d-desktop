@@ -1,7 +1,7 @@
 package controllers;
 
-import Services.ChapitreService;
-import Services.CoursService;
+import services.ChapitreService;
+import services.CoursService;
 import entities.Chapitres;
 import entities.Cours;
 import javafx.collections.FXCollections;

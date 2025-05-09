@@ -1,8 +1,9 @@
 package controllers.evenement;
 
 import com.google.zxing.BarcodeFormat;
-import com.itextpdf.text.pdf.qrcode.BitMatrix;
-import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import entities.Event;
 import entities.EventGenre;
 import entities.Sponsors;
@@ -22,35 +23,26 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import services.EventService;
-import com.google.zxing.client.j2se.*;
-
-import utils.CurrencyUtil;
-
 import javafx.stage.FileChooser;
+import services.EventService;
+import utils.CurrencyUtil;
 import utils.TelegraphUploader;
 
 import javax.imageio.ImageIO;
-import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.nio.file.StandardCopyOption;
-import java.util.Currency;
-import java.util.stream.Collectors;
-import java.util.Locale;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class EventController implements Initializable {
 
@@ -66,12 +58,8 @@ public class EventController implements Initializable {
     @FXML private TableColumn<Event, LocalDate> eventDate;
     @FXML private TableColumn<Event, Void> actionColumn;
     @FXML private TextField searchField;
-    @FXML
-    private Button exportButton;
+    @FXML private Button exportButton;
     @FXML private Label deviseLabel;
-
-    @FXML private HBox loadingBox;
-    @FXML private ProgressIndicator loadingIndicator;
 
     private final EventService eventService = new EventService();
 
@@ -84,37 +72,31 @@ public class EventController implements Initializable {
 
     private void setCurrency() {
         Currency currency = CurrencyUtil.getCurrencyFromIP();
-        String currencySymbol = currency.getSymbol();
-        deviseLabel.setText("Devise: " + currencySymbol + " (1 TND = " +
+        deviseLabel.setText("Devise: " + currency.getSymbol() + " (1 TND = " +
                 String.format("%.2f", CurrencyUtil.convertFromTND(1.0, currency)) + " " +
                 currency.getCurrencyCode() + ")");
-
-        if (eventTable != null) {
-            eventTable.refresh();
-        }
+        eventTable.refresh();
     }
 
-
-
     private Image loadImageWithRetry(String imagePath) {
-        // Essai 1: Chargement normal depuis les ressources
+        // Try loading from resources
         try {
             InputStream stream = getClass().getResourceAsStream(imagePath);
             if (stream != null) {
                 return new Image(stream);
             }
         } catch (Exception e) {
-            System.err.println("First try failed for: " + imagePath);
+            System.err.println("Failed to load from resources: " + imagePath);
         }
 
-        // Essai 2: Chargement direct depuis le système de fichiers
+        // Try loading from file system
         try {
             Path path = Paths.get("src/main/resources" + imagePath);
             if (Files.exists(path)) {
                 return new Image(path.toUri().toString());
             }
         } catch (Exception e) {
-            System.err.println("Second try failed for: " + imagePath);
+            System.err.println("Failed to load from file system: " + imagePath);
         }
 
         return null;
@@ -124,40 +106,31 @@ public class EventController implements Initializable {
         nomEvent.setCellValueFactory(new PropertyValueFactory<>("nomEvent"));
         description.setCellValueFactory(new PropertyValueFactory<>("description"));
         nbrMemeber.setCellValueFactory(new PropertyValueFactory<>("nbrMemebers"));
-
-        // Get the currency symbol from the label
-        String currencySymbol = deviseLabel.getText().replace("Devise: ", "");
-
-        // Configure the price column to show value with currency
         prix.setCellValueFactory(new PropertyValueFactory<>("prix"));
-        prix.setCellFactory(column -> new TableCell<Event, Number>() {
+        prix.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Number price, boolean empty) {
                 super.updateItem(price, empty);
                 if (empty || price == null) {
                     setText(null);
                 } else {
-                    // Get the currency symbol from the label
-                    String currencySymbol = deviseLabel.getText().replace("Devise: ", "");
-                    setText(String.format("%.2f %s", CurrencyUtil.convertFromTND(price.doubleValue(), CurrencyUtil.getCurrencyFromIP()), ""));
+                    String currencySymbol = deviseLabel.getText().split(" ")[1];
+                    setText(String.format("%.2f %s", CurrencyUtil.convertFromTND(price.doubleValue(), CurrencyUtil.getCurrencyFromIP()), currencySymbol));
                 }
             }
         });
-
         dateCreation.setCellValueFactory(new PropertyValueFactory<>("dateCreation"));
         eventDate.setCellValueFactory(new PropertyValueFactory<>("dateEvent"));
         genre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGenre().getNomGenre()));
-        sponsor.setCellValueFactory(cellData -> {
-            List<Sponsors> sponsors = cellData.getValue().getListSponsors();
-            return new SimpleStringProperty(sponsors != null ?
-                    sponsors.stream().map(Sponsors::getNomSponsor).collect(Collectors.joining(", ")) : "");
-        });
+        sponsor.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getListSponsors().stream()
+                        .map(Sponsors::getNomSponsor)
+                        .collect(Collectors.joining(", "))
+        ));
 
-        // Rest of your column configurations...
         imageColumn.setCellValueFactory(new PropertyValueFactory<>("imagePath"));
-        imageColumn.setCellFactory(column -> new TableCell<Event, String>() {
+        imageColumn.setCellFactory(column -> new TableCell<>() {
             private final ImageView imageView = new ImageView();
-
             {
                 imageView.setFitWidth(80);
                 imageView.setFitHeight(60);
@@ -167,213 +140,129 @@ public class EventController implements Initializable {
             @Override
             protected void updateItem(String imagePath, boolean empty) {
                 super.updateItem(imagePath, empty);
-
                 if (empty || imagePath == null || imagePath.isEmpty()) {
                     setGraphic(null);
                 } else {
                     Image image = loadImageWithRetry(imagePath);
-                    if (image != null) {
-                        imageView.setImage(image);
-                        setGraphic(imageView);
-                    } else {
-                        System.err.println("Failed to load image: " + imagePath);
-                        setGraphic(null);
-                    }
+                    imageView.setImage(image);
+                    setGraphic(image != null ? imageView : null);
                 }
             }
         });
 
-        actionColumn.setCellFactory(createActionCellFactory());
-    }
-
-    private Callback<TableColumn<Event, Void>, TableCell<Event, Void>> createActionCellFactory() {
-        actionColumn.setPrefWidth(300);
-        return param -> new TableCell<>() {
+        actionColumn.setCellFactory(param -> new TableCell<>() {
             private final Button editButton = new Button("Modifier");
             private final Button deleteButton = new Button("Supprimer");
             private final Button qrCodeButton = new Button("QR Code");
 
             {
-
-
-                editButton.setOnAction(event -> {
-                    Event selectedEvent = getTableView().getItems().get(getIndex());
-                    openEditDialog(selectedEvent);
-                });
-
-                deleteButton.setOnAction(event -> {
-                    Event selectedEvent = getTableView().getItems().get(getIndex());
-                    deleteEvent(selectedEvent);
-                });
-
-                qrCodeButton.setOnAction(event -> {
-                    Event selectedEvent = getTableView().getItems().get(getIndex());
-                    //exportEventAsQRCode(selectedEvent);
-                });
+                editButton.setOnAction(e -> openEditDialog(getTableView().getItems().get(getIndex())));
+                deleteButton.setOnAction(e -> deleteEvent(getTableView().getItems().get(getIndex())));
+                qrCodeButton.setOnAction(e -> exportEventAsQRCode(getTableView().getItems().get(getIndex())));
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    HBox buttons = new HBox(20, editButton, deleteButton, qrCodeButton);
-                    buttons.setAlignment(Pos.CENTER); // Optional: center align the buttons
-                    setGraphic(buttons);
-                }
+                setGraphic(empty ? null : new HBox(20, editButton, deleteButton, qrCodeButton));
             }
-        };
+        });
     }
 
-
-
-
-    /*private void exportEventAsQRCode(Event event) {
+    private void exportEventAsQRCode(Event event) {
         try {
-            // Combine the event's name and description into a single string
             String eventInfo = "Description: " + event.getDescription() + "\nDate: " + event.getDateEvent();
             String url = TelegraphUploader.createTelegraphPage(event.getNomEvent(), eventInfo);
-            System.out.println("Event URL: " + url);
 
-            // Generate QR code
             QRCodeWriter qrCodeWriter = new QRCodeWriter();
             BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, 200, 200);
-            BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
-
-            // Show the QR code in the UI
-            // Convert BufferedImage to JavaFX Image
             ByteArrayOutputStream os = new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, "png", os);
-            ByteArrayInputStream is = new ByteArrayInputStream(os.toByteArray());
-            Image fxImage = new Image(is);
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", os);
+            Image fxImage = new Image(new ByteArrayInputStream(os.toByteArray()));
 
             ImageView qrCodeImageView = new ImageView(fxImage);
             qrCodeImageView.setFitWidth(200);
             qrCodeImageView.setFitHeight(200);
 
-            // Download button
             Button downloadButton = new Button("Télécharger");
             downloadButton.setOnAction(e -> {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.setTitle("Sauvegarder le QR Code");
                 fileChooser.setInitialFileName("EventQRCode_" + event.getId() + ".png");
                 fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image PNG", "*.png"));
-                File selectedFile = fileChooser.showSaveDialog(null);
-                if (selectedFile != null) {
+                File file = fileChooser.showSaveDialog(null);
+                if (file != null) {
                     try {
-                        ImageIO.write(bufferedImage, "PNG", selectedFile);
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION, "QR Code téléchargé avec succès !");
-                        alert.show();
-                        openFileLocation(selectedFile.getAbsolutePath());
+                        ImageIO.write(MatrixToImageWriter.toBufferedImage(bitMatrix), "PNG", file);
+                        new Alert(Alert.AlertType.INFORMATION, "QR Code téléchargé avec succès !").show();
+                        openFileLocation(file.getAbsolutePath());
                     } catch (IOException ex) {
-                        ex.printStackTrace();
+                        new Alert(Alert.AlertType.ERROR, "Erreur lors du téléchargement: " + ex.getMessage()).show();
                     }
                 }
             });
 
-
             VBox vbox = new VBox(10, qrCodeImageView, downloadButton);
             vbox.setAlignment(Pos.CENTER);
             Scene scene = new Scene(vbox, 250, 300);
-
-            Stage qrCodeStage = new Stage();
-            qrCodeStage.setTitle("QR Code de l'Événement");
-            qrCodeStage.setScene(scene);
-            qrCodeStage.show();
-
+            Stage stage = new Stage();
+            stage.setTitle("QR Code de l'Événement");
+            stage.setScene(scene);
+            stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
-
-
-
-    public void openFileLocation(String path) {
-        try {
-            File file = new File(path);
-            if (file.exists()) {
-                // Open the folder and highlight the file (Windows only)
-                if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                    new ProcessBuilder("explorer.exe", "/select,", file.getAbsolutePath()).start();
-                }
-                // For macOS
-                else if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                    new ProcessBuilder("open", "-R", file.getAbsolutePath()).start();
-                }
-                // For Linux (open the folder only)
-                else {
-                    new ProcessBuilder("xdg-open", file.getParent()).start();
-                }
-            } else {
-                System.err.println("File does not exist: " + path);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de la génération du QR Code: " + e.getMessage()).show();
         }
     }
 
-
-
+    private void openFileLocation(String path) {
+        try {
+            File file = new File(path);
+            if (file.exists()) {
+                String os = System.getProperty("os.name").toLowerCase();
+                if (os.contains("win")) {
+                    new ProcessBuilder("explorer.exe", "/select,", file.getAbsolutePath()).start();
+                } else if (os.contains("mac")) {
+                    new ProcessBuilder("open", "-R", file.getAbsolutePath()).start();
+                } else {
+                    new ProcessBuilder("xdg-open", file.getParent()).start();
+                }
+            }
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ouverture du dossier: " + e.getMessage()).show();
+        }
+    }
 
     private void loadEvents() {
         List<Event> events = eventService.listEvenets();
+        if (events == null) {
+            events = new ArrayList<>();
+        }
         ObservableList<Event> observableList = FXCollections.observableArrayList(events);
-
-        // Create the FilteredList and set the default predicate
         FilteredList<Event> filteredList = new FilteredList<>(observableList, b -> true);
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(event -> {
                 if (newValue == null || newValue.isEmpty()) {
-                    return true; // If the search field is empty, show all events
+                    return true;
                 }
-
                 String lowerCaseFilter = newValue.toLowerCase();
-
-                // Check all fields for the search term
-                boolean matches = false;
-
-                // Match based on event name
-                matches |= event.getNomEvent().toLowerCase().contains(lowerCaseFilter);
-
-                // Match based on description
-                matches |= event.getDescription().toLowerCase().contains(lowerCaseFilter);
-
-                // Match based on genre
-                matches |= event.getGenre().getNomGenre().toLowerCase().contains(lowerCaseFilter);
-
-                // Match based on sponsors
-                matches |= event.getListSponsors().stream()
-                        .map(Sponsors::getNomSponsor)
-                        .collect(Collectors.joining(", "))
-                        .toLowerCase()
-                        .contains(lowerCaseFilter);
-
-                // Match based on number of members (convert to string)
-                matches |= String.valueOf(event.getNbrMemebers()).contains(lowerCaseFilter);
-
-                // Match based on price (convert to string)
-                matches |= String.valueOf(event.getPrix()).contains(lowerCaseFilter);
-
-                // Match based on creation date (convert to string)
-                matches |= String.valueOf(event.getDateCreation()).contains(lowerCaseFilter);
-
-                // Match based on event date (convert to string)
-                matches |= String.valueOf(event.getDateEvent()).contains(lowerCaseFilter);
-
-                return matches; // Return whether the event matches any condition
+                return event.getNomEvent().toLowerCase().contains(lowerCaseFilter) ||
+                        event.getDescription().toLowerCase().contains(lowerCaseFilter) ||
+                        event.getGenre().getNomGenre().toLowerCase().contains(lowerCaseFilter) ||
+                        event.getListSponsors().stream()
+                                .map(Sponsors::getNomSponsor)
+                                .collect(Collectors.joining(", "))
+                                .toLowerCase().contains(lowerCaseFilter) ||
+                        String.valueOf(event.getNbrMemebers()).contains(lowerCaseFilter) ||
+                        String.valueOf(event.getPrix()).contains(lowerCaseFilter) ||
+                        String.valueOf(event.getDateCreation()).contains(lowerCaseFilter) ||
+                        String.valueOf(event.getDateEvent()).contains(lowerCaseFilter);
             });
         });
 
-        // Create a SortedList to manage sorting
         SortedList<Event> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(eventTable.comparatorProperty());
-
-        // Apply the sorted list to the table
         eventTable.setItems(sortedList);
-        eventTable.refresh(); // Refresh the table view
     }
 
     @FXML
@@ -381,16 +270,14 @@ public class EventController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/evenement/addEventView.fxml"));
             Parent root = loader.load();
-
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Ajouter Événement");
-            stage.initModality(Modality.APPLICATION_MODAL); // Block interactions with other windows
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-
-            loadEvents(); // Reload events after adding
+            loadEvents();
         } catch (IOException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ouverture du formulaire: " + e.getMessage()).show();
         }
     }
 
@@ -408,19 +295,16 @@ public class EventController implements Initializable {
         searchField.getScene().setRoot(root);
     }
 
-
     @FXML
     private void handleExport() {
-        // Create a simple Choice Dialog
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Excel", "Excel", "PDF");
         dialog.setTitle("Exporter les Événements");
         dialog.setHeaderText("Choisissez un format d'exportation");
         dialog.setContentText("Format:");
-
         dialog.showAndWait().ifPresent(choice -> {
             if (choice.equals("Excel")) {
                 exportToExcel();
-            } else if (choice.equals("PDF")) {
+            } else {
                 exportToPDF();
             }
         });
@@ -429,25 +313,16 @@ public class EventController implements Initializable {
     private void exportToPDF() {
         try {
             com.itextpdf.text.Document document = new com.itextpdf.text.Document();
-
-
-            java.io.File file = new java.io.File(System.getProperty("user.home") + "/Documents/evenements.pdf");
-
-            // Create PDF writer instance
+            File file = new File(System.getProperty("user.home") + "/Documents/evenements.pdf");
             com.itextpdf.text.pdf.PdfWriter.getInstance(document, new java.io.FileOutputStream(file));
             document.open();
 
-            // Title
-            com.itextpdf.text.Paragraph title = new com.itextpdf.text.Paragraph("Liste des Événements");
-            title.setAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
-            document.add(title);
-            document.add(new com.itextpdf.text.Paragraph(" ")); // Empty line
+            document.add(new com.itextpdf.text.Paragraph("Liste des Événements",
+                    new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 16, com.itextpdf.text.Font.BOLD)));
+            document.add(new com.itextpdf.text.Paragraph(" "));
 
-            // Table setup
             com.itextpdf.text.pdf.PdfPTable table = new com.itextpdf.text.pdf.PdfPTable(8);
             table.setWidthPercentage(100);
-
-            // Table header
             table.addCell("Nom");
             table.addCell("Description");
             table.addCell("Genre");
@@ -457,7 +332,6 @@ public class EventController implements Initializable {
             table.addCell("Date Création");
             table.addCell("Date Événement");
 
-            // Data rows
             for (Event event : eventTable.getItems()) {
                 table.addCell(event.getNomEvent());
                 table.addCell(event.getDescription());
@@ -471,22 +345,15 @@ public class EventController implements Initializable {
 
             document.add(table);
             document.close();
-
-
-
-            System.out.println("PDF file has been saved to: " + file.getAbsolutePath());
             openFileLocation(file.getAbsolutePath());
-
         } catch (Exception e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de l'exportation PDF: " + e.getMessage()).show();
         }
     }
 
     private void exportToExcel() {
         try (org.apache.poi.xssf.usermodel.XSSFWorkbook workbook = new org.apache.poi.xssf.usermodel.XSSFWorkbook()) {
             org.apache.poi.xssf.usermodel.XSSFSheet sheet = workbook.createSheet("Events");
-
-            // Header
             org.apache.poi.ss.usermodel.Row header = sheet.createRow(0);
             header.createCell(0).setCellValue("Nom");
             header.createCell(1).setCellValue("Description");
@@ -497,7 +364,6 @@ public class EventController implements Initializable {
             header.createCell(6).setCellValue("Date Création");
             header.createCell(7).setCellValue("Date Événement");
 
-            // Data
             List<Event> events = eventTable.getItems();
             for (int i = 0; i < events.size(); i++) {
                 Event event = events.get(i);
@@ -514,49 +380,39 @@ public class EventController implements Initializable {
                 row.createCell(7).setCellValue(event.getDateEvent().toString());
             }
 
-            // Define a path for the file to be saved (e.g., "Documents/evenements.xlsx")
-            java.io.File file = new java.io.File(System.getProperty("user.home") + "/Documents/evenements.xlsx");
-
-            // Save to file
+            File file = new File(System.getProperty("user.home") + "/Documents/evenements.xlsx");
             try (java.io.FileOutputStream outputStream = new java.io.FileOutputStream(file)) {
                 workbook.write(outputStream);
             }
-
-            System.out.println("Excel file has been saved to: " + file.getAbsolutePath());
             openFileLocation(file.getAbsolutePath());
-
-
         } catch (Exception e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de l'exportation Excel: " + e.getMessage()).show();
         }
     }
-
-
-
 
     private void openEditDialog(Event event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/evenement/addEventView.fxml"));
             Parent root = loader.load();
-
             AddEventController editController = loader.getController();
-            editController.setEventForEdit(event); // Pass the selected event to the edit controller
-
+            editController.setEventForEdit(event);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Modifier Événement");
-            stage.initModality(Modality.APPLICATION_MODAL); // Block interactions with other windows
+            stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-
-            loadEvents(); // Reload events after editing
+            loadEvents();
         } catch (IOException e) {
-            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de l'ouverture du formulaire: " + e.getMessage()).show();
         }
     }
 
     private void deleteEvent(Event event) {
-        // Implémenter la logique pour supprimer l'événement
-        eventService.deleteEvent(event.getId());
-        loadEvents(); // Reload events after deletion
+        try {
+            eventService.deleteEvent(event.getId());
+            loadEvents();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de la suppression: " + e.getMessage()).show();
+        }
     }
 }

@@ -1,6 +1,6 @@
 package controllers;
 
-import Services.QuizService;
+import services.QuizService;
 import entities.Chapitres;
 import entities.Cours;
 import entities.Quiz;

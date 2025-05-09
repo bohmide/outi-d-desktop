@@ -1,6 +1,6 @@
 package controllers;
 
-import Services.ChapitreService;
+import services.ChapitreService;
 import entities.Chapitres;
 import entities.Cours;
 import javafx.event.ActionEvent;
