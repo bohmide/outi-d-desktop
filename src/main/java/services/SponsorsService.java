@@ -9,7 +9,7 @@ import java.util.*;
 
 public class SponsorsService {
 
-    Sponsors findSponsor(Sponsors sponsor) {
+    public Sponsors findSponsor(Sponsors sponsor) {
         try{
             String querry = "SELECT * FROM SPONSORS WHERE id = ?";
 
@@ -32,7 +32,7 @@ public class SponsorsService {
         return null;
     }
 
-    Sponsors findSponsorById(int sponsorId) {
+    public Sponsors findSponsorById(int sponsorId) {
         try{
             String querry = "SELECT * FROM SPONSORS WHERE id = ?";
 
@@ -78,7 +78,7 @@ public class SponsorsService {
         return null;
     }
 
-    List<Sponsors> listSponsor(){
+    public List<Sponsors> listSponsor(){
 
         ArrayList<Sponsors> listSponsor = new ArrayList<>();
         try{

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.CompleteStudentController">
+    <children>
+        <VBox alignment="CENTER" spacing="12" layoutX="150" layoutY="40" prefWidth="500" prefHeight="400">
+
+            <Label text="Complete Student Signup" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+            <DatePicker fx:id="birthDatePicker" promptText="Date of Birth" />
+            <ComboBox fx:id="sexeComboBox" promptText="Gender">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Homme"/>
+                        <String fx:value="Femme"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+
+            <Label fx:id="messageLabel" textFill="red" />
+
+            <Button text="Finish Signup" onAction="#handleFinishSignup" />
+        </VBox>
+    </children>
+</AnchorPane>

@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.*;
 import java.time.LocalDate;
 
 public class Event {
@@ -12,9 +13,12 @@ public class Event {
     LocalDate dateCreation;
     float prix;
 
+    EventGenre genre;
+    List<Sponsors> listSponsors;
+
     public Event() {}
 
-    public Event(int id, String nomEvent, String description, LocalDate dateEvent, int nbrMemebers, String imagePath, float prix) {
+    public Event(int id, String nomEvent, String description, LocalDate dateEvent, int nbrMemebers, String imagePath, LocalDate dateCreation,float prix) {
         this.id = id;
         this.nomEvent = nomEvent;
         this.description = description;
@@ -22,15 +26,32 @@ public class Event {
         this.nbrMemebers = nbrMemebers;
         this.imagePath = imagePath;
         this.prix = prix;
+        this.dateCreation = dateCreation;
+        listSponsors = new ArrayList();
     }
 
-    public Event(String nomEvent, String description, LocalDate dateEvent, int nbrMemebers, String imagePath, float prix) {
+    public Event(String nomEvent, String description, LocalDate dateEvent, int nbrMemebers, String imagePath, LocalDate dateCreation,float prix) {
         this.nomEvent = nomEvent;
         this.description = description;
         this.dateEvent = dateEvent;
         this.nbrMemebers = nbrMemebers;
         this.imagePath = imagePath;
         this.prix = prix;
+        this.dateCreation = dateCreation;
+        listSponsors = new ArrayList();
+    }
+
+    public Event(int id, String nomEvent, String description, LocalDate dateEvent, int nbrMemebers, String imagePath, LocalDate dateCreation, float prix, EventGenre genre, ArrayList<Sponsors> listSponsors) {
+        this.id = id;
+        this.nomEvent = nomEvent;
+        this.description = description;
+        this.dateEvent = dateEvent;
+        this.nbrMemebers = nbrMemebers;
+        this.imagePath = imagePath;
+        this.prix = prix;
+        this.dateCreation = dateCreation;
+        this.listSponsors = listSponsors;
+        this.genre = genre;
     }
 
     public int getId() {
@@ -97,6 +118,26 @@ public class Event {
         this.prix = prix;
     }
 
+    public EventGenre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(EventGenre genre) {
+        this.genre = genre;
+    }
+
+    public List<Sponsors> getListSponsors() {
+        return listSponsors;
+    }
+
+    public void setListSponsors(List<Sponsors> listSponsors) {
+        this.listSponsors = listSponsors;
+    }
+
+    public void addSponsor(Sponsors sponsor) {
+        this.listSponsors.add(sponsor);
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -108,6 +149,8 @@ public class Event {
                 ", imagePath='" + imagePath + '\'' +
                 ", dateCreation=" + dateCreation +
                 ", prix=" + prix +
+                ", genre=" + genre +
+                ", listSponsors=" + listSponsors +
                 '}';
     }
 }

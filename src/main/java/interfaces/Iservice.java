@@ -3,9 +3,8 @@ package interfaces;
 import java.util.List;
 
 public interface Iservice <T>{
-
-    public void addEntity(T t);
-    public void updateEntityById(T t);
-    public void deleteEntityById(T t);
-    public List<T> listEntity();
+    public void addEntite(T t);
+    public List<T> listEntite();
+    public void updateEntite(T t);
+    public void deleteEntite(T t);
 }

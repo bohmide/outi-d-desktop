@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml">
+
+    <!-- Gradient Background -->
+    <AnchorPane style="-fx-background-color: linear-gradient(to bottom right, #0f0c29, #302b63, #24243e);">
+
+        <VBox alignment="CENTER" spacing="30"
+              AnchorPane.leftAnchor="0"
+              AnchorPane.rightAnchor="0"
+              AnchorPane.topAnchor="0"
+              AnchorPane.bottomAnchor="0">
+
+            <!-- Glowing Title -->
+            <Label text="Welcome to OUTI-D" style="
+                -fx-text-fill: white;
+                -fx-font-size: 40px;
+                -fx-font-weight: bold;
+                -fx-effect: dropshadow(gaussian, #00f7ff, 12, 0.4, 0, 2);
+            " />
+
+            <!-- Glass Panel -->
+            <VBox spacing="20" alignment="CENTER" style="
+                -fx-background-color: rgba(255,255,255,0.08);
+                -fx-background-radius: 20;
+                -fx-padding: 40;
+                -fx-border-color: rgba(255,255,255,0.2);
+                -fx-border-radius: 20;
+                -fx-effect: dropshadow(gaussian, #00000088, 10, 0.5, 0, 6);
+            ">
+                <Label text="Your personalized education hub." style="-fx-text-fill: white; -fx-font-size: 18px;" />
+                <Label text="Manage your learning, connect with educators, and explore new content." style="-fx-text-fill: #cccccc;" />
+
+                <!-- Styled Buttons -->
+                <HBox spacing="20" alignment="CENTER">
+                    <Button text="Dashboard" style="
+                        -fx-background-color: #00f7ff;
+                        -fx-text-fill: black;
+                        -fx-font-weight: bold;
+                        -fx-background-radius: 14;
+                        -fx-padding: 10 20;
+                    " />
+                    <Button text="Profile" style="
+                        -fx-background-color: rgba(255,255,255,0.2);
+                        -fx-text-fill: white;
+                        -fx-font-weight: bold;
+                        -fx-background-radius: 14;
+                        -fx-padding: 10 20;
+                        -fx-border-color: white;
+                        -fx-border-width: 1;
+                    " />
+                </HBox>
+            </VBox>
+
+            <!-- Footer -->
+            <Label text="© 2025 OUTI-D | Empowering Your Education" style="
+                -fx-text-fill: #bbbbbb;
+                -fx-font-size: 12px;
+                -fx-padding: 20 0 0 0;
+            " />
+        </VBox>
+    </AnchorPane>
+</StackPane>

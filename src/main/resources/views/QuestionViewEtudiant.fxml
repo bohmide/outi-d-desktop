@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.QuestionControllerEtudiant"
+            prefHeight="600.0" prefWidth="800.0"
+            style="-fx-background-color: #f5f7fa;">
+
+    <!-- Header -->
+    <VBox fx:id="headerBox" spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Button fx:id="btnRetour" text="Retour aux Quiz" onAction="#retourAuxQuiz"
+                    styleClass="button-back"/>
+            <Label fx:id="lblQuizInfo" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        </HBox>
+        <Separator />
+    </VBox>
+
+    <!-- Questions Area -->
+    <ScrollPane fx:id="scrollPane" fitToWidth="true"
+                AnchorPane.topAnchor="70" AnchorPane.bottomAnchor="70"
+                AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+        <VBox fx:id="vboxQuestions" spacing="15" style="-fx-padding: 10;" />
+    </ScrollPane>
+
+    <!-- Submit Button -->
+    <Button fx:id="btnSubmit" text="%submit" onAction="#envoyerQuiz"
+            AnchorPane.bottomAnchor="10" AnchorPane.rightAnchor="10"
+            style="-fx-background-color: #4a6baf; -fx-text-fill: white; -fx-font-weight: bold;" />
+</AnchorPane>

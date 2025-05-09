@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<HBox prefHeight="600" prefWidth="1200"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      stylesheets="@/styles/mainF.css"
+      fx:controller="controllers.TopOrganisationsController"
+      spacing="30"
+      alignment="CENTER_LEFT">
+
+    <!-- Colonne Gauche - Top 5 -->
+    <VBox spacing="15" prefWidth="550"
+          HBox.hgrow="ALWAYS"
+          alignment="TOP_LEFT"
+          style="-fx-padding: 20;">
+
+        <Label text="TOP 5 ORGANISATIONS/EQUIPES"
+               styleClass="title-label"
+               style="-fx-font-size: 24px; -fx-padding: 0 0 10 0;">
+            <font>
+                <Font name="Arial Rounded MT Bold" />
+            </font>
+        </Label>
+
+        <BarChart fx:id="chart"
+                  prefHeight="450"
+                  prefWidth="500"
+                  animated="false"
+                  style="-fx-font-size: 14px;" styleClass="vbox-section">
+            <xAxis>
+                <CategoryAxis label="Organisations" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="Nombre d'équipes" upperBound="50" />
+            </yAxis>
+        </BarChart>
+    </VBox>
+
+    <!-- Colonne Droite - Calendrier -->
+    <VBox spacing="15" prefWidth="550"
+          HBox.hgrow="ALWAYS"
+          alignment="TOP_CENTER"
+          style="-fx-padding: 20;">
+        <Label text="Calendrier des Compétitions"  styleClass="title-label" />
+        <fx:include source="CalendarView.fxml" />
+
+    </VBox>
+
+</HBox>

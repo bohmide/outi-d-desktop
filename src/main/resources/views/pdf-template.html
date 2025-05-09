@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2cm; }
+        .header {
+            background: #2196F3;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .section { margin-bottom: 25px;padding: 20px; }
+        .label { font-weight: bold; color: #666; }
+        .value { color: #333; margin-left: 10px; }
+        .logo {
+            width: 150px;
+            position: absolute;
+            right: 50px;
+            top: 5px;
+        }
+    </style>
+</head>
+<body>
+<img src="classpath:/images/LOGO.png" class="logo" th:if="${logoPath}">
+
+<div class="header">
+    <h1 th:text="${title}">Titre de la compétition</h1>
+</div>
+
+<div class="section">
+    <div class="info-item">
+        <span class="label">Organisation:</span>
+        <span class="value" th:text="${organisation}">Organisateur</span>
+    </div>
+    <div class="info-item">
+        <span class="label">Dates:</span>
+        <span class="value" th:text="${dates}">01/01/2023 - 31/01/2023</span>
+    </div>
+    <div class="info-item">
+        <span class="label">Localisation:</span>
+        <span class="value" th:text="${localisation}">Lieu</span>
+    </div>
+</div>
+
+<div class="section">
+    <h3>Description</h3>
+    <p th:text="${description}">Description détaillée...</p>
+</div>
+</body>
+</html>

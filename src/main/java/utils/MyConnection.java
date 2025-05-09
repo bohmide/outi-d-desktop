@@ -10,7 +10,14 @@ public class MyConnection {
     String pwd = "";
     public static MyConnection instance;
 
-    private Connection cnx;
+
+    public Connection getCnx() {
+
+        return cnx;
+    }
+
+    Connection cnx;
+
 
     private MyConnection() {
         try {
@@ -54,3 +61,4 @@ public class MyConnection {
         }
     }
 }
+

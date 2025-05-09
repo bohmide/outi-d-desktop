@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.CompetitionDetailsController"
+            stylesheets="@/styles/mainF.css">
+
+    <!-- Top: Bouton Retour -->
+    <top>
+        <Button text="Retour"
+                onAction="#goBack"
+                style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;"
+                BorderPane.alignment="TOP_LEFT"/>
+    </top>
+
+    <!-- Center: Contenu principal centré -->
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <!-- Carte de détails -->
+            <VBox styleClass="competition-card"
+                  spacing="15"
+                  style="-fx-padding: 20; -fx-max-width: 600;-fx-max-height: 800; -fx-min-height: 600;">
+
+                <!-- En-tête -->
+                <Label fx:id="titleLabel"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+
+                <!-- Contenu détaillé -->
+                <VBox spacing="10">
+                    <!-- Organisation -->
+                    <HBox spacing="10">
+                        <Label text="Organisation:"
+                               style="-fx-font-weight: bold; -fx-text-fill: #e5e5e8; -fx-min-width: 100;"/>
+                        <Label fx:id="organisationLabel"
+                               style="-fx-text-fill: #e5e5e8; -fx-font-size: 14px;"/>
+                    </HBox>
+
+                    <!-- Dates -->
+                    <HBox spacing="10">
+                        <Label text="Dates:"
+                               style="-fx-font-weight: bold; -fx-text-fill: #e5e5e8; -fx-min-width: 100;"/>
+                        <Label fx:id="dateLabel"
+                               style="-fx-text-fill: #e5e5e8; -fx-font-size: 14px;"/>
+                    </HBox>
+
+                    <!-- Description -->
+                    <VBox spacing="5">
+                        <Label text="Description:"
+                               style="-fx-font-weight: bold; -fx-text-fill: #e5e5e8;"/>
+                        <TextArea fx:id="descriptionLabel"
+                                  editable="false"
+                                  wrapText="true"
+                                  style="-fx-control-inner-background: rgba(255,255,255,0.2);
+                                         -fx-text-fill: #323232;
+                                         -fx-border-color: #666;
+                                         -fx-min-height: 100;"/>
+                    </VBox>
+
+                    <!-- Localisation -->
+                    <HBox spacing="10">
+                        <Label text="Localisation:"
+                               style="-fx-font-weight: bold; -fx-text-fill: #e5e5e8; -fx-min-width: 100;"/>
+                        <TextField fx:id="localisationField"
+                                   editable="false"
+                                   style="-fx-background-color: transparent; -fx-text-fill: #e5e5e8;"/>
+                        <Hyperlink fx:id="localisationLink"
+                                   text="(Voir sur Google Maps)"
+                                   style="-fx-text-fill: #e5e5e8;"/>
+                    </HBox>
+
+                    <!-- Section fichier (optionnelle) -->
+                    <VBox fx:id="fichierContainer" spacing="5" visible="false">
+                        <Label text="Fichier joint:"
+                               style="-fx-font-weight: bold; -fx-text-fill: #e5e5e8;"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label fx:id="fichierLabel"
+                                   style="-fx-text-fill: #e5e5e8; -fx-font-size: 14px;"/>
+                            <Button text="Télécharger"
+                                    onAction="#downloadFile"
+                                    style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                            <!-- Nouveau bouton PDF -->
+                            <Button text="Générer PDF"
+                                    onAction="#generatePDF"
+                                    style="-fx-background-color: #FF5722; -fx-text-fill: white;"/>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
