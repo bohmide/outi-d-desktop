@@ -117,7 +117,7 @@ public class ForumViewController implements Initializable {
     }
     
     private void loadForums() {
-        List<Forum> allForums = forumService.listEntity();
+        List<Forum> allForums = forumService.listEntite();
 
         totalPages = (int) Math.ceil((double) allForums.size() / itemsPerPage);
 
@@ -224,7 +224,7 @@ public class ForumViewController implements Initializable {
     
     private void searchForums(String query) {
         // Implement search functionality
-        List<Forum> allForums = forumService.listEntity();
+        List<Forum> allForums = forumService.listEntite();
         
         forumsList.clear();
         for (Forum forum : allForums) {
@@ -342,7 +342,7 @@ public class ForumViewController implements Initializable {
         
         result.ifPresent(updatedForum -> {
             try {
-                forumService.updateEntityById(updatedForum);
+                forumService.updateEntite(updatedForum);
                 loadForums();
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Forum Updated", 
                          "Forum '" + updatedForum.getNom() + "' has been updated successfully.");
@@ -360,7 +360,7 @@ public class ForumViewController implements Initializable {
         
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                forumService.deleteEntityById(forum);
+                forumService.deleteEntite(forum);
                 loadForums();
             }
         });
@@ -451,7 +451,7 @@ public class ForumViewController implements Initializable {
 
         result.ifPresent(forum -> {
             try {
-                forumService.addEntity(forum);
+                forumService.addEntite(forum);
                 loadForums(); // Refresh the list
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Forum Created",
                         "Forum '" + forum.getNom() + "' has been created successfully.");

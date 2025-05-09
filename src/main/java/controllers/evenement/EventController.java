@@ -1,8 +1,8 @@
 package controllers.evenement;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
+import com.itextpdf.text.pdf.qrcode.BitMatrix;
+import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
 import entities.Event;
 import entities.EventGenre;
 import entities.Sponsors;
@@ -208,7 +208,7 @@ public class EventController implements Initializable {
 
                 qrCodeButton.setOnAction(event -> {
                     Event selectedEvent = getTableView().getItems().get(getIndex());
-                    exportEventAsQRCode(selectedEvent);
+                    //exportEventAsQRCode(selectedEvent);
                 });
             }
 
@@ -229,7 +229,7 @@ public class EventController implements Initializable {
 
 
 
-    private void exportEventAsQRCode(Event event) {
+    /*private void exportEventAsQRCode(Event event) {
         try {
             // Combine the event's name and description into a single string
             String eventInfo = "Description: " + event.getDescription() + "\nDate: " + event.getDateEvent();
@@ -285,7 +285,7 @@ public class EventController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
 

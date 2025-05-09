@@ -11,7 +11,7 @@ import java.util.List;
 public class CommentService implements Iservice<Comment> {
 
     @Override
-    public void addEntity(Comment comment) {
+    public void addEntite(Comment comment) {
         try {
             String query = "INSERT INTO comment (post_id, description, date_creation) VALUES (?, ?, ?)";
             
@@ -35,7 +35,7 @@ public class CommentService implements Iservice<Comment> {
     }
 
     @Override
-    public void updateEntityById(Comment comment) {
+    public void updateEntite(Comment comment) {
         try {
             String query = "UPDATE comment SET post_id = ?, description = ?, date_creation = ? WHERE id = ?";
             
@@ -60,7 +60,7 @@ public class CommentService implements Iservice<Comment> {
     }
 
     @Override
-    public void deleteEntityById(Comment comment) {
+    public void deleteEntite(Comment comment) {
         try {
             int postId = comment.getPostId(); // Store post ID before deletion
             
@@ -88,7 +88,7 @@ public class CommentService implements Iservice<Comment> {
     }
 
     @Override
-    public List<Comment> listEntity() {
+    public List<Comment> listEntite() {
         List<Comment> commentList = new ArrayList<>();
         
         try {

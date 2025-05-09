@@ -25,7 +25,7 @@ public class ChatBotController {
     private String appelerChatbot(String question) {
         try {
             HttpClient client = HttpClient.newHttpClient();
-            String apiKey = "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"; // Remplace par ta clé API OpenRouter
+            String apiKey = "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";
 
             String requestBody = """
         {

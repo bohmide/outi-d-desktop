@@ -7,7 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.shape.Rectangle?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="controllers.CalendarViewController" stylesheets="/styles/main.css" spacing="10"
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="controllers.CalendarViewController" stylesheets="/styles/mainF.css" spacing="10"
       prefWidth="500"
       alignment="TOP_CENTER"
       styleClass="vbox-section" >

@@ -29,7 +29,7 @@ public class TestCrudForum {
                 forum1.setTheme("Video Games");
                 forum1.setDateCreation(LocalDate.now());
                 forum1.setImageForum("gaming.png");
-                forumService.addEntity(forum1);
+                forumService.addEntite(forum1);
                 // Retrieve the forum to get its ID
                 forum1 = forumService.findForumByName(forumName1);
                 System.out.println("Forum 1 created with ID: " + (forum1 != null ? forum1.getId() : "unknown"));
@@ -50,7 +50,7 @@ public class TestCrudForum {
                 forum2.setTheme("Technology");
                 forum2.setDateCreation(LocalDate.now());
                 forum2.setImageForum("tech.png");
-                forumService.addEntity(forum2);
+                forumService.addEntite(forum2);
                 // Retrieve the forum to get its ID
                 forum2 = forumService.findForumByName(forumName2);
                 System.out.println("Forum 2 created with ID: " + (forum2 != null ? forum2.getId() : "unknown"));
@@ -58,7 +58,7 @@ public class TestCrudForum {
 
             // Verify all forums were added
             System.out.println("\n----- All Forums After Creation -----");
-            List<Forum> allForums = forumService.listEntity();
+            List<Forum> allForums = forumService.listEntite();
             System.out.println("Total forums: " + allForums.size());
             for (Forum forum : allForums) {
                 System.out.println("Forum: " + forum.getId() + " - " + forum.getNom() + " - " + forum.getTheme());
@@ -69,20 +69,20 @@ public class TestCrudForum {
             if (forum1 != null) {
                 forum1.setNom("Gaming & eSports Discussion");
                 forum1.setTheme("Gaming & eSports");
-                forumService.updateEntityById(forum1);
+                forumService.updateEntite(forum1);
                 System.out.println("Forum 1 updated");
             }
 
             // Delete second forum
             System.out.println("\n----- Deleting Second Forum -----");
             if (forum2 != null) {
-                forumService.deleteEntityById(forum2);
+                forumService.deleteEntite(forum2);
                 System.out.println("Forum 2 deleted");
             }
 
             // Verify forum1 exists and forum2 is deleted
             System.out.println("\n----- Final Forums List -----");
-            List<Forum> finalForums = forumService.listEntity();
+            List<Forum> finalForums = forumService.listEntite();
             System.out.println("Total forums: " + finalForums.size());
             for (Forum forum : finalForums) {
                 System.out.println("Forum: " + forum.getId() + " - " + forum.getNom() + " - " + forum.getTheme());

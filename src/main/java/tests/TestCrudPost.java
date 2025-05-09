@@ -32,7 +32,7 @@ public class TestCrudPost {
                 forum.setTheme("Testing");
                 forum.setDateCreation(LocalDate.now());
                 forum.setImageForum("test.png");
-                forumService.addEntity(forum);
+                forumService.addEntite(forum);
                 // Retrieve the forum to get its ID
                 forum = forumService.findForumByName(forumName);
                 System.out.println("Created forum with ID: " + (forum != null ? forum.getId() : "unknown"));
@@ -51,7 +51,7 @@ public class TestCrudPost {
             post1.setNbLike(0);
             post1.setNbComment(0);
             post1.setForumId(forum.getId());
-            postService.addEntity(post1);
+            postService.addEntite(post1);
             System.out.println("Post 1 created");
             
             // Finding the post by name would require an additional method in the service
@@ -74,7 +74,7 @@ public class TestCrudPost {
             post2.setNbLike(0);
             post2.setNbComment(0);
             post2.setForumId(forum.getId());
-            postService.addEntity(post2);
+            postService.addEntite(post2);
             System.out.println("Post 2 created");
             
             // Find post2 by listing all posts again
@@ -89,7 +89,7 @@ public class TestCrudPost {
 
             // Verify all posts were added
             System.out.println("\n----- All Posts After Creation -----");
-            List<Post> allPosts = postService.listEntity();
+            List<Post> allPosts = postService.listEntite();
             System.out.println("Total posts: " + allPosts.size());
             for (Post post : allPosts) {
                 System.out.println("Post: " + post.getId() + " - " + post.getNom() + " - Forum ID: " + post.getForumId());
@@ -99,7 +99,7 @@ public class TestCrudPost {
             System.out.println("\n----- Updating First Post -----");
             post1.setNom("Updated First Post");
             post1.setContenu("This content has been updated.");
-            postService.updateEntityById(post1);
+            postService.updateEntite(post1);
             System.out.println("Post 1 updated");
 
             // Increment likes on first post
@@ -109,12 +109,12 @@ public class TestCrudPost {
 
             // Delete second post
             System.out.println("\n----- Deleting Second Post -----");
-            postService.deleteEntityById(post2);
+            postService.deleteEntite(post2);
             System.out.println("Post 2 deleted");
 
             // Verify post1 exists and post2 is deleted
             System.out.println("\n----- Final Posts List -----");
-            List<Post> finalPosts = postService.listEntity();
+            List<Post> finalPosts = postService.listEntite();
             System.out.println("Total posts: " + finalPosts.size());
             for (Post post : finalPosts) {
                 System.out.println("Post: " + post.getId() + " - " + post.getNom() + " - Forum ID: " + post.getForumId());

@@ -35,7 +35,7 @@ public class TestCrudComment {
                 forum.setTheme("Comments");
                 forum.setDateCreation(LocalDate.now());
                 forum.setImageForum("comments.png");
-                forumService.addEntity(forum);
+                forumService.addEntite(forum);
                 // Retrieve the forum to get its ID
                 forum = forumService.findForumByName(forumName);
                 System.out.println("Created forum with ID: " + (forum != null ? forum.getId() : "unknown"));
@@ -66,7 +66,7 @@ public class TestCrudComment {
                 post.setNbLike(0);
                 post.setNbComment(0);
                 post.setForumId(forum.getId());
-                postService.addEntity(post);
+                postService.addEntite(post);
                 
                 // Find the post by listing all posts
                 postsByForum = postService.findPostsByForumId(forum.getId());
@@ -89,7 +89,7 @@ public class TestCrudComment {
             comment1.setPostId(post.getId());
             comment1.setDescription("This is the first test comment.");
             comment1.setDateCreation(LocalDate.now());
-            commentService.addEntity(comment1);
+            commentService.addEntite(comment1);
             System.out.println("Comment 1 created");
             
             // Finding the comment by description would require an additional method in the service
@@ -109,7 +109,7 @@ public class TestCrudComment {
             comment2.setPostId(post.getId());
             comment2.setDescription("This is the second test comment.");
             comment2.setDateCreation(LocalDate.now());
-            commentService.addEntity(comment2);
+            commentService.addEntite(comment2);
             System.out.println("Comment 2 created");
             
             // Find comment2 by listing all comments again
@@ -124,7 +124,7 @@ public class TestCrudComment {
 
             // Verify all comments were added
             System.out.println("\n----- All Comments After Creation -----");
-            List<Comment> allComments = commentService.listEntity();
+            List<Comment> allComments = commentService.listEntite();
             System.out.println("Total comments: " + allComments.size());
             for (Comment comment : allComments) {
                 System.out.println("Comment: " + comment.getId() + " - " + comment.getDescription() + " - Post ID: " + comment.getPostId());
@@ -138,17 +138,17 @@ public class TestCrudComment {
             // Update first comment
             System.out.println("\n----- Updating First Comment -----");
             comment1.setDescription("This comment has been updated.");
-            commentService.updateEntityById(comment1);
+            commentService.updateEntite(comment1);
             System.out.println("Comment 1 updated");
 
             // Delete second comment
             System.out.println("\n----- Deleting Second Comment -----");
-            commentService.deleteEntityById(comment2);
+            commentService.deleteEntite(comment2);
             System.out.println("Comment 2 deleted");
 
             // Verify comment1 exists and comment2 is deleted
             System.out.println("\n----- Final Comments List -----");
-            List<Comment> finalComments = commentService.listEntity();
+            List<Comment> finalComments = commentService.listEntite();
             System.out.println("Total comments: " + finalComments.size());
             for (Comment comment : finalComments) {
                 System.out.println("Comment: " + comment.getId() + " - " + comment.getDescription() + " - Post ID: " + comment.getPostId());

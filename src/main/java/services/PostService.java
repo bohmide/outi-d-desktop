@@ -12,7 +12,7 @@ import java.util.List;
 public class PostService implements Iservice<Post> {
 
     @Override
-    public void addEntity(Post post) {
+    public void addEntite(Post post) {
         try {
             String query = "INSERT INTO post (nom, date_creation, nb_like, nb_comment, forum_id, contenu) VALUES (?, ?, ?, ?, ?, ?)";
             
@@ -35,7 +35,7 @@ public class PostService implements Iservice<Post> {
     }
 
     @Override
-    public void updateEntityById(Post post) {
+    public void updateEntite(Post post) {
         try {
             String query = "UPDATE post SET nom = ?, date_creation = ?, nb_like = ?, nb_comment = ?, forum_id = ?, contenu = ? WHERE id = ?";
             
@@ -63,7 +63,7 @@ public class PostService implements Iservice<Post> {
     }
 
     @Override
-    public void deleteEntityById(Post post) {
+    public void deleteEntite(Post post) {
         try {
             String query = "DELETE FROM post WHERE id = ?";
             
@@ -85,7 +85,7 @@ public class PostService implements Iservice<Post> {
     }
 
     @Override
-    public List<Post> listEntity() {
+    public List<Post> listEntite() {
         List<Post> postList = new ArrayList<>();
         
         try {

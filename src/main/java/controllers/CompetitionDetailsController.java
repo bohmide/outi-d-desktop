@@ -26,6 +26,8 @@ import java.io.IOException;
 import javafx.scene.control.Hyperlink; // Ajoutez cette ligne
 import services.PDFService;
 
+
+
 public class CompetitionDetailsController {
     @FXML private Label titleLabel;
     @FXML private Label organisationLabel;

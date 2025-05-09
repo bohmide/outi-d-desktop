@@ -2,10 +2,6 @@ package controllers;
 
 import entities.Comment;
 import entities.Post;
-import services.BadWordDetector;
-import services.SMSService; // N'oublie pas d'importer ton service SMS
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +24,7 @@ import java.util.stream.Collectors;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
 public class CommentViewController implements Initializable {
+
     @FXML
     private Button backButton;
     
@@ -65,7 +62,7 @@ public class CommentViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         commentService = new CommentService();
         
-        setupSortComboBox();
+       // setupSortComboBox();
         setupButtons();
     }
     
@@ -84,14 +81,14 @@ public class CommentViewController implements Initializable {
         loadComments();
     }
     
-    private void setupSortComboBox() {
+    /*private void setupSortComboBox() {
         sortCommentsComboBox.getItems().addAll(
             "Newest First",
             "Oldest First"
         );
         sortCommentsComboBox.setValue("Newest First");
         sortCommentsComboBox.setOnAction(event -> loadComments());
-    }
+    }*/
     
     private void setupButtons() {
         // Back button
@@ -100,7 +97,7 @@ public class CommentViewController implements Initializable {
         // Submit comment button
         submitCommentButton.setOnAction(event -> submitComment());
     }
-
+    
     private void navigateBackToPosts() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PostView.fxml"));
@@ -130,7 +127,7 @@ public class CommentViewController implements Initializable {
         if (currentPost == null) return;
         
         // Get all comments
-        List<Comment> allComments = commentService.listEntity();
+        List<Comment> allComments = commentService.listEntite();
         
         // Filter comments for the current post
         List<Comment> postComments = allComments.stream()
@@ -138,12 +135,12 @@ public class CommentViewController implements Initializable {
             .collect(Collectors.toList());
         
         // Apply sorting
-        applySorting(postComments);
+        //applySorting(postComments);
         
         displayComments(postComments);
     }
     
-    private void applySorting(List<Comment> comments) {
+    /*private void applySorting(List<Comment> comments) {
         String sortOption = sortCommentsComboBox.getValue();
         if (sortOption == null) return;
         
@@ -155,7 +152,7 @@ public class CommentViewController implements Initializable {
                 comments.sort((c1, c2) -> c1.getDateCreation().compareTo(c2.getDateCreation()));
                 break;
         }
-    }
+    }*/
     
     private void displayComments(List<Comment> comments) {
         commentsContainer.getChildren().clear();
@@ -207,89 +204,47 @@ public class CommentViewController implements Initializable {
             commentsContainer.getChildren().add(emptyLabel);
         }
     }
-
-
-
-// ...
-
+    
     private void submitComment() {
         String content = newCommentArea.getText().trim();
-
+        
         if (content.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Warning", "Empty Comment",
-                    "Comment content cannot be empty.");
+            showAlert(Alert.AlertType.WARNING, "Warning", "Empty Comment", 
+                     "Comment content cannot be empty.");
             return;
         }
-
-        boolean containsBadWords = BadWordDetector.containsBadWords(content);
-
-        if (containsBadWords) {
-            showAlert(Alert.AlertType.WARNING, "Attention", "Censure automatique",
-                    "Votre commentaire contenait des mots interdits. Ils ont été remplacés par ***.");
-        }
-
-        // Censurer automatiquement
-        String censoredContent = BadWordDetector.censorBadWords(content);
-
+        
         if (currentPost == null) return;
-
+        
         // Create a new comment
         Comment comment = new Comment();
         comment.setPostId(currentPost.getId());
-        comment.setDescription(censoredContent);
+        comment.setDescription(content);
         comment.setDateCreation(LocalDate.now());
-
+        
         // Save comment
-        commentService.addEntity(comment);
-
-        // Envoyer SMS uniquement si badword détecté
-        if (containsBadWords) {
-            String adminPhoneNumber = "+21623902666";
-
-            // Préparer la date
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String today = LocalDate.now().format(formatter);
-
-            // Préparer le contenu du SMS
-            String smsContent =
-                    "⚠️ Commentaire censuré !\n"
-                            + "Post: " + currentPost.getContenu() + "\n"
-                            + "Date: " + today + "\n"
-                            + "Contenu modéré: " + censoredContent;
-
-            // Envoyer le SMS
-            SMSService.sendSMS(adminPhoneNumber, smsContent);
-        }
+        commentService.addEntite(comment);
+        
         // Update post comment count
         currentPost.setNbComment(currentPost.getNbComment() + 1);
-
+        
         // Clear the textarea
         newCommentArea.clear();
-
+        
         // Reload comments
         loadComments();
     }
-
-
-
+    
     private void editComment(Comment comment) {
         TextInputDialog dialog = new TextInputDialog(comment.getDescription());
         dialog.setTitle("Edit Comment");
         dialog.setHeaderText("Edit your comment");
         dialog.setContentText("Comment:");
+        
         dialog.showAndWait().ifPresent(result -> {
             if (!result.trim().isEmpty()) {
-                // Vérifier s'il y a des bad words
-                if (BadWordDetector.containsBadWords(result)) {
-                    // Afficher une alerte Warning
-                    showAlert(Alert.AlertType.WARNING, "Attention", "Censure automatique",
-                            "Votre commentaire contenait des mots interdits. Ils ont été remplacés par ***.");
-                }
-                // Censurer le texte avant de l'enregistrer
-                String censoredResult = BadWordDetector.censorBadWords(result);
-
-                comment.setDescription(censoredResult);
-                commentService.updateEntityById(comment);
+                comment.setDescription(result);
+                commentService.updateEntite(comment);
                 loadComments();
             }
         });
@@ -303,17 +258,18 @@ public class CommentViewController implements Initializable {
         
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                commentService.deleteEntityById(comment);
+                commentService.deleteEntite(comment);
                 
                 // Update post comment count
                 if (currentPost.getNbComment() > 0) {
                     currentPost.setNbComment(currentPost.getNbComment() - 1);
                 }
+                
                 loadComments();
             }
         });
     }
-
+    
     private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

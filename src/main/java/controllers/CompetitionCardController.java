@@ -9,8 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.Modality;
-import javafx.stage.StageStyle;
+
 import java.io.IOException;
 import javafx.scene.control.Alert;
 import javafx.animation.FadeTransition;
@@ -104,7 +103,7 @@ public class CompetitionCardController {
 
             // Créer la nouvelle scène avec la même taille
             Scene detailsScene = new Scene(root, currentWidth, currentHeight);
-            detailsScene.getStylesheets().add(getClass().getResource("/styles/main.css").toExternalForm());
+            detailsScene.getStylesheets().add(getClass().getResource("/styles/mainF.css").toExternalForm());
 
             // Appliquer la nouvelle scène sans redimensionnement
             currentStage.setScene(detailsScene);

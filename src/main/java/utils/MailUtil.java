@@ -6,6 +6,7 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 
+
 import java.util.Properties;
 
 public class MailUtil {

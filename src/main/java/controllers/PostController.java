@@ -29,7 +29,7 @@ public class PostController {
             Post post = new Post(title, LocalDate.now(), 0, 0, forumId, content);
             
             // Add post using service
-            postService.addEntity(post);
+            postService.addEntite(post);
             
             return post;
         } catch (IllegalArgumentException e) {
@@ -57,7 +57,7 @@ public class PostController {
             // Validate the full object
             post.validate();
             
-            postService.updateEntityById(post);
+            postService.updateEntite(post);
             return true;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Failed to update post: " + e.getMessage());
@@ -78,12 +78,12 @@ public class PostController {
         if (post == null) {
             throw new IllegalArgumentException("Error: Post with ID " + id + " not found");
         }
-        postService.deleteEntityById(post);
+        postService.deleteEntite(post);
         return true;
     }
 
     public List<Post> getAllPosts() {
-        return postService.listEntity();
+        return postService.listEntite();
     }
     
 

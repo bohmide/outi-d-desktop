@@ -28,7 +28,7 @@ public class CommentController {
             Comment comment = new Comment(postId, description, LocalDate.now());
             
             // Add comment using service
-            commentService.addEntity(comment);
+            commentService.addEntite(comment);
             
             return comment;
         } catch (IllegalArgumentException e) {
@@ -47,7 +47,7 @@ public class CommentController {
             comment.setDescription(description);
             // Validate the full object
             comment.validate();
-            commentService.updateEntityById(comment);
+            commentService.updateEntite(comment);
             return true;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Failed to update comment: " + e.getMessage());
@@ -61,13 +61,13 @@ public class CommentController {
             throw new IllegalArgumentException("Error: Comment with ID " + id + " not found");
         }
         
-        commentService.deleteEntityById(comment);
+        commentService.deleteEntite(comment);
         return true;
     }
     
 
     public List<Comment> getAllComments() {
-        return commentService.listEntity();
+        return commentService.listEntite();
     }
 
     public Comment getCommentById(int id) {

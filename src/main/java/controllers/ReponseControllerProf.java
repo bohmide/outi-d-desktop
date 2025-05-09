@@ -210,7 +210,7 @@ public class ReponseControllerProf {
     @FXML
     private void retourAuxQuestions() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuestionView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/test/QuestionView.fxml"));
             Parent root = loader.load();
 
             QuestionControllerProf controller = loader.getController();

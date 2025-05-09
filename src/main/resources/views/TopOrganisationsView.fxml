@@ -11,7 +11,7 @@
 <HBox prefHeight="600" prefWidth="1200"
       xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
-      stylesheets="@/styles/main.css"
+      stylesheets="@/styles/mainF.css"
       fx:controller="controllers.TopOrganisationsController"
       spacing="30"
       alignment="CENTER_LEFT">

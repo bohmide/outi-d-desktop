@@ -25,7 +25,7 @@ public class ForumController {
         }
         try {
             Forum forum = new Forum(name, theme, LocalDate.now(), imagePath);
-            forumService.addEntity(forum);
+            forumService.addEntite(forum);
             
             return forum;
         } catch (IllegalArgumentException e) {
@@ -59,7 +59,7 @@ public class ForumController {
 
             forum.validate();
             
-            forumService.updateEntityById(forum);
+            forumService.updateEntite(forum);
             return true;
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Failed to update forum: " + e.getMessage());
@@ -78,12 +78,12 @@ public class ForumController {
             System.out.println("Warning: Deleting this forum will also delete " + forumPosts.size() + " posts and all their comments");
         }
         
-        forumService.deleteEntityById(forum);
+        forumService.deleteEntite(forum);
         return true;
     }
 
     public List<Forum> getAllForums() {
-        return forumService.listEntity();
+        return forumService.listEntite();
     }
 
     public Forum getForumById(int id) {

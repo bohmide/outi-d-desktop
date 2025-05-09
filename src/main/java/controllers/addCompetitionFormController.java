@@ -22,7 +22,7 @@ import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 import javafx.concurrent.Worker;
 import javafx.application.Platform;
-import java.net.URL; // Ajoutez cette ligne avec les autres imports
+import java.net.URL;
 
 public class addCompetitionFormController {
 

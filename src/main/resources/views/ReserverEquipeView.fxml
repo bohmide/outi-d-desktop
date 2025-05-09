@@ -6,16 +6,16 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.ReserverEquipeController">
+            fx:controller="controllers.ReserverEquipeController" style="-fx-background-color: linear-gradient(to bottom right, #5533ff, #00dcff);">
 
-    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+    <VBox spacing="15" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" >
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
         </padding>
 
         <!-- Titre avec le nom de la compétition -->
         <Label fx:id="competitionLabel"
-               style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #2E86C1;"/>
+               style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: white;"/>
 
         <!-- Formulaire de réservation -->
         <GridPane hgap="10" vgap="12">

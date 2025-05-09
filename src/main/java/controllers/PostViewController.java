@@ -160,7 +160,7 @@ public class PostViewController implements Initializable {
     private void loadPosts() {
         if (currentForum == null) return;
 
-        List<Post> allPosts = postService.listEntity();
+        List<Post> allPosts = postService.listEntite();
         List<Post> forumPosts = FXCollections.observableArrayList();
 
         for (Post post : allPosts) {
@@ -307,7 +307,7 @@ public class PostViewController implements Initializable {
     private void searchPosts(String query) {
         if (currentForum == null) return;
         
-        List<Post> allPosts = postService.listEntity();
+        List<Post> allPosts = postService.listEntite();
         ObservableList<Post> filteredPosts = FXCollections.observableArrayList();
         
         for (Post post : allPosts) {
@@ -433,7 +433,7 @@ public class PostViewController implements Initializable {
         result.ifPresent(updatedPost -> {
             // Update the post
             try {
-                postService.updateEntityById(updatedPost);
+                postService.updateEntite(updatedPost);
                 loadPosts(); // Refresh the list
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Post Updated", 
                          "Post '" + updatedPost.getNom() + "' has been updated successfully.");
@@ -451,7 +451,7 @@ public class PostViewController implements Initializable {
         
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                postService.deleteEntityById(post);
+                postService.deleteEntite(post);
                 loadPosts();
             }
         });
@@ -528,7 +528,7 @@ public class PostViewController implements Initializable {
         result.ifPresent(post -> {
             // Save the new post
             try {
-                postService.addEntity(post);
+                postService.addEntite(post);
                 loadPosts(); // Refresh the list
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Post Created", 
                          "Post '" + post.getNom() + "' has been created successfully.");

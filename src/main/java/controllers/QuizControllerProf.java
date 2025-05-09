@@ -131,8 +131,8 @@ public class QuizControllerProf {
 
                 btnDelete.setOnAction(event -> {
                     Quiz quiz = getTableView().getItems().get(getIndex());
-                    tableQuiz.getSelectionModel().select(quiz); // Select the quiz first
-                    supprimerQuiz(event); // Then call the delete method
+                    tableQuiz.getSelectionModel().select(quiz);
+                    supprimerQuiz(event);
                 });
 
                 btnEdit.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white;");
@@ -151,7 +151,7 @@ public class QuizControllerProf {
 
     private void navigateToQuestions(Quiz quiz) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuestionView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/test/QuestionView.fxml"));
             Parent root = loader.load();
 
             QuestionControllerProf controller = loader.getController();
@@ -256,7 +256,7 @@ public class QuizControllerProf {
     @FXML
     private void retourAuxChapitres() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ChapitreView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/test/ChapitreView.fxml"));
             Parent root = loader.load();
 
             ChapitreControllerProf controller = loader.getController();

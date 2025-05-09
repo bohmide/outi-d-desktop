@@ -11,7 +11,7 @@ import java.util.List;
 public class ForumService implements Iservice<Forum> {
 
     @Override
-    public void addEntity(Forum forum) {
+    public void addEntite(Forum forum) {
         try {
             String query = "INSERT INTO forum (nom, theme, date_creation, image_forum) VALUES (?, ?, ?, ?)";
             
@@ -32,7 +32,7 @@ public class ForumService implements Iservice<Forum> {
     }
 
     @Override
-    public void updateEntityById(Forum forum) {
+    public void updateEntite(Forum forum) {
         try {
             String query = "UPDATE forum SET nom = ?, theme = ?, date_creation = ?, image_forum = ? WHERE id = ?";
             
@@ -58,7 +58,7 @@ public class ForumService implements Iservice<Forum> {
     }
 
     @Override
-    public void deleteEntityById(Forum forum) {
+    public void deleteEntite(Forum forum) {
         try {
             String query = "DELETE FROM forum WHERE id = ?";
             
@@ -80,7 +80,7 @@ public class ForumService implements Iservice<Forum> {
     }
 
     @Override
-    public List<Forum> listEntity() {
+    public List<Forum> listEntite() {
         List<Forum> forumList = new ArrayList<>();
         
         try {
