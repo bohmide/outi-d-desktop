@@ -2,7 +2,6 @@ package controllers;
 
 import entities.Comment;
 import entities.Post;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -100,7 +99,7 @@ public class CommentViewController implements Initializable {
     
     private void navigateBackToPosts() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PostView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/PostView.fxml"));
             Parent root = loader.load();
             
             PostViewController controller = loader.getController();

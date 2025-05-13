@@ -35,7 +35,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.Node;
 import javafx.application.Platform;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
 public class ForumViewController implements Initializable {
 
@@ -244,21 +243,23 @@ public class ForumViewController implements Initializable {
         prevButton.setDisable(true);
         nextButton.setDisable(true);
     }
-    
+
     private void openForumPosts(Forum forum) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/PostView.fxml"));
-            Parent root = loader.load();
-            
-            PostViewController controller = loader.getController();
-            controller.initData(forum);
-            
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) forumsGridPane.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            URL fxmlUrl = getClass().getResource("/views/PostView.fxml");
+            System.out.println("Loading FXML from: " + fxmlUrl); // Debug line
+
+            if (fxmlUrl == null) {
+                throw new IOException("FXML file not found at /views/PostView.fxml");
+            }
+
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            // ... rest of your code
         } catch (IOException e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Could not open posts view", e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Could not open posts view",
+                    "File path: " + getClass().getResource("/views/PostView.fxml") + "\n" + e.getMessage());
         }
     }
     

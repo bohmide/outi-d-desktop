@@ -2,29 +2,32 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.Insets?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.ScrollPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
-          fx:controller="controllers.PostViewController"
-          prefHeight="600.0" prefWidth="800.0" stylesheets="@../styles/mainF.css">
-    
-    <top>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns:ik="http://kordamp.org/ikonli/javafx"
+            xmlns="http://javafx.com/javafx/17"
+            fx:controller="controllers.ForumViewController"
+            prefHeight="600.0" prefWidth="800.0" stylesheets="@/styles/mainF.css">
+
+<top>
         <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header-bar">
             <padding>
                 <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
             <Button fx:id="backButton" styleClass="back-button">
                 <graphic>
-                    <FontAwesomeIconView glyphName="ARROW_LEFT" size="16"/>
+                    <FontIcon iconLiteral="fas-arrow-left" iconSize="16"/>
                 </graphic>
             </Button>
             <Label fx:id="forumNameLabel" text="Forum Name" styleClass="header-title"/>
             <Region HBox.hgrow="ALWAYS"/>
             <Button fx:id="addPostButton" styleClass="action-button">
                 <graphic>
-                    <FontAwesomeIconView glyphName="PLUS" size="16"/>
+                    <FontIcon iconLiteral="fas-plus"/>
                 </graphic>
             </Button>
         </HBox>
@@ -41,7 +44,7 @@
                 <TextField fx:id="searchField" promptText="Search posts..." HBox.hgrow="ALWAYS"/>
                 <Button fx:id="searchButton">
                     <graphic>
-                        <FontAwesomeIconView glyphName="SEARCH" size="14"/>
+                        <FontIcon iconLiteral="fas-search" iconSize="14"/>
                     </graphic>
                 </Button>
             </HBox>

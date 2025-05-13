@@ -16,7 +16,7 @@
         <VBox styleClass="header-container">
             <!-- Première ligne : Retour et langue -->
             <HBox styleClass="header-top-bar">
-                <Button text="← Retour" onAction="#retourAccueil"
+                <Button text="← Retour" onAction="#returnToMainMenu"
                         styleClass="button-back" fx:id="backButton"/>
                 <Label text="|" styleClass="header-separator"/>
                 <Label text="Espace Étudiant" styleClass="header-bold-text"/>

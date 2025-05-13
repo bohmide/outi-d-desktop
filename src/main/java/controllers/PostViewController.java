@@ -26,7 +26,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 
 public class PostViewController implements Initializable {
 
@@ -145,7 +144,7 @@ public class PostViewController implements Initializable {
     
     private void navigateBackToForums() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ForumView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ForumView.fxml"));
             Parent root = loader.load();
             
             Scene scene = new Scene(root);
@@ -337,7 +336,7 @@ public class PostViewController implements Initializable {
                 post.setForum(currentForum);
             }
             
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CommentView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/CommentView.fxml"));
             Parent root = loader.load();
             
             CommentViewController controller = loader.getController();

@@ -12,7 +12,7 @@ public class TestJavaFX extends Application {
     public void start(Stage stage) {
         try {
             // Load the ForumView FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ForumView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ForumView.fxml"));
             Parent root = loader.load();
             
             // Create the scene

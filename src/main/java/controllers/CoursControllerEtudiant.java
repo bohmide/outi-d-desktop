@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import Services.CoursService;
+import services.CoursService;
 import org.json.JSONObject;
 
 
@@ -50,7 +50,7 @@ public class CoursControllerEtudiant {
     private FilteredList<Cours> filteredCourses;
     private SortedList<Cours> sortedCourses;
     private static final int ITEMS_PER_PAGE = 6;
-    @FXML private Button backButton;
+    @FXML private Button returnButton;
 
 
 
@@ -111,7 +111,7 @@ public class CoursControllerEtudiant {
         searchField.setPromptText(bundle.getString("search.prompt"));
         difficultyFilter.setPromptText(bundle.getString("filter.prompt"));
         sortComboBox.setPromptText(bundle.getString("sort.prompt"));
-        backButton.setText(bundle.getString("back.button"));
+        returnButton.setText(bundle.getString("back.button"));
 
         // Filtres existants
         difficultyFilter.getItems().setAll(
@@ -302,9 +302,9 @@ public class CoursControllerEtudiant {
     }
 
     @FXML
-    public void retourAccueil(ActionEvent event) {
+    public void returnToMainMenu(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MainAppAccueil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MainMenu.fxml"));
             loader.setResources(bundle);
             Parent root = loader.load();
 

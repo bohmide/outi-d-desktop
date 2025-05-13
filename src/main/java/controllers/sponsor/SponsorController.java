@@ -187,7 +187,7 @@ public class SponsorController implements Initializable {
 
     @FXML
     private void handleRetour() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/evenement/eventView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/eventView.fxml"));
         Parent root = loader.load();
         searchField.getScene().setRoot(root);
     }

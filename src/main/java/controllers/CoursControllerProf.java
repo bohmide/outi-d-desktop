@@ -1,6 +1,6 @@
 package controllers;
 
-import Services.CoursService;
+import services.CoursService;
 import entities.Cours;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -244,7 +244,7 @@ public class CoursControllerProf {
     }
     public void retourAccueil(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/MainAppAccueil.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/MainAppMain.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

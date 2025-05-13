@@ -1,10 +1,6 @@
 package controllers.evenement;
 
-import com.google.zxing.BarcodeFormat;
-import com.itextpdf.text.pdf.qrcode.BitMatrix;
-import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
 import entities.Event;
-import entities.EventGenre;
 import entities.Sponsors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -22,28 +18,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import services.EventService;
-import com.google.zxing.client.j2se.*;
 
 import utils.CurrencyUtil;
 
-import javafx.stage.FileChooser;
-import utils.TelegraphUploader;
-
-import javax.imageio.ImageIO;
-import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.nio.file.StandardCopyOption;
 import java.util.Currency;
 import java.util.stream.Collectors;
-import java.util.Locale;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -379,7 +363,7 @@ public class EventController implements Initializable {
     @FXML
     private void handleAjouter() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/evenement/addEventView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/addEventView.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -536,7 +520,7 @@ public class EventController implements Initializable {
 
     private void openEditDialog(Event event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/evenement/addEventView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/addEventView.fxml"));
             Parent root = loader.load();
 
             AddEventController editController = loader.getController();

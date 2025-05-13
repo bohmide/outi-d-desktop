@@ -10,7 +10,9 @@
       spacing="20"
       style="-fx-padding: 15px;">
 
-
+<VBox>
+    <Button  fx:id="returnButton" text="Retour au Menu" onAction="#returnToMainMenu" />
+</VBox>
     <!-- Navigation -->
     <HBox spacing="10" alignment="CENTER">
         <Button text="Compétitions" onAction="#showCompetitions"

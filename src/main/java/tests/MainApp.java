@@ -20,7 +20,7 @@ public class MainApp extends Application {
             //Parent root = FXMLLoader.load(getClass().getResource("/views/sponsor/sponsorView.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/views/genre/genreView.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/views/evenement/eventView.fxml"));
-            Parent root = FXMLLoader.load(getClass().getResource("/views/evenement/student/eventStudentView.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/eventStudentView.fxml"));
 
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -95,7 +95,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("views/MainAppAccueil.fxml")));
+            FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getClassLoader().getResource("/views/MainAppMain.fxml")));
             Parent root = loader.load();
 
             // Récupérer les boutons depuis le FXML
