@@ -9,8 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import services.ForumService;
 
@@ -31,8 +30,6 @@ import java.util.UUID;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.Node;
 import javafx.application.Platform;
 
@@ -65,6 +62,8 @@ public class ForumViewController implements Initializable {
     private int itemsPerPage = 6;
     private int totalPages = 1;
     private final String UPLOAD_DIR = "src/main/resources/uploads/forums/";
+    @FXML private Button returnButton;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -484,12 +483,42 @@ public class ForumViewController implements Initializable {
             return ""; // Return empty on failure
         }
     }
-    
+
     private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
+        alert.showAndWait();
+    }
+    @FXML
+    private void returnToMainMenu() {
+        try {
+            // Load the MainMenu FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MainMenu.fxml"));
+            Pane mainMenu = loader.load();
+
+            // Get the current stage from the returnButton
+            Stage stage = (Stage) returnButton.getScene().getWindow();
+
+            // Create a new scene with the loaded main menu
+            Scene mainMenuScene = new Scene(mainMenu, 800, 600); // Adjust size as needed
+            mainMenuScene.getStylesheets().add(getClass().getResource("/styles/mainF.css").toExternalForm());
+
+            // Set the new scene on the stage
+            stage.setScene(mainMenuScene);
+            stage.setTitle("Main Menu"); // Optional: Update the window title
+        } catch (IOException e) {
+            // Log the error and show a user-friendly message
+            e.printStackTrace();
+            showErrorAlert("Failed to load the main menu. Please try again.");
+        }
+    }
+    private void showErrorAlert(String message) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
         alert.showAndWait();
     }
 }

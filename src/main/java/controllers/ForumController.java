@@ -2,16 +2,28 @@ package controllers;
 
 import entities.Forum;
 import entities.Post;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import services.ForumService;
 import services.PostService;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+
 
 public class ForumController {
     
     private final ForumService forumService;
     private final PostService postService;
+
 
     public ForumController() {
         this.forumService = new ForumService();
@@ -97,4 +109,6 @@ public class ForumController {
     public List<Forum> getForumsByTheme(String theme) {
         return forumService.findForumsByTheme(theme);
     }
+
+
 }

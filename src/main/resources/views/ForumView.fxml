@@ -13,13 +13,19 @@
             fx:controller="controllers.ForumViewController"
             prefHeight="600.0" prefWidth="800.0" stylesheets="@/styles/mainF.css">
 
+
+
     <top>
         <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header-bar">
-            <padding>
+
+            <VBox>
+                <Button  fx:id="returnButton" text="Retour au Menu" onAction="#returnToMainMenu" />
+            </VBox> <padding>
                 <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
             <Label text="Forums" styleClass="header-title"/>
             <Region HBox.hgrow="ALWAYS"/>
+
             <Button fx:id="addForumButton" styleClass="action-button">
                 <graphic>
                     <FontIcon iconLiteral="fas-plus"/>
