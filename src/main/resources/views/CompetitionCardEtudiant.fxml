@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/8.0.171"
+      fx:controller="controllers.CompetitionCardController"
+      styleClass="competition-card"
+      spacing="20"
+      maxWidth="300"
+      alignment="TOP_CENTER">
+
+    <!-- En-tête -->
+    <!-- En-tête avec boutons en haut à droite -->
+    <Button text="Réserver" onAction="#reserver" styleClass="pastel-reserve-button"/>
+
+    <Label fx:id="nomLabel" style="-fx-font-size: 16px; -fx-font-weight: bold;-fx-text-fill: white;" HBox.hgrow="ALWAYS" />
+
+    <!-- Contenu -->
+    <VBox spacing="5" VBox.vgrow="ALWAYS" >
+        <HBox spacing="5">
+            <Label text="Organisation:" style="-fx-font-weight: bold;-fx-text-fill: #e5e5e8;"/>
+            <Label fx:id="organisationLabel" style="-fx-text-fill: #e5e5e8;"/>
+        </HBox>
+
+        <HBox spacing="5">
+            <Label text="Dates:" style="-fx-font-weight: bold;-fx-text-fill: #e5e5e8 ;"/>
+            <Label fx:id="dateLabel" style="-fx-text-fill: #e5e5e8;"/>
+        </HBox>
+
+        <Label fx:id="descriptionLabel" wrapText="true"  maxHeight="20" style="-fx-text-fill: #e5e5e8;" />
+
+        <!-- Section fichier (optionnelle) -->
+        <HBox fx:id="fichierContainer" spacing="5" visible="false">
+            <Label text="Fichier:" style="-fx-font-weight: bold; -fx-text-fill: #e5e5e8;"/>
+            <Label fx:id="fichierLabel"  style="-fx-text-fill: #e5e5e8;" />
+        </HBox>
+        <Region VBox.vgrow="ALWAYS"/> <!-- Espaceur pour pousser le bouton vers le bas -->
+        <Button text="Détails" onAction="#showDetailsPage" styleClass="details-button"/>
+
+    </VBox>
+
+
+
+</VBox>

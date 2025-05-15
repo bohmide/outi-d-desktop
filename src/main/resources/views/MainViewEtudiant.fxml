@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/8.0.171"
+      fx:controller="controllers.MainControlleretudiant"
+      spacing="20"
+      style="-fx-padding: 15px;">
+
+
+    <!-- Navigation --><VBox>
+    <Button  fx:id="returnButton" text="Retour au Menu" onAction="#returnToMainMenu" />
+</VBox>
+    <HBox spacing="10" alignment="CENTER">
+
+        <Button text="Compétitions" onAction="#showCompetitions"
+                style="-fx-background-color: white; -fx-text-fill: #4a90e2; -fx-padding: 8px 16px;"/>
+          <Button text="Équipes" onAction="#showEquipes"
+                style="-fx-background-color: white ; -fx-text-fill: #4a90e2 ; -fx-padding: 8px 16px;"/>
+        <Button text="Voir les stats" styleClass="stats-button" onAction="#showTopOrganisations" />
+    </HBox>
+
+
+    <!-- Conteneur pour les vues -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+        <StackPane fx:id="contentPane"
+                   minHeight="-Infinity"
+                   style="-fx-background-color: transparent;"/>
+    </ScrollPane>
+</VBox>
