@@ -87,31 +87,43 @@ public class ForumViewController implements Initializable {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to create upload directory", e.getMessage());
         }
     }
-    
+
     private void setupButtons() {
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            String searchQuery = newValue.trim();
-            if (!searchQuery.isEmpty()) {
-                searchForums(searchQuery);
-            } else {
-                loadForums();
-            }
-        });
-        prevButton.setOnAction(event -> {
-            if (currentPage > 1) {
-                currentPage--;
-                loadForums();
-            }
-        });
+        // First check if the buttons are not null before setting actions
+        if (searchField != null) {
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                String searchQuery = newValue.trim();
+                if (!searchQuery.isEmpty()) {
+                    searchForums(searchQuery);
+                } else {
+                    loadForums();
+                }
+            });
+        }
 
-        nextButton.setOnAction(event -> {
-            if (currentPage < totalPages) {
-                currentPage++;
-                loadForums();
-            }
-        });
+        if (prevButton != null) {
+            prevButton.setOnAction(event -> {
+                if (currentPage > 1) {
+                    currentPage--;
+                    loadForums();
+                }
+            });
+        }
 
-        addForumButton.setOnAction(event -> showAddForumDialog());
+        if (nextButton != null) {
+            nextButton.setOnAction(event -> {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    loadForums();
+                }
+            });
+        }
+
+        if (addForumButton != null) {
+            addForumButton.setOnAction(event -> showAddForumDialog());
+        } else {
+            System.err.println("Warning: addForumButton is null in setupButtons()");
+        }
     }
     
     private void loadForums() {
@@ -245,22 +257,50 @@ public class ForumViewController implements Initializable {
 
     private void openForumPosts(Forum forum) {
         try {
+            System.out.println("Opening forum posts for: " + forum.getNom());
+
+            // Get the absolute path to the FXML file
             URL fxmlUrl = getClass().getResource("/views/PostView.fxml");
-            System.out.println("Loading FXML from: " + fxmlUrl); // Debug line
 
             if (fxmlUrl == null) {
-                throw new IOException("FXML file not found at /views/PostView.fxml");
+                System.err.println("FXML file not found at /views/PostView.fxml");
+
+                // Try alternative paths
+                fxmlUrl = getClass().getClassLoader().getResource("views/PostView.fxml");
+
+                if (fxmlUrl == null) {
+                    System.err.println("FXML file not found with ClassLoader either");
+                    throw new IOException("FXML file not found. Make sure PostView.fxml exists in the resources/views directory.");
+                } else {
+                    System.out.println("Found FXML with ClassLoader at: " + fxmlUrl);
+                }
+            } else {
+                System.out.println("Found FXML at: " + fxmlUrl);
             }
 
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            // ... rest of your code
+            Parent root = loader.load();
+
+            PostViewController controller = loader.getController();
+            if (controller == null) {
+                System.err.println("Failed to get controller from loader");
+                throw new IOException("Controller not found for PostView.fxml");
+            }
+
+            controller.initData(forum);
+
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) forumsGridPane.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error",
                     "Could not open posts view",
-                    "File path: " + getClass().getResource("/views/PostView.fxml") + "\n" + e.getMessage());
+                    "Error details: " + e.getMessage());
         }
     }
+
     
     private void editForum(Forum forum) {
         Dialog<Forum> dialog = new Dialog<>();

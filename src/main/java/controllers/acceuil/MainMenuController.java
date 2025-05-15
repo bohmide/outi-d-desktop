@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
+import javafx.scene.control.Button;
 
 import java.io.IOException;
 
@@ -15,10 +16,12 @@ public class MainMenuController {
     private void showCompetions() {
         loadView("/views/MainView.fxml");
     }
+
     @FXML
     private void showCompetionsEtudiant() {
         loadView("/views/MainViewEtudiant.fxml");
     }
+
     @FXML
     private void showEvents() {
         loadView("/views/eventView.fxml");
@@ -38,6 +41,7 @@ public class MainMenuController {
     private void showCours() {
         loadView("/views/CoursViewEtudiant.fxml");
     }
+
     @FXML
     private void showCoursProf() {
         loadView("/views/CoursProfView.fxml");

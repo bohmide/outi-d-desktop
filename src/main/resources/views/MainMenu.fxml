@@ -1,34 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.layout.StackPane?>
 
-<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.acceuil.MainMenuController" fx:id="rootPane">
-    <VBox alignment="CENTER" spacing="20">
-        <padding>
-            <Insets top="40.0" right="40.0" bottom="40.0" left="40.0"/>
-        </padding>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.acceuil.MainMenuController" stylesheets="@/styles/mainF.css">
+    <!-- Top Navigation Bar -->
+    <top>
+        <HBox styleClass="navbar" alignment="CENTER_LEFT" spacing="10">
+            <!-- Logo -->
+            <ImageView fitHeight="40" preserveRatio="true">
+                <image>
+                    <Image url="@/LOGO.png"/>
+                </image>
+            </ImageView>
 
-        <!-- Image logo -->
-        <ImageView fitWidth="200" preserveRatio="true">
-            <image>
-                <Image url="@/LOGO.png"/>
-            </image>
-        </ImageView>
+            <!-- Navigation Buttons -->
+            <HBox styleClass="nav-buttons" alignment="CENTER" HBox.hgrow="ALWAYS" spacing="5">
+                <Button styleClass="nav-button" text="Compétitions" onAction="#showCompetions"/>
+                <Button styleClass="nav-button" text="Compétitions Etudiants" onAction="#showCompetionsEtudiant"/>
+                <Button styleClass="nav-button" text="Forum" onAction="#showForum"/>
+                <Button styleClass="nav-button" text="Cours" onAction="#showCours"/>
+                <Button styleClass="nav-button" text="Cours Prof" onAction="#showCoursProf"/>
+                <Button styleClass="nav-button" text="Événements Prof" onAction="#showEvents"/>
+                <Button styleClass="nav-button" text="Événements Student" onAction="#showEventStudent"/>
+            </HBox>
+        </HBox>
+    </top>
 
-        <Text text="Bienvenue sur notre plateforme d'apprentissage !"/>
+    <!-- Content Area -->
+    <center>
+        <StackPane fx:id="rootPane" styleClass="content-area">
+            <!-- Default welcome content -->
+            <VBox alignment="CENTER" spacing="20">
+                <padding>
+                    <Insets top="40.0" right="40.0" bottom="40.0" left="40.0"/>
+                </padding>
 
-        <Button text="Compétitions" onAction="#showCompetions"/>
-        <Button text="Compétitions Etudiants" onAction="#showCompetionsEtudiant"/>
+                <!-- Logo larger in welcome screen -->
+                <ImageView fitWidth="200" preserveRatio="true">
+                    <image>
+                        <Image url="@/LOGO.png"/>
+                    </image>
+                </ImageView>
 
-        <Button text="Forum" onAction="#showForum"/>
-        <Button text="Cours" onAction="#showCours"/>
-        <Button text="Cours Prof" onAction="#showCoursProf"/>
-        <Button text="Événements prof" onAction="#showEvents"/>
-        <Button text="Événements student" onAction="#showEventStudent"/>
-    </VBox>
-</StackPane>
+                <Text styleClass="welcome-text" text="Bienvenue sur notre plateforme d'apprentissage !"/>
+
+                <!-- Add some welcome buttons with your existing styles -->
+                <HBox spacing="20" alignment="CENTER">
+                    <Button styleClass="pastel-button" text="Commencer" />
+                    <Button styleClass="modern-button" text="En savoir plus" />
+                </HBox>
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

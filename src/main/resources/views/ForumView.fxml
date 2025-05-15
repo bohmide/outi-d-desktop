@@ -2,33 +2,29 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.geometry.Insets?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
-<?import javafx.scene.control.ScrollPane?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
-            xmlns:ik="http://kordamp.org/ikonli/javafx"
             xmlns="http://javafx.com/javafx/17"
             fx:controller="controllers.ForumViewController"
             prefHeight="600.0" prefWidth="800.0" stylesheets="@/styles/mainF.css">
 
-
-
     <top>
         <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header-bar">
-
-            <VBox>
-                <Button  fx:id="returnButton" text="Retour au Menu" onAction="#returnToMainMenu" />
-            </VBox> <padding>
+            <padding>
                 <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
+            <Button fx:id="returnButton" styleClass="back-button">
+                <graphic>
+                    <FontIcon iconLiteral="fas-arrow-left" iconSize="16"/>
+                </graphic>
+            </Button>
             <Label text="Forums" styleClass="header-title"/>
             <Region HBox.hgrow="ALWAYS"/>
-
             <Button fx:id="addForumButton" styleClass="action-button">
                 <graphic>
-                    <FontIcon iconLiteral="fas-plus"/>
+                    <FontIcon iconLiteral="fas-plus" iconSize="16"/>
                 </graphic>
             </Button>
         </HBox>
@@ -44,7 +40,7 @@
                 <TextField fx:id="searchField" promptText="Search forums..." HBox.hgrow="ALWAYS"/>
                 <Button fx:id="searchButton">
                     <graphic>
-                        <FontIcon iconLiteral="fas-search"/>
+                        <FontIcon iconLiteral="fas-search" iconSize="14"/>
                     </graphic>
                 </Button>
             </HBox>
