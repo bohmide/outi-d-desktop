@@ -54,8 +54,8 @@
 
                 <!-- Add some welcome buttons with your existing styles -->
                 <HBox spacing="20" alignment="CENTER">
-                    <Button styleClass="pastel-button" text="Commencer" />
-                    <Button styleClass="modern-button" text="En savoir plus" />
+<!--                    <Button styleClass="pastel-button" text="Commencer" />-->
+<!--                    <Button styleClass="modern-button" text="En savoir plus" />-->
                 </HBox>
             </VBox>
         </StackPane>

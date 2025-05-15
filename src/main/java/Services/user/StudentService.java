@@ -1,4 +1,4 @@
-package services;
+package services.user;
 
 import entities.Student;
 import utils.MyConnection;

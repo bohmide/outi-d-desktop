@@ -15,7 +15,7 @@ public class Chapitres {
     // Constructeurs
     public Chapitres() {}
 
-    public Chapitres(String nomChapitre, String contenuText, String contenuFile, Cours cours) {
+    public Chapitres(String nomChapitre, String contenuText, Cours cours) {
         this.nomChapitre.set(nomChapitre);
         this.contenuText.set(contenuText);
 //        this.contenuFile.set(contenuFile);

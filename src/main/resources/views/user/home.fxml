@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            style="-fx-background-color: white;">
+
+    <!-- NAVBAR -->
+    <top>
+        <HBox spacing="20" alignment="CENTER_LEFT"
+              prefHeight="60"
+              style="-fx-background-color: #3498db; -fx-padding: 10 20;">
+
+            <Label text="🏠 OUTI-D"
+                   style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" />
+
+            <Button text="Forum"
+                    style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18;" />
+
+            <Button text="Événement"
+                    style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18;" />
+
+            <Button text="Cours"
+                    style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18;" />
+
+            <Button text="etudiant"
+                    style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18;" />
+
+            <Button text="Compétition"
+                    style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18;" />
+
+            <Button text="Gamification"
+                    style="-fx-background-color: white; -fx-text-fill: #3498db; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 8 18;" />
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <StackPane style="-fx-padding: 40;">
+            <Label text="Bienvenue sur la page d'accueil"
+                   style="-fx-font-size: 24px; -fx-text-fill: #2c3e50;" />
+        </StackPane>
+    </center>
+</BorderPane>

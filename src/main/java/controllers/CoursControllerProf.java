@@ -188,7 +188,7 @@ public class CoursControllerProf {
         selectedCours = tableCours.getSelectionModel().getSelectedItem();
         if (selectedCours != null) {
             tfNom.setText(selectedCours.getNom());
-            dpDate.setValue(new java.sql.Date(selectedCours.getDateCreation().getTime()).toLocalDate());
+            dpDate.setValue(selectedCours.getDateCreation());
             comboEtat.setValue(selectedCours.getEtat());
         }
     }

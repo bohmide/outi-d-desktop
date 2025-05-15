@@ -405,7 +405,7 @@ public class EventController implements Initializable {
 
             // Set the new scene on the stage
             stage.setScene(mainMenuScene);
-            stage.setTitle("Main Menu");
+            stage.setTitle("OUTI-D par Brain't");
         } catch (IOException e) {
             e.printStackTrace();
         }

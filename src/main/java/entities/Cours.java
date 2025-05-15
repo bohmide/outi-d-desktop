@@ -2,6 +2,8 @@ package entities;
 
 import javafx.beans.property.*;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +11,7 @@ public class Cours {
 
     private IntegerProperty id = new SimpleIntegerProperty();
     private StringProperty nom = new SimpleStringProperty();
-    private ObjectProperty<Date> dateCreation = new SimpleObjectProperty<>(new Date());
+    private ObjectProperty<LocalDate> date_creation = new SimpleObjectProperty<>(LocalDate.now());
     private StringProperty etat = new SimpleStringProperty();
 
     private List<Chapitres> chapitres;
@@ -18,10 +20,18 @@ public class Cours {
     // Constructeurs
     public Cours() {}
 
-    public Cours(String nom, Date dateCreation, String etat) {
+    public Cours(String nom, Date date_creation, String etat) {
         this.nom.set(nom);
-        this.dateCreation.set(dateCreation);
+        this.date_creation.set(convertToLocalDate(date_creation));
         this.etat.set(etat);
+    }
+
+    public LocalDate convertToLocalDate(java.util.Date date) {
+        if (date instanceof java.sql.Date) {
+            return ((java.sql.Date) date).toLocalDate();
+        } else {
+            return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
     }
 
     // Getters & Setters
@@ -49,17 +59,19 @@ public class Cours {
         return nom;
     }
 
-    public Date getDateCreation() {
-        return dateCreation.get();
+    public LocalDate getDateCreation() {
+        return date_creation.get();
     }
 
-    public void setDateCreation(Date dateCreation) {
-        this.dateCreation.set(dateCreation);
+    public void setDateCreation(Date date) {
+        this.date_creation.set(convertToLocalDate(date));
+
     }
 
-    public ObjectProperty<Date> dateCreationProperty() {
-        return dateCreation;
+    public ObjectProperty<LocalDate> dateCreationProperty() {
+        return date_creation;
     }
+
 
     public String getEtat() {
         return etat.get();

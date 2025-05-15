@@ -16,10 +16,10 @@ public class CoursService {
     }
 
     public void ajouter(Cours cours) {
-        String sql = "INSERT INTO cours (nom, dateCreation, etat) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO cours (nom, date_creation, etat) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cours.getNom());
-            stmt.setDate(2, new java.sql.Date(cours.getDateCreation().getTime()));
+            stmt.setDate(2, java.sql.Date.valueOf(cours.getDateCreation()));
             stmt.setString(3, cours.getEtat());
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -28,10 +28,10 @@ public class CoursService {
     }
 
     public void modifier(Cours cours) {
-        String sql = "UPDATE cours SET nom = ?, dateCreation = ?, etat = ? WHERE id = ?";
+        String sql = "UPDATE cours SET nom = ?, date_creation = ?, etat = ? WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, cours.getNom());
-            stmt.setDate(2, new java.sql.Date(cours.getDateCreation().getTime()));
+            stmt.setDate(2, java.sql.Date.valueOf(cours.getDateCreation()));
             stmt.setString(3, cours.getEtat());
             stmt.setInt(4, cours.getId());
             stmt.executeUpdate();
@@ -55,12 +55,18 @@ public class CoursService {
         String sql = "SELECT * FROM cours";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-
+            // Print all column names from ResultSet metadata
+            ResultSetMetaData metaData = rs.getMetaData();
+            int columnCount = metaData.getColumnCount();
+            System.out.println("Available columns:");
+            for (int i = 1; i <= columnCount; i++) {
+                System.out.println(metaData.getColumnName(i));
+            }
             while (rs.next()) {
                 Cours c = new Cours();
                 c.setId(rs.getInt("id"));
                 c.setNom(rs.getString("nom"));
-                c.setDateCreation(rs.getDate("dateCreation"));
+                c.setDateCreation(rs.getDate("date_creation"));
                 c.setEtat(rs.getString("etat"));
                 coursList.add(c);
             }

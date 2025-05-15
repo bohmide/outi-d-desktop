@@ -15,7 +15,7 @@
             <padding>
                 <Insets top="15" right="15" bottom="15" left="15"/>
             </padding>
-            <Button fx:id="returnButton" styleClass="back-button">
+            <Button fx:id="returnButton" styleClass="back-button"  onAction="#returnToMainMenu">
                 <graphic>
                     <FontIcon iconLiteral="fas-arrow-left" iconSize="16"/>
                 </graphic>

@@ -8,7 +8,7 @@
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.LoginController"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.user.LoginController"
             style="-fx-background-color: white;" fx:id="rootPane">
 
     <!-- Fond bleu à gauche -->

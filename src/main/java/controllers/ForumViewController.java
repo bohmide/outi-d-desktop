@@ -547,7 +547,7 @@ public class ForumViewController implements Initializable {
 
             // Set the new scene on the stage
             stage.setScene(mainMenuScene);
-            stage.setTitle("Main Menu"); // Optional: Update the window title
+            stage.setTitle("OUTI-D par Brain't");
         } catch (IOException e) {
             // Log the error and show a user-friendly message
             e.printStackTrace();
