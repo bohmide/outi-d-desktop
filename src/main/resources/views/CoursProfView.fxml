@@ -13,10 +13,8 @@
         <HBox spacing="20" style="-fx-padding: 10;">
             <!-- Section formulaire et table -->
             <VBox spacing="10" HBox.hgrow="ALWAYS">
-                <HBox spacing="10">
-                    <Button text="← Retour" onAction="#retourAccueil"
-                            style="-fx-background-color: #ccc; -fx-text-fill: black;"/>
-                </HBox>
+
+            <Button fx:id="returnButton" text="Retour Au Menu" onAction="#returnToMainMenu" styleClass="secondary-button"/>
 
                 <!-- Formulaire -->
                 <VBox spacing="10" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">

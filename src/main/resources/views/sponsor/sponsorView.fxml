@@ -6,10 +6,13 @@
 <?import javafx.geometry.Insets?>
 
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.sponsor.SponsorController"
-      spacing="20" stylesheets="@/css/Event/EventStyle.css" styleClass="vbox">
+      spacing="20" stylesheets="@/styles/mainF.css" styleClass="vbox">
 
     <!-- Header Section -->
-    <HBox styleClass="hbox header-box" spacing="15" alignment="CENTER_LEFT">
+    <HBox styleClass="hbox" spacing="15" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="10" right="15" bottom="10" left="15"/>
+        </padding>
         <Label text="👥 Gestion des Sponsors" styleClass="header-label"/>
         <Region HBox.hgrow="ALWAYS"/>
         <TextField fx:id="searchField" promptText="🔍 Rechercher un sponsor..." styleClass="text-field"/>

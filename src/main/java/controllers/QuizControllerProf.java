@@ -151,7 +151,7 @@ public class QuizControllerProf {
 
     private void navigateToQuestions(Quiz quiz) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/test/QuestionView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuestionView.fxml"));
             Parent root = loader.load();
 
             QuestionControllerProf controller = loader.getController();
@@ -256,7 +256,7 @@ public class QuizControllerProf {
     @FXML
     private void retourAuxChapitres() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/test/ChapitreView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ChapitreView.fxml"));
             Parent root = loader.load();
 
             ChapitreControllerProf controller = loader.getController();

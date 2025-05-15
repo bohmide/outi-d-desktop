@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.evenement.student.EventStudentController" stylesheets="@/css/Event/eventGridStyle.css">
     <children>
         <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
@@ -18,6 +19,8 @@
                     <Text text="Événements Disponibles" style="-fx-font-size: 24px; -fx-fill: #007BFF; -fx-font-weight: bold;"/>
 
                     <HBox spacing="10">
+                        <Button fx:id="returnButton" text="Retour Au Menu" onAction="#returnToMainMenu" styleClass="secondary-button"/>
+
                         <TextField fx:id="searchField" promptText="Rechercher par nom ou genre..." />
                         <ComboBox fx:id="sortComboBox" promptText="Trier par prix/date" />
                     </HBox>

@@ -15,10 +15,18 @@ public class MainMenuController {
     private void showCompetions() {
         loadView("/views/MainView.fxml");
     }
-
+    @FXML
+    private void showCompetionsEtudiant() {
+        loadView("/views/MainViewEtudiant.fxml");
+    }
     @FXML
     private void showEvents() {
         loadView("/views/eventView.fxml");
+    }
+
+    @FXML
+    private void showEventStudent() {
+        loadView("/views/eventStudentView.fxml");
     }
 
     @FXML
@@ -29,6 +37,10 @@ public class MainMenuController {
     @FXML
     private void showCours() {
         loadView("/views/CoursViewEtudiant.fxml");
+    }
+    @FXML
+    private void showCoursProf() {
+        loadView("/views/CoursProfView.fxml");
     }
 
     private void loadView(String fxmlPath) {

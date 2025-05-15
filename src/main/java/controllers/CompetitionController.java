@@ -88,7 +88,9 @@ public class CompetitionController {
         cardsContainer.getChildren().clear();
         for (Competition comp : filteredComps) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/CompetitionCard.fxml"));
+                //FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/CompetitionCard.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/CompetitionCardEtudiant.fxml"));
+
                 VBox card = loader.load();
                 CompetitionCardController cardController = loader.getController();
                 cardController.setCompetition(comp, this);

@@ -23,8 +23,12 @@
         <Text text="Bienvenue sur notre plateforme d'apprentissage !"/>
 
         <Button text="Compétitions" onAction="#showCompetions"/>
+        <Button text="Compétitions Etudiants" onAction="#showCompetionsEtudiant"/>
+
         <Button text="Forum" onAction="#showForum"/>
         <Button text="Cours" onAction="#showCours"/>
-        <Button text="Événements" onAction="#showEvents"/>
+        <Button text="Cours Prof" onAction="#showCoursProf"/>
+        <Button text="Événements prof" onAction="#showEvents"/>
+        <Button text="Événements student" onAction="#showEventStudent"/>
     </VBox>
 </StackPane>

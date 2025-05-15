@@ -19,8 +19,8 @@ public class MainApp extends Application {
         try {
             //Parent root = FXMLLoader.load(getClass().getResource("/views/sponsor/sponsorView.fxml"));
             //Parent root = FXMLLoader.load(getClass().getResource("/views/genre/genreView.fxml"));
-            //Parent root = FXMLLoader.load(getClass().getResource("/views/evenement/eventView.fxml"));
-            Parent root = FXMLLoader.load(getClass().getResource("/views/eventStudentView.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/views/eventView.fxml"));
+            //Parent root = FXMLLoader.load(getClass().getResource("/views/eventStudentView.fxml"));
 
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);

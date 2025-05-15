@@ -8,7 +8,10 @@ import utils.MyConnection;
 
 import java.sql.*;
 import java.sql.Date;
+
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,8 +19,6 @@ public class EventService {
 
     static EventGenreService genreService = new EventGenreService();
     static SponsorsService sponsorsService = new SponsorsService();
-
-
 
     public void setEventSponsor(Event event, Sponsors sponsor) {
         try{
@@ -77,16 +78,16 @@ public class EventService {
                     );
 
 
-           listEvents.forEach(event -> {
-               List<Sponsors> sponsors = sponsorParEvent.getOrDefault(event.getId(), new ArrayList<>())
-                       .stream()
-                       .map(sponsorId -> new SponsorsService().findSponsorById(sponsorId))
-                       .collect(Collectors.toList());
+            listEvents.forEach(event -> {
+                List<Sponsors> sponsors = sponsorParEvent.getOrDefault(event.getId(), new ArrayList<>())
+                        .stream()
+                        .map(sponsorId -> new SponsorsService().findSponsorById(sponsorId))
+                        .collect(Collectors.toList());
 
-               event.setListSponsors(sponsors);
+                event.setListSponsors(sponsors);
 
 
-           });
+            });
             return listEvents;
         } catch (SQLException e) {
             System.out.println("error getEventSponsor: "+e.getMessage());
@@ -95,38 +96,167 @@ public class EventService {
         return listEvents;
     }
 
-
     public List<Event> listEvenets() {
         List<Event> events = new ArrayList<>();
-        try{
-            String querry = "select * from evenements";
+        try {
+            String query = "SELECT * FROM evenements";
             Statement createStatement = MyConnection.getInstance().getCnx().createStatement();
+            ResultSet resultSet = createStatement.executeQuery(query);
 
-            ResultSet resultSet = createStatement.executeQuery(querry);
             while (resultSet.next()) {
-                Event event = new Event(
-                    resultSet.getInt(1),
-                        resultSet.getString(3),
-                        resultSet.getString(4),
-                        resultSet.getDate(5).toLocalDate(),
-                        resultSet.getInt(6),
-                        resultSet.getString(7),
-                        resultSet.getDate(8).toLocalDate(),
-                        resultSet.getFloat(9)
-                );
+                try {
+                    // Get the ID safely
+                    int eventId;
+                    try {
+                        eventId = resultSet.getInt(1);
+                    } catch (Exception e) {
+                        System.err.println("Invalid ID format: " + e.getMessage());
+                        continue; // Skip this row entirely
+                    }
 
-                EventGenre genre = genreService.findGenreById(resultSet.getInt(2));
-                event.setGenre(genre);
-                events.add(event);
+                    // Safely get genre_id
+                    int genreId;
+                    try {
+                        genreId = resultSet.getInt(2);
+                    } catch (Exception e) {
+                        System.err.println("Invalid genre_id for event " + eventId + ": " + e.getMessage());
+                        genreId = 0; // Default value
+                    }
+
+                    // Get string fields
+                    String nomEvent = resultSet.getString(3);
+                    String description = resultSet.getString(4);
+
+                    // Safely get dates
+                    LocalDate dateEvent = null;
+                    try {
+                        dateEvent = convertToLocalDate(resultSet, 5);
+                    } catch (Exception e) {
+                        System.err.println("Invalid date_event for event " + eventId + ": " + e.getMessage());
+                    }
+
+                    LocalDate dateCreation = null;
+                    try {
+                        dateCreation = convertToLocalDate(resultSet, 8);
+                    } catch (Exception e) {
+                        System.err.println("Invalid date_creation for event " + eventId + ": " + e.getMessage());
+                    }
+
+                    // Safely get nbr_members
+                    int nbrMembers;
+                    try {
+                        nbrMembers = resultSet.getInt(6);
+                    } catch (Exception e) {
+                        System.err.println("Invalid nbr_members for event " + eventId + ": " + e.getMessage());
+                        nbrMembers = 0; // Default value
+                    }
+
+                    String imagePath = resultSet.getString(7);
+
+                    // Safely get prix - THIS IS WHERE THE ERROR IS HAPPENING
+                    float prix = 0.0f;
+                    try {
+                        // First try to get as float directly
+                        prix = resultSet.getFloat(9);
+                    } catch (Exception e) {
+                        // If that fails, try to get as string and convert
+                        try {
+                            String prixStr = resultSet.getString(9);
+                            if (prixStr != null && !prixStr.isEmpty()) {
+                                try {
+                                    prix = Float.parseFloat(prixStr);
+                                } catch (NumberFormatException nfe) {
+                                    System.err.println("Invalid prix value '" + prixStr + "' for event " + eventId + ": " + nfe.getMessage());
+                                    // Keep the default 0.0f
+                                }
+                            }
+                        } catch (Exception e2) {
+                            System.err.println("Error getting prix for event " + eventId + ": " + e2.getMessage());
+                            // Keep the default 0.0f
+                        }
+                    }
+
+                    // Create the event with safe values
+                    Event event = new Event(
+                            eventId,
+                            nomEvent != null ? nomEvent : "No Title",
+                            description != null ? description : "No Description",
+                            dateEvent != null ? dateEvent : LocalDate.now(),
+                            nbrMembers,
+                            imagePath != null ? imagePath : "",
+                            dateCreation != null ? dateCreation : LocalDate.now(),
+                            prix
+                    );
+
+                    // Safely get genre
+                    EventGenre genre = null;
+                    try {
+                        genre = genreService.findGenreById(genreId);
+                    } catch (Exception e) {
+                        System.err.println("Error fetching genre for event " + eventId + ": " + e.getMessage());
+                    }
+
+                    if (genre == null) {
+                        genre = new EventGenre();
+                        genre.setNomGenre("Unknown");
+                    }
+
+                    event.setGenre(genre);
+                    events.add(event);
+
+                    System.out.println("Successfully loaded event ID " + eventId + " with prix: " + prix);
+                } catch (Exception e) {
+                    System.err.println("Error processing event row: " + e.getMessage());
+                    e.printStackTrace();
+                    // Continue to next row instead of failing the entire method
+                }
             }
-
-
+            System.out.println("Total events retrieved: " + events.size());
             return getEventSponsors(events);
 
-        }catch (SQLException e){
-            System.out.println("error listEvent: "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error in listEvenets: " + e.getMessage());
+            e.printStackTrace();
         }
-        return null;
+        return Collections.emptyList();
+    }
+
+    // Helper method to handle different date formats
+    private LocalDate convertToLocalDate(ResultSet rs, int columnIndex) throws SQLException {
+        try {
+            // First try to get as Date
+            java.sql.Date sqlDate = rs.getDate(columnIndex);
+            if (sqlDate != null) {
+                return sqlDate.toLocalDate();
+            }
+        } catch (SQLException e) {
+            // If Date fails, try as Timestamp
+            try {
+                java.sql.Timestamp timestamp = rs.getTimestamp(columnIndex);
+                if (timestamp != null) {
+                    return timestamp.toLocalDateTime().toLocalDate();
+                }
+            } catch (SQLException e2) {
+                // If Timestamp fails, try as Long (milliseconds)
+                try {
+                    long millis = rs.getLong(columnIndex);
+                    if (millis > 0) {
+                        return Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate();
+                    }
+                } catch (SQLException e3) {
+                    // If all fail, try as String
+                    try {
+                        String dateStr = rs.getString(columnIndex);
+                        if (dateStr != null && !dateStr.isEmpty()) {
+                            return LocalDate.parse(dateStr);
+                        }
+                    } catch (Exception e4) {
+                        System.err.println("Could not parse date at column " + columnIndex + ": " + e4.getMessage());
+                    }
+                }
+            }
+        }
+        return null; // or throw exception if date is required
     }
 
     public void addEvent(Event event) {
@@ -143,7 +273,7 @@ public class EventService {
 
         try {
             // Insert event first and get generated ID
-            String query = "INSERT INTO evenements (`genre_id`, `nom_event`, `description`, `date_event`, `nbr_members`, `image_path`, `date_creation`, `prix`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO evenements (genre_id, nom_event, description, date_event, nbr_members, image_path, date_creation, prix) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement preStatement = MyConnection.getInstance().getCnx().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
@@ -177,7 +307,7 @@ public class EventService {
 
     public void addEvent(Event event, int genreId, int sponsorId) {
         try{
-            String query = "INSERT INTO evenements (`genre_id`, `nom_event`, `description`, `date_event`, `nbr_members`, `image_path`, `date_creation`, `prix`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO evenements (genre_id, nom_event, description, date_event, nbr_members, image_path, date_creation, prix) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement preStatement = MyConnection.getInstance().getCnx().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
@@ -284,5 +414,4 @@ public class EventService {
             System.out.println("error deleteEvent: " + e.getMessage());
         }
     }
-
 }

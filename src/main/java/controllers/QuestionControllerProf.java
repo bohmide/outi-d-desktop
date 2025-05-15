@@ -268,13 +268,13 @@ public class QuestionControllerProf {
     private void retourAuxQuiz() {
         ResourceBundle bundle = null;
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuizViewEtudiant.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/QuizProfView.fxml"));
 
             bundle = ResourceBundle.getBundle("Lang.messages", Locale.ENGLISH);
             loader.setResources(bundle);
             Parent root = loader.load();
-            QuizControllerEtudiant controller = loader.getController();
-            controller.initData(currentChapitre, currentCours, bundle);
+            QuizControllerProf controller = loader.getController();
+            controller.initData(currentChapitre, currentCours);
 
             Scene scene = btnRetour.getScene();
             scene.setRoot(root);

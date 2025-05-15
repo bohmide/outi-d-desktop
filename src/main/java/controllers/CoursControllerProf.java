@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.scene.layout.BorderPane;
 import services.CoursService;
 import entities.Cours;
 import javafx.collections.FXCollections;
@@ -54,7 +55,8 @@ public class CoursControllerProf {
     private ObservableList<Cours> coursList;
 
     private Cours selectedCours;
-
+@FXML
+      private Button returnButton;
     @FXML
     public void initialize() {
         comboEtat.setItems(FXCollections.observableArrayList("Facile", "Moyen", "Avancé"));
@@ -244,15 +246,39 @@ public class CoursControllerProf {
     }
     public void retourAccueil(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/MainAppMain.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/MainMenu.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root, 400, 200));
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles/mainF.css").toExternalForm());
+
             stage.setTitle("OUTI-D - Choisissez votre rôle");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void returnToMainMenu(ActionEvent event) {
+        try {
+            // Charge le FXML du menu principal
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/MainMenu.fxml"));
+            Parent root = loader.load();
+
+            // Récupère la fenêtre actuelle depuis l'événement
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+
+            // Ajoute la feuille de style
+            scene.getStylesheets().add(getClass().getResource("/styles/mainF.css").toExternalForm());
+
+            // Affiche la scène
+            stage.setScene(scene);
+            stage.setTitle("OUTI-D - Choisissez votre rôle");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

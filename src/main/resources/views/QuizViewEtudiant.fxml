@@ -7,7 +7,7 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.QuizControllerEtudiant"
-            stylesheets="@/styles/applicationCours.css"
+            stylesheets="@/styles/mainF.css"
             prefHeight="700.0" prefWidth="1000.0">
 
     <!-- En-tête du quiz -->

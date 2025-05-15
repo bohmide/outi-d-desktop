@@ -5,38 +5,44 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.geometry.Insets?>
 
-
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.evenement.EventController"
-      spacing="20" styleClass="vbox" stylesheets="@/css/Event/EventStyle.css">
+      spacing="20" styleClass="vbox" stylesheets="@/styles/mainF.css">
 
     <!-- Header Section -->
-    <HBox styleClass="hbox header-box" spacing="15" alignment="CENTER_LEFT">
+    <HBox styleClass="hbox" alignment="CENTER_LEFT" spacing="15">
+        <padding>
+            <Insets top="10" right="15" bottom="10" left="15"/>
+        </padding>
+        <Button fx:id="returnButton" text="Retour Au Menu" onAction="#returnToMainMenu" styleClass="secondary-button"/>
         <Label text="📅 Gestion des Événements" styleClass="header-label"/>
         <Region HBox.hgrow="ALWAYS"/>
-        <TextField fx:id="searchField" promptText="🔍 Rechercher un événement..." styleClass="text-field"/>
-        <Button text="➕ Ajouter" fx:id="addEvent" onAction="#handleAjouter" styleClass="primary-button"/>
-        <Button text="📁 Exporter" fx:id="exportButton" onAction="#handleExport" styleClass="secondary-button"/>
+        <TextField fx:id="searchField" promptText="🔍 Rechercher un événement..." prefWidth="250"/>
+        <Button fx:id="addEvent" text="➕ Ajouter" onAction="#handleAjouter" styleClass="primary-button"/>
+        <Button fx:id="exportButton" text="📁 Exporter" onAction="#handleExport" styleClass="secondary-button"/>
     </HBox>
 
-    <!-- Navigation Buttons -->
-    <HBox spacing="10" alignment="CENTER_RIGHT">
-        <Button text="👥 Voir Sponsors" onAction="#navigateToSponsors" styleClass="secondary-button"/>
-        <Button text="🎭 Voir Genres" onAction="#navigateToGenres" styleClass="secondary-button"/>
-    </HBox>
-
-    <!-- Devise Display -->
-    <HBox styleClass="devise-box" spacing="10" alignment="CENTER_LEFT">
-        <Label text="Devise :" styleClass="header-label-small"/>
-        <Label fx:id="deviseLabel" styleClass="status-active"/>
+    <!-- Navigation and Devise Section -->
+    <HBox spacing="15" alignment="CENTER">
+        <VBox styleClass="vbox" alignment="CENTER_LEFT">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Devise :" styleClass="header-label-small"/>
+                <Label fx:id="deviseLabel" styleClass="text-black"/>
+            </HBox>
+        </VBox>
+        <Region HBox.hgrow="ALWAYS"/>
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="👥 Sponsors" onAction="#navigateToSponsors" styleClass="secondary-button"/>
+            <Button text="🎭 Genres" onAction="#navigateToGenres" styleClass="secondary-button"/>
+        </HBox>
     </HBox>
 
     <!-- Table Section -->
-    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS" styleClass="table-scroll-pane">
-        <TableView fx:id="eventTable" styleClass="table-view compact-table">
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS" styleClass="scroll-pane">
+        <TableView fx:id="eventTable" styleClass="table-view">
             <columns>
                 <TableColumn fx:id="nomEvent" text="Nom" prefWidth="150"/>
                 <TableColumn fx:id="description" text="Description" prefWidth="250"/>
-                <TableColumn fx:id="imageColumn" text="Image" prefWidth="150"/>
+                <TableColumn fx:id="imageColumn" text="Image" prefWidth="150" styleClass="image-cell"/>
                 <TableColumn fx:id="genre" text="Genre" prefWidth="120"/>
                 <TableColumn fx:id="sponsor" text="Sponsor" prefWidth="150"/>
                 <TableColumn fx:id="nbrMemeber" text="Places" prefWidth="80"/>

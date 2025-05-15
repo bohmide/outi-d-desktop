@@ -8,16 +8,14 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.CoursControllerEtudiant"
-            stylesheets="@/styles/applicationCours.css">
+            stylesheets="@/styles/mainF.css">
 
-    <!-- Top Header -->
     <!-- Top Header -->
     <top>
         <VBox styleClass="header-container">
             <!-- Première ligne : Retour et langue -->
             <HBox styleClass="header-top-bar">
-                <Button text="← Retour" onAction="#returnToMainMenu"
-                        styleClass="button-back" fx:id="backButton"/>
+                <Button fx:id="returnButton" text="Retour Au Menu" onAction="#returnToMainMenu" styleClass="secondary-button"/>
                 <Label text="|" styleClass="header-separator"/>
                 <Label text="Espace Étudiant" styleClass="header-bold-text"/>
                 <Label text="|" styleClass="header-separator"/>
@@ -25,14 +23,9 @@
                           styleClass="input-control combo-box-small"/>
             </HBox>
 
-            <!-- Barre de séparation épaisse -->
-            <Separator styleClass="thick-separator"/>
 
             <!-- Titre principal -->
             <Label text="Liste des cours disponibles" styleClass="main-title"/>
-
-            <!-- Barre de séparation épaisse -->
-            <Separator styleClass="thick-separator"/>
 
             <!-- Barre de recherche -->
             <HBox styleClass="search-bar">

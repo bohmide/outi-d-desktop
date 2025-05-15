@@ -309,7 +309,9 @@ public class CoursControllerEtudiant {
             Parent root = loader.load();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root); // Create Scene
+            scene.getStylesheets().add(getClass().getResource("/styles/mainF.css").toExternalForm()); // Add CSS
+            stage.setScene(scene);
             stage.setTitle("OUTI-D");
         } catch (IOException e) {
             showAlert(bundle.getString("error.load.home"));

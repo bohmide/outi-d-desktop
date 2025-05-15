@@ -12,11 +12,11 @@
       styleClass="chatbot-wrapper"
       VBox.vgrow="ALWAYS">
 
-    <Label text="Pose ta question à l'assistant IA :"
+    <Label text="Posez vos question à l'assistant IA :"
            styleClass="chatbot-title"/>
 
     <TextArea fx:id="userQuestion"
-              promptText="Écris ta question ici..."
+              promptText="Écrivez la question ici..."
               prefRowCount="3"
               wrapText="true"
               styleClass="chatbot-textarea"/>

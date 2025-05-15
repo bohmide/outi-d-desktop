@@ -53,10 +53,25 @@ public class MainController {
     @FXML
     private void returnToMainMenu() {
         try {
-            Node mainMenu = FXMLLoader.load(getClass().getResource("/views/MainMenu.fxml"));
-            StackPane parentContainer = (StackPane) returnButton.getScene().getRoot();
-            parentContainer.getChildren().setAll(mainMenu);
+            // Load the MainMenu.fxml
+            Parent mainMenu = FXMLLoader.load(getClass().getResource("/views/MainMenu.fxml"));
+
+            // Get the current stage
+            Stage stage = (Stage) (contentPane != null ? contentPane.getScene().getWindow() : null);
+            if (stage == null) {
+                throw new IllegalStateException("Stage not found. Ensure the contentPane is part of a scene.");
+            }
+
+            // Create a new scene with the loaded FXML
+            Scene scene = new Scene(mainMenu);
+            scene.getStylesheets().add(getClass().getResource("/styles/mainF.css").toExternalForm());
+
+            // Set the new scene to the stage
+            stage.setScene(scene);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
         }
     }

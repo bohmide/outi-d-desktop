@@ -5,11 +5,14 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.genre.GenreController" stylesheets="@/css/Event/EventStyle.css"
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.genre.GenreController" stylesheets="@/styles/mainF.css"
       spacing="20" styleClass="vbox">
 
     <!-- Header Section -->
-    <HBox styleClass="hbox header-box" spacing="15" alignment="CENTER_LEFT">
+    <HBox styleClass="hbox" spacing="15" alignment="CENTER_LEFT">
+        <padding>
+            <Insets top="10" right="15" bottom="10" left="15"/>
+        </padding>
         <Label text="🎭 Gestion des Genres" styleClass="header-label"/>
         <Region HBox.hgrow="ALWAYS"/>
         <TextField fx:id="searchField" promptText="🔍 Rechercher un genre..." styleClass="text-field"/>
